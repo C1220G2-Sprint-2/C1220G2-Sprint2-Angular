@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {ProjectListComponent} from "./project-list/project-list.component";
+import {ProjectCensorshipComponent} from "./project-censorship/project-censorship.component";
 
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path: 'danh-sach-de-tai', component: ProjectListComponent},
+  {path: 'kiem-duyet-de-tai', component: ProjectCensorshipComponent}
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
