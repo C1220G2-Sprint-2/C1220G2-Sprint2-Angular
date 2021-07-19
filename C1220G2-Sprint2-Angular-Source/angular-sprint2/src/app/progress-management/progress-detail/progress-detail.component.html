@@ -691,10 +691,288 @@
           </div>
         </div>
       </div>
+<!--    --------------------------------------------------------------------------------------------------------------->
+<!--                                           CODE FROM DONGTHG                                                     -->
+<!--                                          THẮC MẮC SINH VIÊN                                                     -->
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">!</div>
-      <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">1</div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="container">
+          <div class="card" style="min-height: 1000px">
+            <div class="card-header text-center">
+              <h1 class="h1" style="color: #042440">Thắc mắc từ sinh viên</h1>
+            </div>
+            <div class="card-body">
+              <button class="btn font-weight-bold m-3"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                      data-bs-toggle="modal" data-bs-target="#concernModal"
+                      data-bs-whatever="@getbootstrap"> Tạo thắc mắc
+              </button>
+              <div class="container">
+                <div class="card p-3 my-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <h6>
+                        <small class="font-weight-bold text-primary">Trần Văn A</small>
+                      </h6>
+                    </div>
+                  </div>
+                  <div>
+                    <h5>
+                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
+                        em? </small>
+                    </h5>
+                  </div>
+                  <div class="action d-flex justify-content-start mt-2">
+                    <p class="text-secondary">
+                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
+                      và @output,
+                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
+                      nào để truyền dữ liệu qua lại không ạ.
+                    </p>
+                  </div>
+                  <div>
+                    <img src="assets/img/concern-1.png" alt="">
+                  </div>
+                  <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="text-muted small">
+                      <div class="row">
+                        <div class="col-6">
+                          <a data-bs-toggle="collapse" href="#collapseComment"
+                             role="button" aria-expanded="false" aria-controls="collapseComment">
+                            <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
+                          </a>
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                          <p>
+                            12/07/2021
+                          </p>
+                        </div>
+                      </div>
+                      <div class="collapse" id="collapseComment">
+                        <form>
+                          <div class="form-group">
+                                         <textarea style="border-radius: 1.5rem" id="commentConcern" cols="200"
+                                                   rows="5" name="comment" class="form-control" rows="3">
+                                         </textarea>
+                          </div>
+                          <div class="form-group mt-2" style="text-align: right!important;">
+                            <button class="btn font-weight-bold"
+                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                              Hủy
+                            </button>
+                            <input hidden type="file" id="test3">
+                            <button class="btn font-weight-bold"
+                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                    onclick="myFunction()">
+                              Chọn ảnh
+                            </button>
+                            <button type="button" class="btn font-weight-bold"
+                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                              Gửi
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
+                    <table>
+                      <tr>
+                        <td rowspan="3" style="vertical-align: top">
+                          <img src="https://i.imgur.com/C4egmYM.jpg"
+                               width="30"
+                               class="user-img rounded-circle mx-2">
+                        </td>
+                        <td style="text-align: left!important;">
+                                    <span class="font-weight-bold text-primary">
+                                        Sinh viên A
+                                    </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          Cái này quá dễ với anh Công.
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
+                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
+                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          <img src="assets/img/concern-2.png"
+                               width="200" height="75">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="user d-flex flex-row align-items-center my-2 mx-5"><img
+                    src="https://i.imgur.com/ZSkeqnd.jpg"
+                    width="30"
+                    class="user-img rounded-circle mx-2">
+                    <span>
+                            <span><small class="font-weight-bold text-primary">Nguyễn Thị C</small>
+                                <small class="font-weight-bold"> Giữa các component anh em hay còn gọi là sibling component thì có thể truyền dữ liệu thông qua
+                            parent component hoặc Rxjs Object. Các component không có liên quan trực tiếp thì có thể dùng service để truyền dữ liệu. </small>
+                            </span>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                            -->
+      <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">
+        <div class="container">
+          <div class="card" style="min-height: 1000px">
+            <div class="card-header text-center">
+              <h1 class="h1" style="color: #042440">Thông báo của giáo viên</h1>
+            </div>
+            <div class="card-body">
+              <button class="btn font-weight-bold m-3"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                      data-bs-toggle="modal" data-bs-target="#announceModal"
+                      data-bs-whatever="@getbootstrap"> Tạo thông báo
+              </button>
+              <div class="container">
+                <div class="card p-3 my-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <h6>
+                        <small class="font-weight-bold text-primary">Thầy A</small>
+                      </h6>
+                    </div>
+                  </div>
+                  <div>
+                    <h5>
+                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
+                        em? </small>
+                    </h5>
+                  </div>
+                  <div class="action d-flex justify-content-start mt-2">
+                    <p class="text-secondary">
+                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
+                      và @output,
+                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
+                      nào để truyền dữ liệu qua lại không ạ.
+                    </p>
+                  </div>
+                  <div>
+                    <img src="assets/img/concern-1.png" alt="">
+                  </div>
+                  <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="text-muted small">
+                      <div class="row">
+                        <div class="col-6">
+                          <a data-bs-toggle="collapse" href="#collapseExample"
+                             role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
+                          </a>
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                          <p>
+                            12/07/2021
+                          </p>
+                        </div>
+                      </div>
+                      <div class="collapse" id="collapseAnnouncement">
+                        <form>
+                          <div class="form-group">
+                                         <textarea style="border-radius: 1.5rem" id="comment-announcement" cols="200"
+                                                   rows="5" name="comment" class="form-control" rows="3">
+                                         </textarea>
+                          </div>
+                          <div class="form-group mt-2" style="text-align: right!important;">
+                            <button class="btn font-weight-bold"
+                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                              Hủy
+                            </button>
+                            <input hidden type="file" id="test5">
+                            <button class="btn font-weight-bold"
+                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                    onclick="myFunction()">
+                              Chọn ảnh
+                            </button>
+                            <button type="button" class="btn font-weight-bold"
+                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                              Gửi
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
+                    <table>
+                      <tr>
+                        <td rowspan="3" style="vertical-align: top">
+                          <img src="https://i.imgur.com/C4egmYM.jpg"
+                               width="30"
+                               class="user-img rounded-circle mx-2">
+                        </td>
+                        <td style="text-align: left!important;">
+                                    <span class="font-weight-bold text-primary">
+                                        Sinh viên A
+                                    </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          Cái này quá dễ với anh Công.
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
+                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
+                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          <img src="image/toptal-blog-image-1518523133236-d2bc894552c77f954f1e5ce48da6604d.png"
+                               width="200" height="75">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
+                    <table>
+                      <tr>
+                        <td rowspan="3" style="vertical-align: top">
+                          <img src="https://i.imgur.com/ZSkeqnd.jpg"
+                               width="30"
+                               class="user-img rounded-circle mx-2">
+                        </td>
+                        <td style="text-align: left!important;">
+                                    <span class="font-weight-bold text-primary">
+                                        Sinh viên C
+                                    </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          Cái này quá dễ với anh Công.
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
+                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
+                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">
+                          <img src="assets/img/concern-2.png"
+                               width="200" height="75">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+<!--------------------------------------------END CODE FROM DONGTHG---------------------------------------------------->
   </div>
 </div>
 <!-- New Thread Modal -->
@@ -762,3 +1040,88 @@
     </div>
   </div>
 </div>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+<!--                             CODE FROM DONGTHG                                                                   -->
+<div class="modal fade" id="concernModal" tabindex="-1" aria-labelledby="concernModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title w-100 text-center" id="concernModalLabel">Thắc mắc sinh viên</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+              :</label>
+            <input type="text" class="form-control" id="concern-title">
+          </div>
+          <div class="mb-3">
+            <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
+              style="color: red">*</span> :</label>
+            <textarea class="form-control" id="concern-content"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="upload-file" class="col-form-label"> File đính kèm:</label>
+            <input type="file" hidden id="test4">
+            <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
+                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold btn-modal"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Đóng
+        </button>
+        <button type="button" class="btn font-weight-bold btn-modal"
+                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc mắc
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="announceModal" tabindex="-1" aria-labelledby="announceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title w-100 text-center" id="announceModalLabel">Thông báo của giáo viên</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+              :</label>
+            <input type="text" class="form-control" id="announce-title">
+          </div>
+          <div class="mb-3">
+            <label for="announce-content" class="col-form-label">Nội dung thông báo <span
+              style="color: red">*</span> :</label>
+            <textarea class="form-control" id="announce-content"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="upload-file-announce" class="col-form-label"> File đính kèm:</label>
+            <input type="file" hidden id="test6">
+            <button id="upload-file-announce" class="btn font-weight-bold" onclick="myFunction1()"
+                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold btn-modal"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Đóng
+        </button>
+        <button type="button" class="btn font-weight-bold btn-modal"
+                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thông báo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--------------------------------------------------------------------------------------------------------------------->
