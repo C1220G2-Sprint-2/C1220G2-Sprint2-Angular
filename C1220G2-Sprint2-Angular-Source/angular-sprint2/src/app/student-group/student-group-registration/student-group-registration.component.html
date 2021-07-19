@@ -96,8 +96,11 @@
           </tr>
           </thead>
           <tbody>
+          <tr *ngIf="listTeam.length==0" style="text-align: center;" >
+            <td colspan="6" > Bạn chưa thêm học sinh vào kho dữ liệu</td>
+          </tr>
           <tr *ngFor="let student of listTeam | paginate: {id: 'teamPage', itemsPerPage: 5, currentPage: page }; index as i">
-            <td class="font-weight-bold">1</td>
+            <td class="font-weight-bold">{{i+1}}</td>
             <td>{{student.name}}</td>
             <td>{{student.code}}</td>
             <td>{{student.classCode}}</td>
