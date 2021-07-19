@@ -10,10 +10,19 @@ import { CreateStudentExcelComponent } from './create-student-excel/create-stude
 
 
 @NgModule({
-  declarations: [ListStudentComponent, CreateStudentComponent, EditStudentComponent, DeleteStudentComponent, CreateStudentExcelComponent],
-  imports: [
-    CommonModule,
-    StudentRoutingModule
-  ]
+
+    declarations: [ListStudentComponent, CreateStudentComponent, EditStudentComponent, DeleteStudentComponent, CreateStudentExcelComponent],
+  exports: [
+    ListStudentComponent,
+    CreateStudentComponent,
+    EditStudentComponent
+  ],
+    imports: [
+        CommonModule,
+        StudentRoutingModule
+    ]
+
+
+
 })
 export class StudentModule { }
