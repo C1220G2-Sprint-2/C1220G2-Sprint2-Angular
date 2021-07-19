@@ -5,13 +5,18 @@ import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectCensorshipComponent } from './project-censorship/project-censorship.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectRegistrationComponent } from './project-registration/project-registration.component';
+import {NgxPaginationModule} from "ngx-pagination";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent],
   imports: [
     CommonModule,
-    ProjectRoutingModule
+    ProjectRoutingModule,
+    NgxPaginationModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class ProjectModule { }

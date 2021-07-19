@@ -1,0 +1,153 @@
+
+
+<div>
+  <div class="row">
+    <div class="col-1 "></div>
+    <div class="col-sm-12 col-lg-5 login-form" style="margin-top: 40px; ">
+      <div style="height: 100px;padding-top: 20px;  text-align: center;border-radius: 20px">
+        <h1 style="color: black"> Đăng ký đề tài</h1>
+      </div>
+      <form  class="form" [formGroup]="createForm" *ngIf="createForm" (ngSubmit)="save()" style="margin-top: 20px">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="tenDeTai" style="margin-top: 10px;">Tên đề tài <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="text" class="form-control" formControlName="name" id="tenDeTai"  required>
+            <span class="text-danger"
+                  *ngIf="createForm.controls.name.hasError('required') && createForm.controls.name.touched">Vui lòng nhập nội dung cuộc họp.</span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="noiDung" style="margin-top: 10px;">Nội dung đề tài: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+                        <textarea class="form-control "formControlName="content"   rows="5" id="noiDung" placeholder=" Vui lòng không để trống nội dung"
+                                  required></textarea>
+            <span style="color: red">
+                            Vui lòng không để trống nội dung.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="danhMuc" style="margin-top: 10px;">Danh mục đề tài <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input class="form-control " list="datalistOptions" id="danhMuc" required
+                   placeholder="Loại danh mục...">
+            <datalist id="datalistOptions">
+              <option *ngFor="let c of listCategory" >{{c.name}}</option>
+            </datalist>
+            <span style="color: red">
+                            Vui lòng chọn danh mục.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label style="margin-top: 10px;">Mô tả: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="file" class="form-control" aria-label="file example" required>
+            <span style="color: red">Bạn chưa chọn file để gửi.</span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label style="margin-top: 10px;">Hình ảnh: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="file" class="form-control" aria-label="file example"  onchange="console.log(event.target.files)" >
+            <span style="color: red">Vui lòng chọn hình ảnh dự án.</span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="giaoVien" style="margin-top: 10px;">Giáo viên hướng dẫn <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input class="form-control" list="datalistGiaoVien" id="giaoVien" required
+                   placeholder="Chọn giáo viên hướng dẫn">
+            <datalist id="datalistGiaoVien">
+              <option *ngFor="let t of listTeacher" >{{t.name}}</option>
+            </datalist>
+            <span style="color: red">
+                            Vui lòng chọn danh mục.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-lg-5"col-sm-12></div>
+          <div class="col-lg-3 col-sm-12"><button class="btn font-weight-bold" style="width: 150px;background-color: #616C8C; color: white; border-radius: 1.5rem">Hủy bỏ</button></div>
+          <div class="col-lg-3 col-sm-12"> <input type="submit" class="btn font-weight-bold" value="Đăng ký " style="width: 150px;background-color: #4F9B65; color: white; border-radius: 1.5rem"></div>
+        </div>
+      </form>
+      <div style="height: 40px"></div>
+    </div>
+    <div style="width: 40px"></div>
+    <div class="col-sm-12 col-lg-5 login-form" style=" margin-top: 40px;padding-top: 20px;">
+      <div class="">
+        <div >
+          <div>
+            <div class="table-title">
+              <div class="row" style="text-align: center">
+                <div><h1 style="color: black">Danh sách đề tài mới</h1></div>
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Stt</th>
+              <th style="text-align: left">Tên Đề Tài</th>
+              <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let project of listProject | paginate: { id: 'projectPage',  itemsPerPage: 10, currentPage: pageProject }; index as i">
+              <td class="font-weight-bold">{{i+1}}</td>
+              <td style="text-align: left">{{project.name}}</td>
+              <td><a href="#"><i class="fa fa-eye text-success"></i></a></td>
+            </tr>
+
+            </tbody>
+          </table>
+          <div class="clearfix">
+            <!--            <div class="hint-text">Hiển thị <b>10</b> trên <b>25</b> dòng</div>-->
+            <ul class="pagination">
+              <li><input class="form-control" type="text" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px"></li>
+              <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>
+              <li style="width: 20px"></li>
+              <pagination-controls (pageChange)="pageProject = $event"
+                                   id = "projectPage"
+                                   previousLabel=" < "
+                                   nextLabel=" > "
+                                   screenReaderPaginationLabel="Pagination"
+                                   screenReaderPageLabel="page"
+                                   screenReaderCurrentLabel="You're on page"></pagination-controls>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style="height: 30px"></div>
+    </div>
+  </div>
+  <div style="height: 30px"></div>
+</div>
+
+
