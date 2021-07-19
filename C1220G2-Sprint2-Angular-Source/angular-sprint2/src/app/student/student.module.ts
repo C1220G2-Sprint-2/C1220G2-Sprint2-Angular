@@ -9,10 +9,15 @@ import { DeleteStudentComponent } from './delete-student/delete-student.componen
 
 
 @NgModule({
-  declarations: [ListStudentComponent, CreateStudentComponent, EditStudentComponent, DeleteStudentComponent],
-  imports: [
-    CommonModule,
-    StudentRoutingModule
-  ]
+    declarations: [ListStudentComponent, CreateStudentComponent, EditStudentComponent, DeleteStudentComponent],
+  exports: [
+    ListStudentComponent,
+    CreateStudentComponent,
+    EditStudentComponent
+  ],
+    imports: [
+        CommonModule,
+        StudentRoutingModule
+    ]
 })
 export class StudentModule { }
