@@ -6,13 +6,15 @@ import { CategoryStatisticComponent } from './category-statistic/category-statis
 import { TeacherStatisticComponent } from './teacher-statistic/teacher-statistic.component';
 import { GeneralTeacherStatisticComponent } from './general-teacher-statistic/general-teacher-statistic.component';
 import { GeneralCategoryStatisticComponent } from './general-category-statistic/general-category-statistic.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
   declarations: [CategoryStatisticComponent, TeacherStatisticComponent, GeneralTeacherStatisticComponent, GeneralCategoryStatisticComponent],
   imports: [
     CommonModule,
-    StatisticsRoutingModule
+    StatisticsRoutingModule,
+    NgApexchartsModule
   ]
 })
 export class StatisticsModule { }
