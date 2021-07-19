@@ -6,10 +6,11 @@ import { CreateTeacherComponent } from './create-teacher/create-teacher.componen
 import { ListTeacherComponent } from './list-teacher/list-teacher.component';
 import { EditTeacherComponent } from './edit-teacher/edit-teacher.component';
 import { DeleteTeacherComponent } from './delete-teacher/delete-teacher.component';
+import { CreateTeacherExcelComponent } from './create-teacher-excel/create-teacher-excel.component';
 
 
 @NgModule({
-  declarations: [CreateTeacherComponent, ListTeacherComponent, EditTeacherComponent, DeleteTeacherComponent],
+  declarations: [CreateTeacherComponent, ListTeacherComponent, EditTeacherComponent, DeleteTeacherComponent, CreateTeacherExcelComponent],
   imports: [
     CommonModule,
     TeacherRoutingModule
