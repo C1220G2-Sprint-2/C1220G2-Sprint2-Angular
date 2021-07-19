@@ -7,6 +7,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectRegistrationComponent } from './project-registration/project-registration.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {StudentGroupModule} from "../student-group/student-group.module";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     NgxPaginationModule,
     ReactiveFormsModule,
     FormsModule,
+    StudentGroupModule
   ]
 })
 export class ProjectModule { }

@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TeamService} from "../../student-group/team.service";
 
+
 @Component({
   selector: 'app-project-registration',
   templateUrl: './project-registration.component.html',
