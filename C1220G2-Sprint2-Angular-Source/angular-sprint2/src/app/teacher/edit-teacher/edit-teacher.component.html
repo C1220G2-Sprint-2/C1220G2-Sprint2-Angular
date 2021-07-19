@@ -1,1 +1,173 @@
-<p>edit-teacher works!</p>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col" id="form">
+      <div class="row mb-2"></div>
+      <div class="row">
+        <div class="col text-center pb-3">
+          <h1>Sửa thông tin giảng viên</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 mt-1" style="text-align: right">
+          <img style="width: 90% !important; height: 80% !important;"
+               src="https://chiase24.com/wp-content/uploads/2019/09/Tuy%E1%BB%83n-t%E1%BA%ADp-h%C3%ACnh-%E1%BA%A3nh-hot-girl-h%E1%BB%8Dc-sinh-Cute-d%E1%BB%85-th%C6%B0%C6%A1ng-26.jpg">
+          <label class="btn font-weight-bold mt-3"
+                 style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 20%" for="image"><i
+            class="fas fa-images"></i> Thêm ảnh</label>
+          <input type="file" id="image" hidden>
+        </div>
+        <div class="col-md-7">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <b for="code" class="form-label">Tên Giảng viên<span
+                  style="color: red">*</span></b>
+                <input type="text" value="Nguyễn Văn Hải" class="form-control" id="code">
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="address" class="form-label">Địa chỉ</b>
+                  <input type="text" value="Đà Nẵng" class="form-control" id="address">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="degree" class="form-label">Học vị<span style="color: red">*</span></b>
+                  <select class="form-select" aria-label="Default select example" id="degree">
+                    <option>Chọn học vị</option>
+                    <option selected value="1">Thạc sĩ</option>
+                    <option value="2">Tiến sĩ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b class="form-label">Giới tính<span
+                    style="color: red">*</span></b>
+                  <br>
+                  <div class="form-check">
+                    <input aria-selected="true" class="form-check-input" type="radio" name="inlineRadioOptions"
+                           id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                  </div>
+                  <div class="form-check ml-3 pt-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                           id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                  </div>
+                  <div class="form-check ml-3 pt-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                           id="inlineRadio3" value="option3">
+                    <label class="form-check-label" for="inlineRadio3">Khác</label>
+                  </div>
+                  <br>
+                  <span style="color: red; font-size: 12px">Giới tính không được để trống.</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="dateOfBirth" class="form-label">Ngày sinh<span
+                    style="color: red">*</span></b>
+                  <input type="date" value="1999-02-14" class="form-control" id="dateOfBirth">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="phone" class="form-label">Số điện thoại<span style="color: red">*</span></b>
+                  <input type="text" class="form-control" id="phone">
+                  <span style="color: red; font-size: 12px">Số điện thoại không được để trống.</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="faculty" class="form-label">Khoa<span style="color: red">*</span></b>
+                  <select class="form-select" aria-label="Default select example" id="faculty">
+                    <option>Chọn khoa</option>
+                    <option selected value="1">CNTT</option>
+                    <option value="2">Nhiệt - Điện</option>
+                    <option value="3">Cơ khí</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <div class="md-form form-sm">
+                    <b for="email" class="form-label">Email<span style="color: red">*</span></b>
+                    <input value="hai@gmail.com" type="text" class="form-control" id="email">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <b for="twitter" class="form-label">Twitter</b>
+                <input type="text" class="form-control" id="twitter" placeholder="Twitter cá nhân">
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="fb" class="form-label">FaceBook</b>
+                  <input type="text" class="form-control" id="fb" placeholder="Facebook cá nhân">
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6" style="text-align: right">
+                <button type="button"
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal"
+                        class="btn font-weight-bold"
+                        style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 20%">HỦY BỎ
+                </button>
+                <button class="btn font-weight-bold"
+                        style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%">SỬA
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-2"></div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hủy thêm mới.</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Bạn muốn hủy thêm mới?</div>
+      <div class="modal-footer">
+        <button class="btn font-weight-bold" data-mdb-dismiss="modal"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
+        </button>
+        <button class="btn font-weight-bold"
+                style="background-color: #4F9B65;color: white; border-radius: 1.5rem">ĐỒNG Ý
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
