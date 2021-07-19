@@ -6,6 +6,7 @@ import { StudentGroupRegistrationComponent } from './student-group-registration/
 import { ListStudentGroupComponent } from './list-student-group/list-student-group.component';
 
 
+
 @NgModule({
   declarations: [StudentGroupRegistrationComponent, ListStudentGroupComponent],
   imports: [
