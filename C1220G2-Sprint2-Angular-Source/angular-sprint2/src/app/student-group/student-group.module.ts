@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TeamManagementComponent } from './team-management/team-management.component';
 
 
+
 @NgModule({
   declarations: [StudentGroupRegistrationComponent, ListStudentGroupComponent, TeamManagementComponent],
   imports: [

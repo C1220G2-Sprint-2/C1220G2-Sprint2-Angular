@@ -11,14 +11,16 @@ export class SidenavComponent implements OnInit {
   private user = {
     code: "SV-0001",
   }
+
   student: any= null;
 
   constructor(private teamService: TeamService ) { }
 
   ngOnInit(): void {
     this.teamService.getStudent(this.user.code).subscribe(data=> {
-      this.student=data
+      this.student=data;
     })
   }
+  
 
 }
