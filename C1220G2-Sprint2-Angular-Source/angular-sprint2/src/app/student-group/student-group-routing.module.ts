@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ProjectRegistrationComponent} from "../project/project-registration/project-registration.component";
 import {StudentGroupRegistrationComponent} from "./student-group-registration/student-group-registration.component";
+import {TeamManagementComponent} from "./team-management/team-management.component";
 
 
 const routes: Routes = [
@@ -10,6 +10,10 @@ const routes: Routes = [
     component: StudentGroupRegistrationComponent
   },
 
+  {
+    path: 'quan-ly-nhom',
+    component: TeamManagementComponent
+  },
 ];
 
 @NgModule({

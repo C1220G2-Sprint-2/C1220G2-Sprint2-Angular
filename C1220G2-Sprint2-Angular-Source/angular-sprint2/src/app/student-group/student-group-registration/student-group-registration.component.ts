@@ -42,9 +42,9 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
 
 
     this.teamService.listStudent().subscribe(data => {
-      this.listStudent = data.filter(function (student) {
-        return student.team.id == 1 && student.enable == true;
-      })
+        this.listStudent = data.filter(function (student) {
+          return student.team.id == 1 && student.enable == true;
+        })
 
     });
 
