@@ -4,7 +4,7 @@ import {ListTeacherComponent} from './list-teacher/list-teacher.component';
 import {CreateTeacherComponent} from './create-teacher/create-teacher.component';
 import {EditTeacherComponent} from './edit-teacher/edit-teacher.component';
 
-
+/*Tam code router teacher*/
 const routes: Routes = [
   {path: 'danh-sach', component: ListTeacherComponent},
   {path: 'them-moi', component: CreateTeacherComponent},
@@ -16,3 +16,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class TeacherRoutingModule { }
+/*Tam code router teacher*/
