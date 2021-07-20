@@ -6,7 +6,7 @@ export interface Project {
   image: string;
   deadline: string;
   status: number;
-  enable: number;
+  enable: boolean;
   register_date: string;
   teacher_code: any;
   student_group_id: number;

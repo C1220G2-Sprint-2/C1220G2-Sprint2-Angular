@@ -16,10 +16,18 @@ export class ProjectServiceService {
     return this.http.get<Project[]>(this.URL);
   }
 
+  findById(id: number): Observable<Project> {
+    return this.http.get<Project>(this.URL + "/"+ id);
+  }
+
   findSearch(name: string, content: string, deadline: string): Observable<Project[]> {
     console.log(this.URL + '/' + 'search' + '?' + 'name=' + name + '&content=' + content
       + '&deadline=' + deadline );
     return this.http.get<Project[]>(this.URL + '/' + 'search' + '?' + 'name=' + name + '&content=' + content
       + '&deadline=' + deadline);
+  }
+
+  deleteProject(project: Project): Observable<void>{
+    return this.http.put<void>(this.URL + '/' + project.id, project);
   }
 }

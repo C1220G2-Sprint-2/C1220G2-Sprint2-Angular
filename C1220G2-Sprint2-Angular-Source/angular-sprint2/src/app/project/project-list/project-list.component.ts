@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProjectServiceService} from "../project-service.service";
 import {Router} from "@angular/router";
 import {Project} from "../../models/project";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-project-list',
@@ -9,60 +10,47 @@ import {Project} from "../../models/project";
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  private projectList: Project[] = [];
-  private collectionSize = 0;
+  projectList: Project[] = [];
+  project: Project;
+  collectionSize = 0;
+  messageEmpty='';
   page = 1;
   pageSize = 4;
-
+  nameDelete: string;
+  idDelete: number;
   constructor(private projectService: ProjectServiceService, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadList();
   }
 
   loadList(){
     this.projectService.findAll().subscribe(data => {
       this.projectList=data['content'];
+      if(this.projectList.length == 0){
+        this.messageEmpty='Project is empty';
+        console.log(this.messageEmpty)
+      }else {
+
       this.collectionSize =data['totalPages'];
+      }
     })
+    // console.log(this.projectList.length)
+  }
+  getData(id: number, name: string) {
+    this.idDelete = id;
+    this.nameDelete = name;
   }
 
-  // setNameSearch($event: any) {
-  //   this.nameSearch = $event.target.value;
-  // }
-  //
-  // setFloorSearch($event: any) {
-  //   this.floorSearch = $event.target.value;
-  // }
-  //
-  // setStatusSearch($event: any) {
-  //   this.statusSearch = $event.target.value;
-  // }
-  //
-  // setCapacitySearch($event: any) {
-  //   this.capacitySearch = $event.target.value;
-  // }
-  // listSearch(){
-  //   this.messageSearch = '';
-  //   this.meetingRoomService.findSearch(this.nameSearch, this.floorSearch, this.capacitySearch, this.statusSearch).subscribe(
-  //     value => {
-  //       this.meetingRoomList = value;
-  //       if (this.meetingRoomList.length == 0){
-  //         this.messageSearch = "Không tìm thấy phòng họp phù hợp."
-  //       }
-  //     }
-  //   );
-  //
-  // }
-  //
-  // passData(id: number, name: string) {
-  //   this.idDelete = id;
-  //   this.nameDelete = name;
-  // }
-  //
-  // deleteMeetingRoom() {
-  //   this.meetingRoomService.deleteById(this.idDelete).subscribe(value => {
-  //     this.listSearch();
-  //   });
-  //
-  // }
+  deleteProject() {
+    this.projectService.findById(this.idDelete).subscribe(data => {
+      this.project = data;
+      this.projectService.deleteProject(this.project).subscribe(data =>{
+        this.loadList();
+        this.router.navigateByUrl("/de-tai/danh-sach-de-tai");
+      });
+    })
+
+
+    }
 }
