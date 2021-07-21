@@ -82,7 +82,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
     // @ts-ignore
     this.team.teamLeader= this.user.code;
     this.teamService.postTeam(this.team).subscribe(data => {
-      // this.route.navigateByUrl('do-an/dang-ky');
+      this.route.navigateByUrl('de-tai/dang-ky');
     });
   }
 }

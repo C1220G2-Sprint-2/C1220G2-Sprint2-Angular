@@ -8,19 +8,22 @@ import {TeamService} from "../../student-group/team.service";
 })
 export class SidenavComponent implements OnInit {
 
-  private user = {
-    code: "SV-0001",
+   user = {
+    studentCode: null,
+    teacherCode: "GV-0001",
   }
 
-  student: any= null;
+  studentTS: any= null;
 
   constructor(private teamService: TeamService ) { }
 
   ngOnInit(): void {
-    this.teamService.getStudent(this.user.code).subscribe(data=> {
-      this.student=data;
-    })
-  }
-  
+    if(this.user.studentCode!= null) {
+      this.teamService.getStudent(this.user.studentCode).subscribe(data=> {
+        this.studentTS=data;
+      })
+    }
+    }
+
 
 }

@@ -89,13 +89,25 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-
-        <a class="nav-link" href="nhom/danh-sach">
-
-<!--         <a class="nav-link" routerLink="/nhom/dang-ky" > -->
-
+      <div *ngIf="user.studentCode!=null then student; else teacher"></div>
+      <ng-template #student>
+        <div *ngIf="studentTS.team.id!=1 then studentNew; else studentOld"></div>
+        <ng-template #studentNew>
+          <a class="nav-link" routerLink="/nhom/dang-ky" >
             <i class="fas fa-users"></i>
             <span>Quản Lý Nhóm</span></a>
+        </ng-template >
+        <ng-template #studentOld>
+          <a class="nav-link" routerLink="/nhom/dang-ky" >
+            <i class="fas fa-users"></i>
+            <span>Quản Lý Nhóm</span></a>
+        </ng-template>
+      </ng-template>
+      <ng-template #teacher>
+        <a class="nav-link" href="nhom/danh-sach">
+          <i class="fas fa-users"></i>
+          <span>Quản Lý Nhóm</span></a>
+      </ng-template>
     </li>
 
     <!-- Divider -->
