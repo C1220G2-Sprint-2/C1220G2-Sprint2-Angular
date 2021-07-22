@@ -5,7 +5,7 @@ import {TeamService} from "../team.service";
 @Component({
   selector: 'app-student-group-registration',
   templateUrl: './student-group-registration.component.html',
-  styleUrls: ['./student-group-registration.component.css']
+  // styleUrls: ['./student-group-registration.component.css']
 })
 
 export class StudentGroupRegistrationComponent implements OnInit, DoCheck {

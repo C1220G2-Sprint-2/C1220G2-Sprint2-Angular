@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Project} from "../models/project";
+import {Team} from "../models/team";
 
 const API_URL = 'http://localhost:8080/api/team';
 
@@ -36,4 +38,7 @@ export class TeamService {
     return this.httpClient.post<any>(API_URL + '/postTeam', team, this.httpOptions);
   }
 
+  // public ListTeam():Observable<Team[]>{
+  //   return this.httpClient.get<Team[]>(API_URL+'/list')
+  // }
 }

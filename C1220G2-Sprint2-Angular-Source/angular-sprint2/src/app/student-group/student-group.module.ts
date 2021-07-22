@@ -6,17 +6,19 @@ import { StudentGroupRegistrationComponent } from './student-group-registration/
 import { ListStudentGroupComponent } from './list-student-group/list-student-group.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 
 @NgModule({
   declarations: [StudentGroupRegistrationComponent, ListStudentGroupComponent],
-  imports: [
-    CommonModule,
-    StudentGroupRoutingModule,
-    NgxPaginationModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        StudentGroupRoutingModule,
+        NgxPaginationModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbPaginationModule,
+    ]
 })
 export class StudentGroupModule { }
