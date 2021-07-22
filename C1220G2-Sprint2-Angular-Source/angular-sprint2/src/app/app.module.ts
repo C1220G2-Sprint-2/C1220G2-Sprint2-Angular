@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-// @ts-ignore
+
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,8 +8,12 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {HttpClientModule} from "@angular/common/http";
 import {StudentGroupModule} from "./student-group/student-group.module";
 import {ProjectModule} from "./project/project.module";
+// @ts-ignore
+import {environment} from "../environments/environment";
 
 
+import {AngularFireModule} from "@angular/fire";
+import {AngularFireStorageModule} from "@angular/fire/storage";
 
 @NgModule({
   declarations: [
@@ -23,8 +27,11 @@ import {ProjectModule} from "./project/project.module";
     HttpClientModule,
     StudentGroupModule,
     ProjectModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

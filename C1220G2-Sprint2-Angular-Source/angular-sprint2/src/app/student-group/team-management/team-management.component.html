@@ -32,7 +32,7 @@
         <h4 > Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
       </div>
       <div class="col-12 col-sm-6 col-md-3 col-lg-3" *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard }">
-        <div class="our-team">
+        <div class="our-team"  [ngStyle]="{'opacity': s.groupStatus}" >
           <div class="picture">
             <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
           </div>
@@ -69,5 +69,21 @@
         </ul>
       </div>
     </div>
+    <div *ngIf="project== null" style="text-align: center;margin: 50px 0" >
+      <h4> Nhóm của bạn chưa đăng ký đề tài.</h4>
+    </div>
+    <div *ngIf="project!= null" style="text-align: center;margin: 30px 0">
+        <p>Tên đề tài: {{project.name}} </p>
+        <p>Nội dung đề tài: {{project.content}} </p>
+        <p>Hình ảnh: <img [src]="project.image" alt="Lỗi hiển thị"> </p>
+      p
+    </div>
+    <div>
+      <button class="btn font-weight-bold"
+              style="background-color: #4F9B65; color: white;width: 180px; border-radius: 1.5rem; margin-left: 45%" [disabled]="check== false || project != null"
+              data-bs-toggle="modal" data-bs-target="#taoNhom" routerLink="/de-tai/dang-ky">Đăng ký đề tài
+      </button>
+    </div>
+    <div style="height: 30px"></div>
   </div>
 </div>

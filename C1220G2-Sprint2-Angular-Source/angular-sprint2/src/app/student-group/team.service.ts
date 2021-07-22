@@ -40,4 +40,15 @@ export class TeamService {
     return this.httpClient.get<any>(API_URLPROJECT + '/student?codeStudent='+code, this.httpOptions);
   }
 
+  public findByTeam(id:any):  Observable<any> {
+    return this.httpClient.get<any>(API_URLPROJECT + '/findByTeam?teamId='+id, this.httpOptions);
+  }
+
+  postProject(project: any): Observable<any> {
+    return this.httpClient.post<any>(API_URLPROJECT + '/postProject', project, this.httpOptions);
+  }
+
+  searchTeamRegistration(searchStudent: string):Observable<any[]> {
+    return this.httpClient.get<any>(API_URLPROJECT + '/searchTeamRegistration?search='+searchStudent, this.httpOptions);
+  }
 }
