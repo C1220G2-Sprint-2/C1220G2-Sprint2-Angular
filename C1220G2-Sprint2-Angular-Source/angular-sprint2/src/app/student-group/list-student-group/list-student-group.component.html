@@ -21,7 +21,7 @@
 
         <div class="row" style="margin-right: 0px;">
           <div class="col-9">
-            <h1 style="margin-top: 20px" >Quản lý nhóm <span>Sinh viên</span></h1>
+            <h1 style="margin-top: 20px">Quản lý nhóm <span>Sinh viên</span></h1>
           </div>
           <div class="col-3"
                style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
@@ -45,24 +45,36 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let student of studentGroupList ; index as i ">
-        <td>{{i+1}}</td>
-        <td>{{student.name}}</td>
-        <td>{{student.teamLeader}}</td>
-        <td>22-02-2021</td>
-        <td>Duyệt</td>
-        <td>
-          <button class="btn font-weight-bold" style=" color: white;
-                                 border-radius: 1.5rem"><i  class="fa fa-eye text-success"></i>
-          </button>
-          <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-             data-bs-target="#exampleModal" (click)="getIdStudentgroup(student.id)"><i class="material-icons fa-5x" style="width: 1.5rem">&#xE872;</i>
-          </a>
-        </td>
+        <tr *ngFor="let st of teamList  | slice: (page-1) * pageSize : page * pageSize ; index as i ">
+          <td>{{i + 1}}</td>
+          <td>{{st.name}}</td>
+          <td>{{st.teamLeader}}</td>
+          <td>{{st.deadline}}</td>
+            <td *ngIf="st.status; else other" >
+            <button class="btn font-weight-bold btn-primary" style="min-width: 55%;
+                                 border-radius: 1.5rem" disabled>Đã duyệt
+            </button>
+          </td>
+          <ng-template #other>
+            <td>
+              <button class="btn font-weight-bold btn-primary" style=" min-width: 55%;
+                                 border-radius: 1.5rem" routerLink="de-tai/kiem-duyet-de-tai">Duyệt
+              </button>
+            </td>
+          </ng-template>
+
           <td>
-            <button class="btn font-weight-bold "  data-toggle="tooltip" data-bs-toggle="modal"
+            <button class="btn font-weight-bold" style=" color: white;
+                                 border-radius: 1.5rem"><i class="fa fa-eye text-success"></i>
+            </button>
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem">&#xE872;</i>
+            </a>
+          </td>
+          <td>
+            <button class="btn font-weight-bold " data-toggle="tooltip" data-bs-toggle="modal"
                     data-bs-target="#exampleModal1" style="
-                                border-radius: 1.5rem"><i class="far fa-clock"></i>
+                                border-radius: 1.5rem" (click)="getIdStudentGroup(st.id)"><i class="far fa-clock"></i>
             </button>
           </td>
         </tr>
@@ -70,22 +82,25 @@
       </table>
 
 
-
       <div class="clearfix">
-        <ul class="pagination">
-          <li class="page-item disabled"><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
-          <li class="page-item disabled"><a href="#"><i class="fas fa-angle-left"></i></a></li>
-          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item"><a href="#" class="page-link">...</a></li>
-          <li class="page-item"><a href="#" class="page-link">9</a></li>
-          <li class="page-item"><a href="#" class="page-link">10</a></li>
-          <li class="page-item"><a href="#"><i class="fas fa-angle-right"></i></a></li>
-          <li class="page-item"><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
-        </ul>
+        <div class="hint-text">Hiển thị <b>{{pageSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
+        <ngb-pagination class="d-flex justify-content-end"
+                        [(page)]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="collectionSize"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [ellipses]="true"
+                        [directionLinks]="true"
+                        [boundaryLinks]="true">
+          <ng-template ngbPaginationFirst>Trang đầu</ng-template>
+          <ng-template ngbPaginationLast>Trang cuối</ng-template>
+          <ng-template ngbPaginationPrevious>Trước</ng-template>
+          <ng-template ngbPaginationNext>Sau</ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
       </div>
-
-
 
 
     </div>
@@ -131,7 +146,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Chọn ngày: <input type="datetime-local">
+        Chọn ngày: <input type="date" [(ngModel)]="date">
       </div>
       <div class="modal-footer">
 
@@ -140,12 +155,12 @@
           Hủy
         </button>
         <button class="btn font-weight-bold" style="background-color: #4F9B65;color: white;
-                border-radius: 1.5rem ; min-width: 20%" data-bs-dismiss="modal">Đồng ý</button>
+                border-radius: 1.5rem ; min-width: 20%" data-bs-dismiss="modal" (click)="getStudentGroup()">Đồng ý
+        </button>
       </div>
     </div>
   </div>
 </div>
-
 
 
 </body>

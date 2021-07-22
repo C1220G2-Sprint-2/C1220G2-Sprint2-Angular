@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Project} from "../models/project";
+import {Team} from "../models/team";
 
 const API_URLPROJECT = 'http://localhost:8080/api/project';
 
@@ -36,6 +38,11 @@ export class TeamService {
     return this.httpClient.post<any>(API_URLPROJECT + '/postTeam', team, this.httpOptions);
   }
 
+
+  // public ListTeam():Observable<Team[]>{
+  //   return this.httpClient.get<Team[]>(API_URL+'/list')
+  // }
+
   public getStudent(code:string):  Observable<any> {
     return this.httpClient.get<any>(API_URLPROJECT + '/student?codeStudent='+code, this.httpOptions);
   }
@@ -51,4 +58,5 @@ export class TeamService {
   searchTeamRegistration(searchStudent: string):Observable<any[]> {
     return this.httpClient.get<any>(API_URLPROJECT + '/searchTeamRegistration?search='+searchStudent, this.httpOptions);
   }
+
 }

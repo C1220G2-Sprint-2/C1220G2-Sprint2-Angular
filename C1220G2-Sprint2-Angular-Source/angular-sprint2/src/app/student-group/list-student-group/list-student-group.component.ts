@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {StudentGroupService} from "../student-group.service";
 import {StudentGroup} from "../student-group";
+import {Project} from "../../models/project";
+import {Team} from "../../models/team";
 
 @Component({
   selector: 'app-list-student-group',
@@ -9,10 +11,16 @@ import {StudentGroup} from "../student-group";
 })
 export class ListStudentGroupComponent implements OnInit {
   studentGroupList: StudentGroup[] = [];
-  studentGroup
+  project: Project[] = [];
+  teamList: Team[] = [];
+  studentGroup: Team;
+  email: String[]= [];
+  name: string;
+  idStudent: number;
   page: number = 1;
-   name: string;
-   idStudent: number;
+  pageSize: number = 2;
+  collectionSize: number = 0;
+  date: string;
 
   constructor(private studentGroupService: StudentGroupService) {
   }
@@ -22,26 +30,33 @@ export class ListStudentGroupComponent implements OnInit {
   }
 
   findAll() {
-    this.studentGroupService.findAll().subscribe(student => {
-      this.studentGroupList = student
-      console.log(this.studentGroupList)
-    })
+    this.studentGroupService.findAll().subscribe(data => {
+      console.log(data)
+      this.teamList = data['content'].filter(function (team) {
+
+        return team.enable == true;
+      })
+    });
   }
 
-  getIdStudentgroup(id: number) {
+
+
+  getIdStudentGroup(id: number) {
     this.idStudent = id;
-    console.log(this.idStudent)
     this.studentGroupService.findById(id).subscribe(data => {
       this.studentGroup = data;
       this.name = this.studentGroup.name
-      console.log(this.name)
+
     })
-
-
   }
+  getStudentGroup() {
+    this.studentGroupService.addId(this.idStudent).subscribe( )
+    console.log(this.date)
+  }
+
   deleteStudentGroup() {
-    this.studentGroupService.delete(this.idStudent).subscribe(()=>{
-      this.findAll();
+    this.studentGroupService.update(this.idStudent,this.studentGroup).subscribe(() => {
+        this.findAll();
       }
     )
   }
