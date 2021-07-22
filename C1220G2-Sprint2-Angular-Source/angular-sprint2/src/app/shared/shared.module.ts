@@ -5,14 +5,16 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { FooterComponent } from './footer/footer.component';
+import {TeamService} from "../student-group/team.service";
 
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent, FooterComponent],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
   ],
-  exports: [HeaderComponent, SidenavComponent, FooterComponent]
+  exports: [HeaderComponent, SidenavComponent, FooterComponent,],
+
 })
 export class SharedModule { }
