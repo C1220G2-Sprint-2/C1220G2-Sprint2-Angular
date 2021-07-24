@@ -8,8 +8,8 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {HttpClientModule} from "@angular/common/http";
 import {StudentGroupModule} from "./student-group/student-group.module";
 import {ProjectModule} from "./project/project.module";
-
-
+import {NgxPaginationModule} from 'ngx-pagination';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import {ProjectModule} from "./project/project.module";
     BrowserModule,
     AppRoutingModule,
     SharedModule,
+    NgbModule // code by sang
     NgxPaginationModule,
     HttpClientModule,
     StudentGroupModule,
@@ -27,4 +28,5 @@ import {ProjectModule} from "./project/project.module";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
