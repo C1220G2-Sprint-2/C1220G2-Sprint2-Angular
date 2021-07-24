@@ -1,12 +1,18 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
+
 const routes: Routes = [
   {
-
+    path: '',
+    loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
+  },
+  {
     path: 'nhom',
     loadChildren: () => import('./student-group/student-group.module').then(module => module.StudentGroupModule)
-  }, {
+
+  },
+  {
     path: 'de-tai',
     loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
   },
@@ -21,6 +27,7 @@ const routes: Routes = [
     path: 'bao-cao-tien-do',
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   }];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

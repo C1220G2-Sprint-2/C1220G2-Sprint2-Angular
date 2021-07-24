@@ -7,13 +7,12 @@ import { ProgressDetailComponent } from './progress-detail/progress-detail.compo
 import { ReviewComponent } from './review/review.component';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
   declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent],
   imports: [
     CommonModule,
     ProgressManagementRoutingModule,
-    NgbPaginationModule
+    NgbPaginationModule,
   ]
 })
 export class ProgressManagementModule { }
