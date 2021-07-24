@@ -7,6 +7,8 @@ import { CreateStudentComponent } from './create-student/create-student.componen
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { DeleteStudentComponent } from './delete-student/delete-student.component';
 import { CreateStudentExcelComponent } from './create-student-excel/create-student-excel.component';
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -19,9 +21,10 @@ import { CreateStudentExcelComponent } from './create-student-excel/create-stude
   ],
     imports: [
         CommonModule,
-        StudentRoutingModule
+        StudentRoutingModule,
+        NgbPaginationModule,
+        ReactiveFormsModule
     ]
-
 
 
 })

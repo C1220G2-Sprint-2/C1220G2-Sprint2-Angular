@@ -12,20 +12,23 @@
       <div class="row">
         <div class="col-5 mt-1" style="text-align: right">
           <img style="width: 100% !important; height: 83% !important;"
-               src="https://chiase24.com/wp-content/uploads/2019/09/Tuy%E1%BB%83n-t%E1%BA%ADp-h%C3%ACnh-%E1%BA%A3nh-hot-girl-h%E1%BB%8Dc-sinh-Cute-d%E1%BB%85-th%C6%B0%C6%A1ng-26.jpg">
+               src="{{image}}">
           <label class="btn font-weight-bold mt-2"
                  style="background-color: #0498D6; color: white; border-radius: 1.5rem" for="image"><i
             class="fas fa-images"></i> Thêm ảnh</label>
-          <input type="file" id="image" hidden>
+          <input type="file" id="image" (change)="showPreview($event)" accept=".jpg,.jpeg,.png" hidden>
         </div>
         <div class="col-7">
-          <form>
+          <form [formGroup]="studentForm" (ngSubmit)="submitForm()" *ngIf="studentForm">
             <div class="row">
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="name" class="form-label"><b>Tên sinh viên</b><span style="color: red">*</span></label>
-                  <input type="text" class="form-control" id="name">
-                  <span style="color: red; font-size: 12px">Tên không được để trống.</span>
+                  <input type="text" class="form-control" id="name" formControlName="name">
+                  <span style="color: red"
+                         *ngIf="studentForm.controls.name.hasError('required')
+         && studentForm.controls.name.dirty">
+                    Tên không được để trống.</span>
                 </div>
               </div>
               <div class="col-6">
@@ -34,23 +37,26 @@
                     style="color: red">*</span></b>
                   <br>
                   <div class="form-check mt-2" style="display: inline-block">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                           id="inlineRadio1" value="option1">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio1" value="Nam">
                     <label class="form-check-label" for="inlineRadio1">Nam</label>
                   </div>
                   <div class="form-check ml-3 mt-2" style="display: inline-block">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                           id="inlineRadio2" value="option2">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio2" value="Nữ">
                     <label class="form-check-label" for="inlineRadio2">Nữ</label>
                   </div>
                   <div class="form-check ml-3 mt-2" style="display: inline-block">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                           id="inlineRadio3" value="option3">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio3" value="Khác">
                     <label class="form-check-label" for="inlineRadio3">Khác</label>
                   </div>
                   <br>
                 </div>
-                <span style="color: red; font-size: 12px">Giới tính không được để trống.</span>
+                <span style="color: red"
+                      *ngIf="studentForm.controls.gender.hasError('required')
+         && studentForm.controls.gender.dirty">
+                    giới tính không được để trống.</span>
               </div>
             </div>
             <div class="row">
@@ -58,16 +64,22 @@
                 <div class="md-form form-sm">
                   <label for="dateOfBirth" class="form-label"><b>Ngày sinh</b><span
                     style="color: red">*</span></label>
-                  <input type="date" class="form-control" id="dateOfBirth">
-                  <span style="color: red; font-size: 12px">Ngày sinh không được để trống.</span>
+                  <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.dateOfBirth.hasError('required')
+         && studentForm.controls.dateOfBirth.dirty">
+                    ngày sinh không được để trống.</span>
 
                 </div>
               </div>
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="phone" class="form-label"><b>Số điện thoại</b><span style="color: red">*</span></label>
-                  <input type="text" class="form-control" id="phone">
-                  <span style="color: red; font-size: 12px">Số điện thoại không được để trống.</span>
+                  <input type="text" class="form-control" id="phone" formControlName="phone">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.phone.hasError('required')
+         && studentForm.controls.phone.dirty">
+                    SĐT không được để trống.</span>
                 </div>
               </div>
             </div>
@@ -75,25 +87,31 @@
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="class" class="form-label"><b>Lớp</b><span style="color: red">*</span></label>
-                  <select id="class" class="form-select" aria-label="Default select example">
+                  <select id="class" class="form-select" aria-label="Default select example" formControlName="classStudent">
                     <option selected>...</option>
-                    <option value="1">C01</option>
-                    <option value="2">C02</option>
-                    <option value="3">C03</option>
+                    <option value="1">C10</option>
+                    <option value="2">C11</option>
+                    <option value="3">C12</option>
                   </select>
-                  <span style="color: red; font-size: 12px">Lớp không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.classStudent.hasError('required')
+         && studentForm.controls.classStudent.dirty">
+                    Lớp không được để trống.</span>
                 </div>
               </div>
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="faculty" class="form-label"><b>Khoa: </b> <span style="color: red">*</span></label>
-                  <select id="faculty" class="form-select" aria-label="Default select example">
+                  <select id="faculty" class="form-select" aria-label="Default select example" formControlName="faculty">
                     <option selected>...</option>
                     <option value="1">CNTT</option>
                     <option value="2">DTVT</option>
-                    <option value="3">Môi Trường</option>
+                    <option value="3">XD</option>
                   </select>
-                  <span style="color: red; font-size: 12px">Khoa không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.faculty.hasError('required')
+         && studentForm.controls.faculty.dirty">
+                    Khoa không được để trống.</span>
                 </div>
               </div>
             </div>
@@ -101,15 +119,21 @@
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="email" class="form-label"><b>Email</b><span style="color: red">*</span></label>
-                  <input type="text" class="form-control" id="email">
-                  <span style="color: red; font-size: 12px">Email không được để trống.</span>
+                  <input type="text" class="form-control" id="email" formControlName="email">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.email.hasError('required')
+         && studentForm.controls.email.dirty">
+                    Email không được để trống.</span>
                 </div>
               </div>
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="address" class="form-label"><b>Địa chỉ</b> <span style="color: red">*</span></label>
-                  <input type="text" class="form-control" id="address">
-                  <span style="color: red; font-size: 12px">Địa chỉ không được để trống.</span>
+                  <input type="text" class="form-control" id="address" formControlName="address">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.address.hasError('required')
+         && studentForm.controls.address.dirty">
+                    Địa chỉ không được để trống.</span>
                 </div>
               </div>
             </div>
@@ -117,7 +141,7 @@
               <div class="col">
                 <div class="md-form form-sm">
                   <label for="fb" class="form-label"><b>Facebook</b></label>
-                  <input type="text" class="form-control" id="fb" placeholder="https://www.facebook.com/..">
+                  <input type="text" class="form-control" id="fb" placeholder="https://www.facebook.com/.." formControlName="facebook">
                 </div>
               </div>
             </div>
@@ -131,8 +155,8 @@
                         class="btn font-weight-bold"
                         style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
                 </button>
-                <button class="btn font-weight-bold"
-                        style="background-color: #4F9B65; color: white; border-radius: 1.5rem">THÊM MỚI
+                <button class="btn font-weight-bold" type="submit"
+                        style="background-color: #4F9B65; color: white; border-radius: 1.5rem" [disabled]="!studentForm.valid">THÊM MỚI
                 </button>
               </div>
             </div>
