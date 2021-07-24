@@ -11,18 +11,19 @@
                   <h1 class="mb-4">Đăng nhập</h1>
                   <hr>
                 </div>
-                <form class="user">
+                <form class="user"  name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
                   <div class="form-group">
-                    <label for="userName">Tên đăng nhập <sup style="color: red">*</sup></label>
-                    <input id="userName" type="text" class="form-control form-control-user"
+                    <label for="userName" >Tên đăng nhập <sup style="color: red">*</sup></label>
+                    <input id="userName" name="username" [(ngModel)]="form.username" #username="ngModel"
+                           type="text" class="form-control form-control-user"
                            placeholder="Tên đăng nhập...">
-                    <span class="validate-msg">Vui lòng nhập tên đăng nhập.</span>
+                    <span class="validate-msg"  *ngIf="f.submitted && username.invalid">Vui lòng nhập tên đăng nhập.</span>
                   </div>
                   <div class="form-group">
                     <label for="password">Mật khẩu <sup style="color: red">*</sup></label>
-                    <input id="password" type="password" class="form-control form-control-user"
+                    <input id="password" name="password" [(ngModel)]="form.password" #password="ngModel" type="password" class="form-control form-control-user"
                            placeholder="Mật khẩu...">
-                    <span class="validate-msg">Vui lòng nhập mật khẩu.</span>
+                    <span style="color: red;"  *ngIf="f.submitted && username.invalid">Vui lòng nhập mật khẩu.</span>
                   </div>
 
                   <div class="row mb-3">
@@ -42,7 +43,7 @@
                     </div>
                   </div>
                   <div>
-                    <button class="btn btn-block font-weight-bold" routerLink="/user/information"
+                    <button class="btn btn-block font-weight-bold"
                             style="color: white;background-color: #4F9B65; border-radius: 1.5rem">
                       ĐĂNG NHẬP
                     </button>

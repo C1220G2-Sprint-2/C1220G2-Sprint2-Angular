@@ -8,13 +8,16 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { UserInformationComponent } from './user-information/user-information.component';
 import { ChangeAdminInformationComponent } from './change-admin-information/change-admin-information.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [LoginComponent, LogoutComponent, ChangePasswordComponent, UserInformationComponent, ChangeAdminInformationComponent, ForgotPasswordComponent],
-  imports: [
-    CommonModule,
-    SecurityRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        SecurityRoutingModule,
+        FormsModule,
+        ReactiveFormsModule
+    ]
 })
 export class SecurityModule { }

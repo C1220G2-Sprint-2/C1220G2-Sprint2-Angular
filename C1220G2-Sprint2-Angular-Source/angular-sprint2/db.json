@@ -1,0 +1,36 @@
+{
+  "productList": [
+    {
+      "id": 3,
+      "name": "Nhóm 3",
+      "teamLeader": 2,
+      "enable": true,
+      "student": 1,
+      "project": 1
+    },
+    {
+      "id": 4,
+      "name": "Nhóm 4",
+      "teamLeader": 5,
+      "enable": true,
+      "student": 1,
+      "project": 1
+    },
+    {
+      "id": 5,
+      "name": "Nhóm 5",
+      "teamLeader": 3,
+      "enable": true,
+      "student": 1,
+      "project": 1
+    },
+    {
+      "id": 6,
+      "name": "Nhóm 6",
+      "teamLeader": 4,
+      "enable": true,
+      "student": 1,
+      "project": 1
+    }
+  ]
+}
