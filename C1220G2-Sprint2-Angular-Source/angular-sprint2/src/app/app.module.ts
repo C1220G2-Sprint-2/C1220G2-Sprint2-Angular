@@ -12,6 +12,11 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from './helpers/auth.interceptor';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {HttpClientModule} from '@angular/common/http';
+import {StudentGroupModule} from './student-group/student-group.module';
+import {ProjectModule} from './project/project.module';
 
 
 @NgModule({
@@ -24,6 +29,7 @@ import {AuthInterceptor} from './helpers/auth.interceptor';
     ToastrModule.forRoot(),
     AppRoutingModule,
     SharedModule,
+    NgbModule, // code by sang
     NgxPaginationModule,
     HttpClientModule,
     StudentGroupModule,
@@ -33,4 +39,5 @@ import {AuthInterceptor} from './helpers/auth.interceptor';
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

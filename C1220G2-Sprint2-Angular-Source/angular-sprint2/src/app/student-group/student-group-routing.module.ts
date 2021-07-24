@@ -1,10 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {ListStudentGroupComponent} from './list-student-group/list-student-group.component';
 import {StudentGroupRegistrationComponent} from './student-group-registration/student-group-registration.component';
-
-
-
 
 
 const routes: Routes = [
@@ -13,7 +10,7 @@ const routes: Routes = [
     component: ListStudentGroupComponent
   },
   {
-   path: 'dang-ky',
+    path: 'dang-ky',
     component: StudentGroupRegistrationComponent
   },
 ];
@@ -22,4 +19,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class StudentGroupRoutingModule { }
+export class StudentGroupRoutingModule {
+}
