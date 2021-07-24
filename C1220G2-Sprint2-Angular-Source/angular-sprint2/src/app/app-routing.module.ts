@@ -16,12 +16,6 @@ const routes: Routes = [
     path: 'de-tai',
     loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
   },
-];
-
-  }, {
-    path: 'de-tai',
-    loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
-  },
   // code by sang
   {
     path: 'quan-ly-tien-do',
