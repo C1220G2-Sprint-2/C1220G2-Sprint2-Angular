@@ -14,6 +14,9 @@ const routes: Routes = [
   {
     path: 'de-tai',
     loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
+  }, {
+    path: 'hoc-sinh',
+    loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
   },
 ];
 
