@@ -1,1 +1,180 @@
-<p>list-student works!</p>
+
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <h1 class="text-center p-5">Danh Sách Sinh
+        Viên</h1>
+      <div class="row m-auto p-0">
+      </div>
+      <div class="row m-auto p-0">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+          <div class="dropdown">
+            <button class="btn font-weight-bold dropdown-toggle" type="button"
+                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Thêm mới sinh viên
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" [routerLink]="['/hoc-sinh/them-moi']">Thêm 1 sinh viên</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/hoc-sinh/them-moi-excel']">Thêm nhiều sinh viên</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-5"></div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+          <div style="height: 52px;">
+            <input id="search" type="text" class="form-control" placeholder="Tìm kiếm" (change)=setKeywordSearch($event)
+                   style="display: inline-block; width: 78%;margin-top: 6px;border-radius: 1.5rem">
+            <button class="btn btn-default" title="Reload" (click)="listSearch()"
+                    style="display: inline-block; float: right;margin-top: 6px;border-radius: 1.5rem">
+              <i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="row m-auto p-0">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3"  *ngFor="let student of studentList| slice: (page-1) * pageSize : page * pageSize ">
+          <div class="our-team">
+            <div class="picture">
+              <img class="img-fluid" src="{{student.image}}">
+            </div>
+            <div class="team-content">
+              <h4 class="name">{{student.name}}</h4>
+              <hr>
+              <p><b>Mã sinh viên: </b>{{student.code}}</p>
+              <p><b>Lớp: </b>{{student.classStudent}}</p>
+              <p><b>Email: </b>{{student.email}}</p>
+              <p><b>ĐT: </b>{{student.phone}}</p>
+              <p><b>Khoa: </b>{{student.faculty}}</p>
+            </div>
+            <ul class="social">
+              <li><a [href]="student.facebook" aria-hidden="true"><i
+                class="fab fa-facebook"></i></a></li>
+              <li><a aria-hidden="true" [routerLink]="['/hoc-sinh/chinh-sua', student.code]"><i
+                class="fas fa-eye"></i></a></li>
+              <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" (click)="passData(student.code, student.name)"
+                                    aria-hidden="true"><i
+                class="fas fa-times"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix">
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="studentList.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst>Trang đầu</ng-template>
+            <ng-template ngbPaginationLast>Trang cuối</ng-template>
+            <ng-template ngbPaginationPrevious>Trước</ng-template>
+            <ng-template ngbPaginationNext>Sau</ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
+<!--          <div class="hint-text">Hiển thị <b>1</b> trên <b>1</b> dòng</div>-->
+<!--          <ul class="pagination">-->
+<!--            <li class="page-item disabled"><a href="#">Trước</a></li>-->
+<!--            <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>-->
+<!--            <li class="page-item active"><a href="#" class="page-link">1</a></li>-->
+<!--            <li class="page-item"><a href="#" class="page-link">2</a></li>-->
+<!--            <li class="page-item"><a href="#" class="page-link">...</a></li>-->
+<!--            <li class="page-item"><a href="#" class="page-link">9</a></li>-->
+<!--            <li class="page-item"><a href="#" class="page-link">10</a></li>-->
+<!--            <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>-->
+<!--            <li class="page-item"><a href="#">Sau</a></li>-->
+<!--          </ul>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <div class="icon-bar">
+        <a href="#" class="search" data-mdb-toggle="modal"
+           data-mdb-target="#searchPlus"><i class="fas fa-search"></i></a>
+        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="google"><i class="fab fa-google"></i></a>
+        <!--    <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>-->
+        <!--    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Search Plus -->
+<div
+  class="modal fade"
+  id="searchPlus"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchPlusLabel">Tìm kiếm</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class ="row">
+          <div class="col">
+            <input type="text" class="form-control" >
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" >
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" >
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" >
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn btn-primary">Tìm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal delete -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #4F9B65">
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel">Xóa sinh viên</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa <span style="color: red">{{nameDelete}}</span> khỏi danh sách không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-mdb-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn font-weight-bold" data-mdb-dismiss="modal" (click)="delete()"
+                style="background-color: #d91a37;color: white; border-radius: 1.5rem">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
