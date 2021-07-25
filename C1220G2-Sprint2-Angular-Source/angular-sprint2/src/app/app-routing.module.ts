@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
   },
   {
+    path: 'hoc-sinh',
+    loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
+  },
+  {
     path: 'nhom',
     loadChildren: () => import('./student-group/student-group.module').then(module => module.StudentGroupModule)
 
@@ -28,10 +32,8 @@ const routes: Routes = [
   {
     path: 'de-tai',
     loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
-  }, {
-    path: 'hoc-sinh',
-    loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
   },
+  // code by sang
   {
     path: 'quan-ly-tien-do',
     loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)
@@ -43,9 +45,6 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   }
 ];
-
-
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),

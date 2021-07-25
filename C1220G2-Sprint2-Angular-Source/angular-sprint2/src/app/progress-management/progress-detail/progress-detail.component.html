@@ -17,139 +17,11 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let student of studentList">
               <div class="our-team">
                 <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
+                  <img class="img-fluid" src="{{student.avatar}}">
                 </div>
                 <div class="team-content">
                   <h5 class="name">{{student.name}}</h5>
                   <h4 class="title">Trưởng nhóm</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Thanh Công</h5>
-                  <h4 class="title">Trưởng nhóm</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=839">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Đức Hậu</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Quốc Tuấn</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=836">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Huy</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Thanh Công</h5>
-                  <h4 class="title">Trưởng nhóm</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=839">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Đức Hậu</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Quốc Tuấn</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=836">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Huy</h5>
-                  <h4 class="title">Thành viên</h4>
                 </div>
                 <ul class="social">
                   <li><a href="#" aria-hidden="true">Chi tiết</a>
@@ -1099,45 +971,45 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" *ngIf="reviewForm">
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">Tiêu đề:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="recipient-name" formControlName="title">
           </div>
           <div class="mb-3">
             <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea class="form-control" id="message-text" formControlName="content"></textarea>
           </div>
           <div class="mb-3 form-group">
             <label>Đánh giá theo tỉ lệ:</label> <br>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions"
                      id="inlineRadio1"
-                     value="option1">
+                     value="option1" formControlName="progressReview">
               <label class="form-check-label" for="inlineRadio1">0%</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions"
                      id="inlineRadio2"
-                     value="option2">
+                     value="option2" formControlName="progressReview">
               <label class="form-check-label" for="inlineRadio2">25%</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions"
                      id="inlineRadio3"
-                     value="option1">
+                     value="option1" formControlName="progressReview">
               <label class="form-check-label" for="inlineRadio1">50%</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions"
                      id="inlineRadio4"
-                     value="option2">
+                     value="option2" formControlName="progressReview">
               <label class="form-check-label" for="inlineRadio2">75%</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions"
                      id="inlineRadio5"
-                     value="option2">
+                     value="option2" formControlName="progressReview">
               <label class="form-check-label" for="inlineRadio2">100%</label>
             </div>
           </div>

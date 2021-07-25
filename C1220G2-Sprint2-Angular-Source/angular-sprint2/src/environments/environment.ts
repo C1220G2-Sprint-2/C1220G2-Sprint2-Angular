@@ -27,7 +27,6 @@ export const environment = {
     measurementId: 'G-RVKTZKLWHT'
   }
 
-
 };
 
 /*
