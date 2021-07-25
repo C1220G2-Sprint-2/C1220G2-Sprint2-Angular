@@ -1,17 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {StudentModule} from "./student/student.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import {AngularFireStorageModule} from "@angular/fire/storage";
+import {StudentGroupModule} from "./student-group/student-group.module";
+import {ProjectModule} from "./project/project.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AuthInterceptor} from './helpers/auth.interceptor';
+import {ToastrModule} from "ngx-toastr";
+import {NgxPaginationModule} from "ngx-pagination";
+
+
+
 
 @NgModule({
   declarations: [
@@ -26,9 +34,20 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFirestoreModule,
       AngularFireAuthModule, // auth
-      AngularFireStorageModule, NgbModule // storage
+      AngularFireStorageModule, NgbModule, // storage
+
+      BrowserAnimationsModule,
+      ToastrModule.forRoot(),
+      AppRoutingModule,
+      SharedModule,
+      NgxPaginationModule,
+      HttpClientModule,
+      StudentGroupModule,
+      ProjectModule,
     ],
-  providers: [],
+
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
