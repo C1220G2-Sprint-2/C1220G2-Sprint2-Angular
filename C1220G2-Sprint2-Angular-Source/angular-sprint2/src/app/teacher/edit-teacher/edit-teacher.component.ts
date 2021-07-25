@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Education} from '../../models/education';
 import {Faculty} from '../../models/faculty';
 import {Observable, Subscription} from 'rxjs';
@@ -51,17 +51,24 @@ export class EditTeacherComponent implements OnInit {
       this.teacherDetail = value;
       this.imageFirebase = this.teacherDetail.image;
       this.teacherDetailForm = new FormGroup({
-        name: new FormControl(this.teacherDetail.name),
-        dateOfBirth: new FormControl(this.teacherDetail.dateOfBirth),
-        gender: new FormControl(this.teacherDetail.gender),
-        phone: new FormControl(this.teacherDetail.phone),
-        email: new FormControl(this.teacherDetail.email),
-        address: new FormControl(this.teacherDetail.address),
-        image: new FormControl(this.teacherDetail.image),
-        twitter: new FormControl(this.teacherDetail.twitter),
-        facebook: new FormControl(this.teacherDetail.facebook),
-        facultyId: new FormControl(this.teacherDetail.facultyId),
-        educationId: new FormControl(this.teacherDetail.educationId)
+        name: new FormControl(this.teacherDetail.name,
+          [Validators.required, Validators.minLength(3), Validators.maxLength(30)
+          ]),
+        dateOfBirth: new FormControl(this.teacherDetail.dateOfBirth, [Validators.required]),
+        gender: new FormControl(this.teacherDetail.gender, [Validators.required]),
+        phone: new FormControl(this.teacherDetail.phone, [Validators.required]),
+        email: new FormControl(this.teacherDetail.email, [
+          Validators.required, Validators.minLength(3), Validators.maxLength(50),
+          Validators.pattern('^[a-z]+([\\_\\.]?[a-z\\d]+)*@[a-z]{3,7}\\.[a-z]{2,3}$')
+        ]),
+        address: new FormControl(this.teacherDetail.address, [
+          Validators.required, Validators.minLength(3), Validators.maxLength(200)
+        ]),
+        image: new FormControl(''),
+        twitter: new FormControl(this.teacherDetail.twitter, [Validators.minLength(3), Validators.maxLength(200)]),
+        facebook: new FormControl(this.teacherDetail.facebook, [Validators.minLength(3), Validators.maxLength(200)]),
+        facultyId: new FormControl(this.teacherDetail.facultyId, [Validators.required]),
+        educationId: new FormControl(this.teacherDetail.educationId, [Validators.required])
       });
     });
 
