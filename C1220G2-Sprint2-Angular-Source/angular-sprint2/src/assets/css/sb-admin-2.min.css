@@ -9935,9 +9935,14 @@ a:focus {
   background-size: cover;
 }
 .bg-password-image {
-  background: url(https://source.unsplash.com/oWTW-jNGl9I/600x800);
+  background: url(https://thegioibantin.com/wp-content/uploads/2015/12/5-why.jpg);
   background-position: center;
   background-size: cover;
+}
+.bg-change-password-image {
+  background: url(https://thumbs.dreamstime.com/b/change-password-card-top-view-office-table-desktop-background-laptop-phone-glasses-pencil-inscription-internet-203236585.jpg);
+  background-position: center;
+  background-size: cover
 }
 form.user .custom-checkbox.small label {
   line-height: 1.5rem;
