@@ -26,7 +26,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "angular-bootstrap-md": "^11.1.0",
-    "apexcharts": "^3.27.2",
+    "apexcharts": "^3.27.3",
     "bootstrap": "^5.0.2",
     "firebase": "^8.7.1",
     "jquery": "^3.6.0",
@@ -35,7 +35,7 @@
     "ngx-toastr": "^14.0.0",
     "rxjs": "~6.5.4",
     "sweetalert2": "^11.0.20",
-    "tslib": "^1.10.0",
+    "tslib": "^1.14.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
