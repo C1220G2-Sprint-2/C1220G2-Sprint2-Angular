@@ -8,7 +8,7 @@ import {EditTeacherComponent} from './edit-teacher/edit-teacher.component';
 const routes: Routes = [
   {path: 'danh-sach', component: ListTeacherComponent},
   {path: 'them-moi', component: CreateTeacherComponent},
-  {path: 'cap-nhat', component: EditTeacherComponent},
+  {path: 'cap-nhat/:code', component: EditTeacherComponent},
 ];
 
 @NgModule({

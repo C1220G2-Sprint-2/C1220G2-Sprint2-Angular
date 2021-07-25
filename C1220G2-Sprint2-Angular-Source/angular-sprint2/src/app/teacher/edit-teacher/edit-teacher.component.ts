@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {Education} from '../../models/education';
+import {Faculty} from '../../models/faculty';
+import {Observable, Subscription} from 'rxjs';
+import {TeacherService} from '../teacher.service';
+import {Teacher} from '../../models/teacher';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-edit-teacher',
@@ -7,9 +16,159 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditTeacherComponent implements OnInit {
 
-  constructor() { }
+  educationList: Education[] = [];
+  facultyList: Faculty[] = [];
+  subscription: Subscription;
+  codeTeacherDetail: string;
+  teacherDetail: Teacher;
+  teacherDetailForm: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    dateOfBirth: new FormControl(''),
+    gender: new FormControl(''),
+    phone: new FormControl(''),
+    email: new FormControl(''),
+    address: new FormControl(''),
+    image: new FormControl(''),
+    twitter: new FormControl(''),
+    facebook: new FormControl(''),
+    facultyId: new FormControl(''),
+    educationId: new FormControl('')
+  });
+
+  constructor(private teacherService: TeacherService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private angularFireStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
+    this.loadListFaculty();
+    this.loadListEducation();
+    this.activatedRoute.paramMap.subscribe((value: ParamMap)=>{
+      this.codeTeacherDetail = <string>value.get('code');
+    });
+    this.subscription = this.teacherService.getTeacherByCode(this.codeTeacherDetail).subscribe(value => {
+      console.log(value);
+      this.teacherDetail = value;
+      this.imageFirebase = this.teacherDetail.image;
+      this.teacherDetailForm = new FormGroup({
+        name: new FormControl(this.teacherDetail.name),
+        dateOfBirth: new FormControl(this.teacherDetail.dateOfBirth),
+        gender: new FormControl(this.teacherDetail.gender),
+        phone: new FormControl(this.teacherDetail.phone),
+        email: new FormControl(this.teacherDetail.email),
+        address: new FormControl(this.teacherDetail.address),
+        image: new FormControl(this.teacherDetail.image),
+        twitter: new FormControl(this.teacherDetail.twitter),
+        facebook: new FormControl(this.teacherDetail.facebook),
+        facultyId: new FormControl(this.teacherDetail.facultyId),
+        educationId: new FormControl(this.teacherDetail.educationId)
+      });
+    });
+
   }
 
+  loadListFaculty() {
+    this.subscription = this.teacherService.getAllFaculty().subscribe(
+      value => {
+        if (value == null) {
+          this.facultyList = [];
+        } else {
+          this.facultyList = value;
+        }
+      }
+    );
+  }
+
+  loadListEducation() {
+    this.subscription = this.teacherService.getAllEducation().subscribe(
+      value => {
+        if (value == null) {
+          this.educationList = [];
+        } else {
+          this.educationList = value;
+        }
+      }
+    );
+  }
+
+
+  submit() {
+    this.teacherDetail = this.teacherDetailForm.value;
+    this.teacherDetail.code = this.codeTeacherDetail;
+    this.teacherDetail.image = this.imageFirebase;
+    this.subscription = this.teacherService.editTeacher(this.teacherDetail).subscribe(
+      value => {},
+      error => {
+        console.log(error)
+      },
+      ()=>{
+        this.router.navigateByUrl('/danh-sach')
+      }
+    )
+  }
+
+  selectedImage: any;
+  downloadURL: Observable<string>;
+  imageFirebase: string;
+  showPreview(event: any) {
+    this.selectedImage = event.target.files[0];
+    this.chooseImage(this.selectedImage);
+  }
+  chooseImage(selectedImage: any) {
+    const nameImg = selectedImage.name;
+    const fileRef = this.angularFireStorage.ref(nameImg);
+    this.angularFireStorage.upload(nameImg, selectedImage).snapshotChanges().pipe(
+      finalize(() => {
+        this.downloadURL = fileRef.getDownloadURL();
+        this.downloadURL.subscribe(url => {
+          this.imageFirebase = url;
+          console.log(this.imageFirebase);
+        })
+      })
+    ).subscribe();
+  }
+
+  get name() {
+    return this.teacherDetailForm.get('name');
+  }
+
+  get dateOfBirth() {
+    return this.teacherDetailForm.get('dateOfBirth');
+  }
+
+  get gender() {
+    return this.teacherDetailForm.get('gender');
+  }
+
+  get phone() {
+    return this.teacherDetailForm.get('phone');
+  }
+
+  get email() {
+    return this.teacherDetailForm.get('email');
+  }
+
+  get address() {
+    return this.teacherDetailForm.get('address');
+  }
+
+  get image() {
+    return this.teacherDetailForm.get('image');
+  }
+
+  get twitter() {
+    return this.teacherDetailForm.get('twitter');
+  }
+
+  get facebook() {
+    return this.teacherDetailForm.get('facebook');
+  }
+
+  get facultyId() {
+    return this.teacherDetailForm.get('facultyId');
+  }
+
+  get educationId() {
+    return this.teacherDetailForm.get('educationId');
+  }
 }

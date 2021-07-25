@@ -16,235 +16,57 @@
     <div class="col-md-4 col-lg-5"></div>
     <div class="col-12 col-sm-7 col-md-4 col-lg-4 mb-3">
       <div style="height: 52px;">
-        <input id="search" type="text" class="form-control" placeholder="Tìm kiếm"
+        <input id="search" type="text" class="form-control" placeholder="Tìm kiếm" #searchKeyword
                style="display: inline-block; width: 85%;margin-top: 6px;border-radius: 1.5rem;"/>
-        <button  class="btn btn-default" title="Reload" style="padding: 5px;width: 15%; display: inline-block; float: right;margin-top: 6px;border-radius: 1.5rem">
+        <button (click)="search(searchKeyword.value)"  class="btn btn-default" title="Reload" style="padding: 5px;width: 15%; display: inline-block; float: right;margin-top: 6px;border-radius: 1.5rem">
           <i class="fa fa-search"></i></button>
       </div>
     </div>
   </div>
   <div class="row w-75 m-auto p-0">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let teacher of teacherList | slice: (page-1) * pageSize : page * pageSize">
       <div class="our-team">
         <div class="picture">
-          <img class="img-fluid" src="http://linkvaobong88ag.com/wp-content/uploads/2020/01/Than-hinh-boc-lua-va-quyen-ru-cua-nguoi-dep-Ngoc-Diep-10.jpg">
+          <img class="img-fluid" src="{{teacher.image}}">
         </div>
         <div class="team-content">
-          <h4 class="name">Nguyễn Văn Cảnh</h4>
+          <h4 class="name">{{teacher.name}}</h4>
           <hr>
-          <p><b>Mã giảng viên: </b>GV-0001</p>
-          <p><b>Email: </b>canhnv@gmail.com</p>
-          <p><b>ĐT: </b>0916325482</p>
-          <p><b>Khoa: </b>CNTT</p>
+          <p><b>Mã giảng viên: </b>{{teacher.code}}</p>
+          <p><b>Email: </b>{{teacher.email}}</p>
+          <p><b>ĐT: </b>{{teacher.phone}}</p>
+          <ng-container *ngFor="let faculty of facultyList">
+            <p *ngIf="faculty.id == teacher.facultyId"><b>Khoa: </b>{{faculty.name}}</p>
+          </ng-container>
         </div>
         <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
+          <li><a [href]="teacher.facebook" aria-hidden="true"><i
             class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
+          <li><a [href]="teacher.twitter" aria-hidden="true"><i
             class="fab fa-twitter-square"></i></a></li>
-          <li><a routerLink="/cap-nhat" aria-hidden="true"><i
+          <li><a [routerLink]="['/cap-nhat/',teacher.code]" aria-hidden="true"><i
             class="fas fa-eye"></i></a></li>
           <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Trần Thị Tố Tâm</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0002</p>
-          <p><b>Email: </b>tam.tran@gmail.com</p>
-          <p><b>ĐT: </b>0916458752</p>
-          <p><b>Khoa: </b>CNTT</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a routerLink="/cap-nhat" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://anhdepblog.com/wp-content/uploads/2020/10/bo-anh-nguoi-dep-khien-nguoi-xem-phai-xuyt-xoa-1.jpg">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Nguyễn Thị Thảo</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0003</p>
-          <p><b>Email: </b>thao@gmail.com</p>
-          <p><b>ĐT: </b>0916345827</p>
-          <p><b>Khoa: </b>Cơ khí - Điện tử</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a routerLink="/cap-nhat" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=839">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Trần Tố Uyên</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0004</p>
-          <p><b>Email: </b>touyen@gmail.com</p>
-          <p><b>ĐT: </b>0916452125</p>
-          <p><b>Khoa: </b>CNTT</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Nguyễn Tiến Hùng</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0005</p>
-          <p><b>Email: </b>hung@gmail.com</p>
-          <p> <b>ĐT: </b>0916325482</p>
-          <p><b>Khoa: </b>Nhiệt - Điện tử</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Trương Tấn Việt</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0006</p>
-          <p><b>Email: </b>viet@gmail.com</p>
-          <p><b>ĐT: </b>0916452012</p>
-          <p><b>Khoa: </b>CNTT</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Trần Hoàng Thiên</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0007</p>
-          <p><b>Email: </b>thien@gmail.com</p>
-          <p><b>ĐT: </b>0916310234</p>
-          <p><b>Khoa: </b>CNTT</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-      <div class="our-team">
-        <div class="picture">
-          <img class="img-fluid" src="https://picsum.photos/130/130?image=836">
-        </div>
-        <div class="team-content">
-          <h4 class="name">Hoàng Thị Tố Oanh</h4>
-          <hr>
-          <p><b>Mã giảng viên: </b>GV-0008</p>
-          <p><b>Email: </b>oanh@gmail.com</p>
-          <p><b>ĐT: </b>0916745841</p>
-          <p><b>Khoa: </b>Môi trường</p>
-        </div>
-        <ul class="social">
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-facebook"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fab fa-twitter-square"></i></a></li>
-          <li><a href="https://codepen.io/collection/XdWJOQ/" aria-hidden="true"><i
-            class="fas fa-eye"></i></a></li>
-          <li class="delete"><a data-mdb-toggle="modal" data-mdb-target="#exampleModal" aria-hidden="true"><i
-            class="fas fa-times"></i></a>
+            class="fas fa-times" (click)="sendIdToComponent(teacher.code)"></i></a>
           </li>
         </ul>
       </div>
     </div>
     <div class="clearfix">
-      <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> giảng viên</div>
-      <ul class="pagination">
-        <li class="page-item disabled"><a href="#" class="page-link">Trước</a></li>
-        <li class="page-item disabled"><a href="#" class="page-link"><i class="fa fa-angle-double-left"></i></a></li>
-        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-        <li class="page-item"><a href="#" class="page-link">2</a></li>
-        <li class="page-item"><a href="#" class="page-link">...</a></li>
-        <li class="page-item"><a href="#" class="page-link">9</a></li>
-        <li class="page-item"><a href="#" class="page-link">10</a></li>
-        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>
-        <li class="page-item"><a href="#" class="page-link">Sau</a></li>
-      </ul>
+      <div class="hint-text">Hiển thị <b>{{pageSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
+      <ngb-pagination class="d-flex justify-content-end"
+                      [(page)]="page"
+                      [pageSize]="pageSize"
+                      [collectionSize]="collectionSize"
+                      [maxSize]="3"
+                      [rotate]="true"
+                      [ellipses]="true"
+                      [boundaryLinks]="true">
+        <ng-template ngbPaginationFirst>Trước</ng-template>
+        <ng-template ngbPaginationLast>Sau</ng-template>
+        <ng-template ngbPaginationEllipsis>...</ng-template>
+        <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+      </ngb-pagination>
     </div>
   </div>
 </div>
@@ -263,7 +85,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p>Bạn có muốn xóa giảng viên <span style="color: red">Nguyễn Văn cảnh</span> khỏi danh sách không?</p>
+        <p>Bạn có muốn xóa giảng viên <span style="color: red">{{deleteTeacherName}}</span> khỏi danh sách không?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold"
