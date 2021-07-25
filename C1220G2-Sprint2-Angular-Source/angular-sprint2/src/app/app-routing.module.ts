@@ -4,6 +4,10 @@ import {Routes, RouterModule} from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
+  },
+  {
     path: 'hoc-sinh',
     loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
   },
@@ -28,7 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   }
 ];
-
 
 
 @NgModule({
