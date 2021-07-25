@@ -1,1 +1,49 @@
-<p>teacher-statistic works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-2" style="text-decoration: underline;">
+         YÊU CẦU THỐNG KÊ:
+      </div>
+      <div class="col-sm-6">
+        <div class="mb-3 row">
+          <!-- <label for="inputRequirement" class="col-sm-3 col-form-label">Yêu cầu thống kê:</label> -->
+          <div class="col-sm-12">
+            <div class="input-group mb-3">
+              <a routerLink="/thong-ke/de-tai" type="button" class="mr-2"><span class="badge rounded-pill"
+                style="background-color: #4F9B65; color: white;">Danh mục đề tài</span>
+              </a>
+  
+              <a routerLink="/thong-ke/giao-vien" type="button" class="mr-2">
+                <span class="badge rounded-pill"
+                style="background-color:#616C8C; color: white;">Giáo viên hướng dẫn</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <div id="chart">
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions"
+            [yaxis]="chartOptions.yaxis"
+            [xaxis]="chartOptions.xaxis"
+            [legend]="chartOptions.legend"
+            [colors]="chartOptions.colors"
+            [grid]="chartOptions.grid"
+            [title]="chartOptions.title"
+          ></apx-chart>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <app-general-teacher-statistic [numberOfRegisteredTeachers]="numberOfRegisterTeachers"></app-general-teacher-statistic>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </div>
+  
+
