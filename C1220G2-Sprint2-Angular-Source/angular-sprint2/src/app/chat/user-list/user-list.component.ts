@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 import { FirebaseUser } from 'src/app/models/firebase-user.model';
 import { GroupUser } from 'src/app/models/group-user.model';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from '../services/auth.service';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -9,24 +11,38 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnChanges {
 
-  // users: FirebaseUser[];
-  users: User[] = [];
   @Input() groupName: string;
   usersInGroup: string[] = [];
   groupsUsers: GroupUser[];
+  users: FirebaseUser[] = [];
+  currentUser: User;
+  @Input() doUpdateUsersInGroup: boolean;
 
-  constructor( private chatService: ChatService ) {
-    // chatService.getUsers().subscribe((userList) => {
-    //   this.users = userList;
-    // });
-    
+  constructor( private chatService: ChatService, private authService: AuthService ) {
+  }
+
+  ngOnChanges() {
+    // console.log("doUpdateUsersInGroup: " + this.doUpdateUsersInGroup);
+    this.authService.authUser().subscribe((user: User) => {
+      this.currentUser = user;
+      this.getUsersInGroup();
+    });
   }
 
   ngOnInit(): void {
+    this.authService.authUser().subscribe((user: User) => {
+      this.currentUser = user;
+      this.getUsersInGroup();
+    });
+  }
+
+  getUsersInGroup() {
     this.chatService.getGroupsUsers().subscribe(data => {
+      if (this.usersInGroup.length > 0) this.usersInGroup = [];
       this.groupsUsers = data;
+      // console.log("Group user: " + this.groupsUsers);
       this.groupsUsers.forEach(e => {
         if (e.groupName === this.groupName) {
           this.usersInGroup.push(e.userEmail);
@@ -34,13 +50,14 @@ export class UserListComponent implements OnInit {
       });
     });
 
-    this.chatService.getUsers().subscribe(userList => {
+    this.chatService.getUsers().subscribe((userList: FirebaseUser[]) => {
+      if (this.users.length > 0) this.users = []; 
+      // console.log("User list: " + userList);
       userList.forEach(user => {
         if (this.usersInGroup.includes(user.email)) {
           this.users.push(user);
         }
-      })
+      });
     });
   }
-
 }

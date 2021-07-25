@@ -9,6 +9,8 @@ import { ChatMessage } from 'src/app/models/chat-message.model';
 import { GroupChat } from 'src/app/models/group-chat.model';
 import { GroupUser } from 'src/app/models/group-user.model';
 import { User } from 'src/app/models/user.model';
+import { FirebaseUser } from 'src/app/models/firebase-user.model';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -70,41 +72,53 @@ export class ChatService {
     return this.db.object(path).valueChanges();
   }
 
-  getUsers(): Observable<User[]> {
-    return this.db.list<User>('/users').valueChanges();
+  getUsers(): Observable<FirebaseUser[]> {
+    return this.db.list<FirebaseUser>('/users').valueChanges();
   }
 
-  sendMessage(msg: string, groupName: string) {
+  sendMessage(msg: string, groupName: string): any {
     const timestamp: string = this.getTimeStamp();
     const email: string = this.user.email;
     // this.chatMessages = this.getMessages();
-    this.messagesRef.push(
-      {
+    const value = {
         email: email,
         groupName: groupName,
         userName: this.username,
         message: msg,
         timeSend: timestamp
-      }
-    );
+    };
+    const convertedEmail = email.replace(/\./g, '');
+    const key = groupName + '+' + convertedEmail + '+' + timestamp;
+
+    const promise = this.messagesRef.update(key, value);
+    return promise;
+  }
+
+  removeMessage(key: string): any {
+    const promise = this.messagesRef.remove(key);
+    return promise;
   }
 
   getMessages(): Observable<ChatMessage[]> {
-    return this.db.list('/messages', ref => ref.orderByKey().limitToLast(10)).valueChanges();
+    return this.db.list('/messages', ref => ref.orderByChild('timeSend').limitToLast(10)).valueChanges();
   }
 
 
+  // getTimeStamp(): string {
+  //   const now = new Date();
+  //   const date = now.getUTCFullYear() + '/' +
+  //     (now.getUTCMonth() + 1) + '/' +
+  //     now.getUTCDate();
+
+  //   const time = now.getUTCHours() + ':' +
+  //     now.getUTCMinutes() + ':' +
+  //     now.getUTCSeconds();
+
+  //   return date + ' ' + time;
+  // }
   getTimeStamp(): string {
     const now = new Date();
-    const date = now.getUTCFullYear() + '/' +
-      (now.getUTCMonth() + 1) + '/' +
-      now.getUTCDate();
-
-    const time = now.getUTCHours() + ':' +
-      now.getUTCMinutes() + ':' +
-      now.getUTCSeconds();
-
-    return date + ' ' + time;
+    return now.toString();
   }
 
   createGroup(name: string) {
@@ -116,21 +130,35 @@ export class ChatService {
     );
   }
 
-  createGroupUser(groupName: string, userEmail: string) {
-    this.groupUserRef.push(
-      {
-        groupName: groupName,
-        userEmail: userEmail
-      }
-    )
-  }
-
-  getBelongGroups(): Observable<GroupUser[]> {
-    return this.db.list<GroupUser>('/groups-users').valueChanges();
+  createGroupUser(groupName: string, userEmail: string): any {
+    // const promise = this.groupUserRef.push(
+    //   {
+    //     groupName: groupName,
+    //     userEmail: userEmail
+    //   }
+    // );
+    const value = {
+      groupName: groupName,
+      userEmail: userEmail
+    }
+    let convertedEmail = userEmail.replace(/\./g, '');
+    const key = groupName + '+' + convertedEmail;
+    // console.log("key: " + key);
+    const promise = this.groupUserRef.update(key, value);
+    return promise;
   }
 
   getGroupsUsers(): Observable<GroupUser[]> {
     return this.db.list<GroupUser>('/groups-users').valueChanges();
+  }
+
+  removeGroupUser(key: string): any {
+    const promise = this.groupUserRef.remove(key);
+    return promise;
+  }
+
+  getGroups(): Observable<GroupChat[]> {
+    return this.db.list<GroupChat>('/groups').valueChanges();
   }
   
 }

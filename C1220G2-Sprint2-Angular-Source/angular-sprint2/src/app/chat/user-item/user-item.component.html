@@ -4,5 +4,34 @@
     <span class="userName">
       {{user.displayName}}
     </span>
+    <span class="outButton" [hidden]="!isCurrentUser"
+    data-bs-toggle="tooltip" data-bs-placement="right" title="Rời khỏi phòng">
+      <a type="button" data-bs-toggle="modal" data-bs-target="#getOutOfRoomModal">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </span>
+</div>
+
+<!-- Get out of room modal -->
+<div class="modal fade" id="getOutOfRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header w-100 bg-danger">
+        <h5 class="modal-title" id="exampleModalLabel">Xác nhận rời khỏi phòng.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body fs-5">
+        Bạn sẽ không còn là thành viên trong phòng chat này nữa.
+      </div>
+      <div class="modal-footer">
+        <button button class="btn font-weight-bold"
+         style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 20%" data-bs-dismiss="modal">Hủy bỏ</button>
+
+        <button type="button" class="btn font-weight-bold"
+         style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+         data-bs-dismiss="modal" (click)="getOutOfRoom()">Đồng ý</button>
+      </div>
+    </div>
+  </div>
 </div>
 

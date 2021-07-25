@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { CategoryStatisticComponent } from './category-statistic/category-statistic.component';
 import { TeacherStatisticComponent } from './teacher-statistic/teacher-statistic.component';

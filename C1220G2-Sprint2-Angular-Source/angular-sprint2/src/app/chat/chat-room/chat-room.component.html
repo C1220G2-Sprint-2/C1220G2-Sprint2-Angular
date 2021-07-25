@@ -7,14 +7,22 @@
                 <div class="btn-group dropend mt-2">
                     <button type="button" class="btn font-weight-bold dropdown-toggle"
                      data-bs-toggle="dropdown" aria-expanded="false"
-                     style="background-color: #0498D6;color: white; border-radius: 1.5rem; max-width: 70%">
+                     style="background-color: #0498D6;color: white; border-radius: 1.5rem; max-width: 70%"
+                     (click)="getUsersNotInGroup()">
                      Thêm thành viên
                     </button>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">
                             <h6 class="dropdown-header">Thêm bằng email</h6>
                             <div class="dropdown-item d-flex align-items-center">
-                                <input type="text" class="form-control" [formControl]="userEmail">
+                                <!-- <input type="text" class="form-control" [formControl]="userEmail"> -->
+                                <select class="form-select form-select-sm"
+                                aria-label=".form-select-sm example" [formControl]="userEmail">
+                                    <option value='' disabled>Chọn email thành viên</option>
+                                    <option *ngFor="let user of usersNotInGroup" [value]="user">
+                                        {{ user }}
+                                    </option>
+                                  </select>
                             </div>
             
                             <div class="dropdown-item d-flex align-items-center justify-content-end">
@@ -54,7 +62,7 @@
 
             <hr class="sidebar-divider">
             <div class="row">
-                <app-user-list [groupName]="groupName"></app-user-list>
+                <app-user-list [doUpdateUsersInGroup]="doUpdateUsersInGroup" [groupName]="groupName"></app-user-list>
             </div>
         </div>
         <!-- right side -->
