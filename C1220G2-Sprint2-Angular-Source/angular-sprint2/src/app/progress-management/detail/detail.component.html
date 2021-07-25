@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: Quản lý đặt phòng
+      Chi tiết tiến độ Nhóm 1 - Đề tài: {{name}}
     </p>
   </div>
 </div>
@@ -66,7 +66,7 @@
           <!-- code cua hau-->
           <button class="btn font-weight-bold"
                   style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
-                  routerLink="/bao-cao-tien-do/">Báo
+                  [routerLink]="['/bao-cao-tien-do/bao-cao',name]">Báo
             cáo tiến độ giai đoạn 1
           </button>
           <!-- code cua hau-->
@@ -297,29 +297,27 @@
                       </table>
                     </div>
                     <div class="collapse" id="collapseExample">
-                      <form>
-                        <div class="form-group">
+                      <div class="form-group">
                                                     <textarea style="border-radius: 1.5rem" id="comment" cols="200"
                                                               rows="5" name="comment" class="form-control"
                                                               rows="3"></textarea>
-                        </div>
-                        <div class="form-group mt-2" style="text-align: right!important;">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                            Hủy
-                          </button>
-                          <input hidden type="file" id="test">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                  onclick="myFunction()">
-                            Chọn ảnh
-                          </button>
-                          <button type="button" class="btn font-weight-bold"
-                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                          >Gửi
-                          </button>
-                        </div>
-                      </form>
+                      </div>
+                      <div class="form-group mt-2" style="text-align: right!important;">
+                        <button class="btn font-weight-bold"
+                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                          Hủy
+                        </button>
+                        <input hidden type="file" id="test">
+                        <button class="btn font-weight-bold"
+                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                onclick="myFunction()">
+                          Chọn ảnh
+                        </button>
+                        <button type="button" class="btn font-weight-bold"
+                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
+                        >Gửi
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -444,29 +442,27 @@
                       </table>
                     </div>
                     <div class="collapse" id="collapseExample1">
-                      <form>
-                        <div class="form-group">
+                      <div class="form-group">
                                                     <textarea style="border-radius: 1.5rem" id="comment1" cols="200"
                                                               rows="5" name="comment" class="form-control"
                                                               rows="3"></textarea>
-                        </div>
-                        <div class="form-group mt-2" style="text-align: right!important;">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                            Hủy
-                          </button>
-                          <input hidden type="file" id="test1">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                  onclick="myFunction1()">
-                            Chọn ảnh
-                          </button>
-                          <button type="button" class="btn font-weight-bold"
-                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                          >Gửi
-                          </button>
-                        </div>
-                      </form>
+                      </div>
+                      <div class="form-group mt-2" style="text-align: right!important;">
+                        <button class="btn font-weight-bold"
+                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                          Hủy
+                        </button>
+                        <input hidden type="file" id="test1">
+                        <button class="btn font-weight-bold"
+                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                onclick="myFunction1()">
+                          Chọn ảnh
+                        </button>
+                        <button type="button" class="btn font-weight-bold"
+                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
+                        >Gửi
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -525,6 +521,7 @@
           </div>
         </div>
       </div>
+
       <!--      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>-->
       <!--    --------------------------------------------------------------------------------------------------------------->
       <!--                                           CODE FROM HAUND                                                     -->
@@ -736,7 +733,6 @@
                         </div>
                       </div>
                       <div class="collapse" id="collapseComment">
-                        <form>
                           <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentConcern" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
@@ -758,7 +754,6 @@
                               Gửi
                             </button>
                           </div>
-                        </form>
                       </div>
                     </div>
                   </div>
@@ -865,7 +860,6 @@
                         </div>
                       </div>
                       <div class="collapse" id="collapseAnnouncement">
-                        <form>
                           <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="comment-announcement" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
@@ -887,7 +881,6 @@
                               Gửi
                             </button>
                           </div>
-                        </form>
                       </div>
                     </div>
                   </div>
@@ -1037,37 +1030,23 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="concernForm" (ngSubmit)="onSubmit()" *ngIf="concernForm">
           <div class="mb-3">
             <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
-            <input type="text" class="form-control" id="concern-title" formControlName="title">
-            <small class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
-              && concernForm.controls.title.touched">
-              Vui lòng nhập tiêu đề.
-            </small>
-            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
-              && concernForm.controls.content.touched">
-              Tiêu đề không được quá 100 ký tự.
-            </small>
+            <input type="text" class="form-control" id="concern-title">
           </div>
           <div class="mb-3">
             <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content" formControlName="content"></textarea>
-            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
-              && concernForm.controls.content.touched">
-              Vui lòng nhập nội dung.
-            </small>
+            <textarea class="form-control" id="concern-content"></textarea>
           </div>
           <div class="mb-3">
             <label for="upload-file" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test4" formControlName="attachedFile">
+            <input type="file" hidden id="test4">
             <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
                     style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
             </button>
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"
@@ -1090,7 +1069,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="mb-3">
             <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
@@ -1108,7 +1086,6 @@
                     style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
             </button>
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"
@@ -1123,3 +1100,4 @@
   </div>
 </div>
 <!--------------------------------------------------------------------------------------------------------------------->
+

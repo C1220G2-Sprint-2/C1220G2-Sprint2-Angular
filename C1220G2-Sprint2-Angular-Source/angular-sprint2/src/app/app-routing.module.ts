@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  //---------------------------- Kha code
+  // ---------------------------- Kha code
   {
     path: 'trao-doi',
     loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
@@ -45,6 +45,7 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   }
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),

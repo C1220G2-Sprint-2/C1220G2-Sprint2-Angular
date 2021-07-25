@@ -6,6 +6,7 @@ import {StudentConcern} from '../../models/student-concern';
 import {StudentConcernService} from '../student-concern.service';
 import {Router} from '@angular/router';
 
+
 @Component({
   selector: 'app-progress-detail',
   templateUrl: './progress-detail.component.html',
@@ -16,6 +17,7 @@ export class ProgressDetailComponent implements OnInit {
   reviewForm: FormGroup;
   concernForm: FormGroup;
   studentConcern: StudentConcern;
+
 
   constructor(private progressService: ProgressService,
               private studentConcernService: StudentConcernService,

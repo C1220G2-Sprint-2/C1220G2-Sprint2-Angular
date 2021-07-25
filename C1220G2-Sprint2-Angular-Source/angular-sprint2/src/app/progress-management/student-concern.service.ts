@@ -6,6 +6,8 @@ import {StudentConcern} from '../models/student-concern';
 
 const API_URL = `${environment.apiUrl}` + '/api';
 
+import { Injectable } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +25,5 @@ export class StudentConcernService {
     return this.http.post<StudentConcern>(API_URL + '/student-concern-save', concern);
   }
 }
+
 
