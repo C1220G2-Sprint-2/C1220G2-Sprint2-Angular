@@ -20,7 +20,6 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-
 @NgModule({
   declarations: [
     AppComponent

@@ -3,11 +3,11 @@ import {StudentDto} from '../student-dto';
 import {ProgressService} from '../progress.service';
 
 @Component({
-  selector: 'app-progress-detail',
-  templateUrl: './progress-detail.component.html',
-  styleUrls: ['./progress-detail.component.css']
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css']
 })
-export class ProgressDetailComponent implements OnInit {
+export class DetailComponent implements OnInit {
   studentList: StudentDto[];
 
   constructor(private progressService: ProgressService) {
