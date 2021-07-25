@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StudentDto} from '../student-dto';
 import {ProgressService} from '../progress.service';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -9,8 +10,13 @@ import {ProgressService} from '../progress.service';
 })
 export class DetailComponent implements OnInit {
   studentList: StudentDto[];
+   name:string;
 
-  constructor(private progressService: ProgressService) {
+  constructor(private progressService: ProgressService,
+              private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.paramMap.subscribe((paramMap:ParamMap)=>{
+      this.name = paramMap.get('name');
+    });
   }
 
   ngOnInit(): void {

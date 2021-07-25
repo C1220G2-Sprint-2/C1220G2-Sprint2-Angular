@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  //---------------------------- Kha code
+  // ---------------------------- Kha code
   {
     path: 'trao-doi',
     loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
