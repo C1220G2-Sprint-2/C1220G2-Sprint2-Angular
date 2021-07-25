@@ -1,4 +1,3 @@
-import { StatisticsModule } from './statistics/statistics.module';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {NgModule} from '@angular/core';
