@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from '../token-storage.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-user-information',
@@ -18,8 +19,10 @@ export class UserInformationComponent implements OnInit {
   userId: number;
   userEmail: string;
   userImage: string;
+  userAddress: string;
+  userPhone: string;
   constructor(  private tokenStorageService: TokenStorageService, private router: Router,
-                private toastService: ToastrService) { }
+                private toastService: ToastrService,private _location: Location) { }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -33,8 +36,12 @@ export class UserInformationComponent implements OnInit {
       this.userId = user.id;
       this.userEmail = user.email;
       this.userImage = user.avatar;
-
+      this.userAddress = user.address;
+      this.userPhone = user.phone;
     }
   }
 
+  cancel(){
+    this._location.back();
+  }
 }
