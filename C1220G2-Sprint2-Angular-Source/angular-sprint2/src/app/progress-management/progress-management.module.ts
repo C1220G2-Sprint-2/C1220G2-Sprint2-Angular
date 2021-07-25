@@ -7,9 +7,10 @@ import { ProgressDetailComponent } from './progress-detail/progress-detail.compo
 import { ReviewComponent } from './review/review.component';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
-  declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent],
+  declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent, DetailComponent],
   imports: [
     CommonModule,
     ProgressManagementRoutingModule,
