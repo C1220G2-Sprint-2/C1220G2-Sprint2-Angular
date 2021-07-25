@@ -43,8 +43,19 @@ const routes: Routes = [
   {
     path: 'bao-cao-tien-do',
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
+  },
+  //code by Tam
+  {
+    path: 'giang-vien',
+    loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
+  },
+  //end code by Tam
+  {
+    path: '',
+    loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
   }
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
