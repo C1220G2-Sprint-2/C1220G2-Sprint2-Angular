@@ -24,7 +24,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   checkSortCode = false;
   checkSortClass = false;
   private user = {
-    studentCode: "SV-0002",
+    studentCode: "SV-0003",
     teacherCode: "GV-0001",
   };
   isLoggedIn: boolean = false;
@@ -34,7 +34,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   pageCard: number = 1;
   studentTS: any;
   searchStudent: string = '';
-
+p
   constructor(private teamService: TeamService, private route: Router) {
   }
 

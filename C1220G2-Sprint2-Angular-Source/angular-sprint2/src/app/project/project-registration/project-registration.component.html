@@ -14,8 +14,8 @@
             <label for="tenDeTai" style="margin-top: 10px;">Tên đề tài <span class="text-danger">*</span></label>
           </div>
           <div class="col-7" style="margin-bottom: 15px;">
-            <input type="text" class="form-control" formControlName="name" id="tenDeTai"  required>
-            <span class="text-danger" *ngIf="createForm.controls.name.hasError('required') && createForm.controls.name.touched">Vui lòng nhập nội dung cuộc họp.</span>
+            <input type="text" class="form-control" formControlName="name" id="tenDeTai"  required placeholder="Tên đề tài ...">
+            <span class="text-danger" *ngIf="createForm.controls.name.hasError('required') && createForm.controls.name.touched">Vui lòng điền đề tài.</span>
           </div>
           <div class="col-1"></div>
         </div>
@@ -25,10 +25,10 @@
             <label for="noiDung" style="margin-top: 10px;">Nội dung đề tài: <span class="text-danger">*</span></label>
           </div>
           <div class="col-7" style="margin-bottom: 15px;">
-                        <textarea class="form-control " formControlName="content"   rows="5" id="noiDung" placeholder=" Vui lòng không để trống nội dung"
+                        <textarea class="form-control " formControlName="content"   rows="5" id="noiDung" placeholder="Nội dung đề tài ..."
                                   required></textarea>
             <span style="color: red" *ngIf="createForm.controls.content.hasError('required') && createForm.controls.content.touched">
-                            Vui lòng không để trống nội dung.
+                            Vui lòng điền nội dung đề tài.
                         </span>
             <span style="color: red" *ngIf="createForm.controls.content.hasError('minlength') && createForm.controls.content.touched">
                            Nội dung ít nhất 25 ký tự.
@@ -51,11 +51,9 @@
               <option *ngFor="let c of listCategory" >{{c.name}}</option>
             </datalist>
             <span style="color: red" *ngIf="createForm.controls.category.hasError('required') && createForm.controls.category.touched">
-                            Vui lòng chọn danh mục.
+                            Vui lòng chọn danh mục đề tài.
                         </span>
-            <span style="color: red" *ngIf="createForm.controls.category.hasError('checkCategory') && createForm.controls.category.touched">
-                            Bạn chưa chọn đúng tên danh mục.
-                        </span>
+
           </div>
           <div class="col-1"></div>
         </div>

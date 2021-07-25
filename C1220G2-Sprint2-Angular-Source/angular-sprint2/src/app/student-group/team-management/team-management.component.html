@@ -10,16 +10,16 @@
     <h1 class="text-center p-5">Đăng ký nhóm sinh viên</h1>
 
     <div class="row w-75 m-auto p-0">
-      <div class="row" style="margin-right: 0px;">
-        <div class="col-9"></div>
-        <div class="col-3"
-             style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
-          <input type="text" class="form-control" placeholder="Tìm kiếm..."
-                 style="display: inline-block; width: 82%;margin-top: 6px;">
-          <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">
-            <i class="fa fa-search" style="color: white"></i> </button>
-        </div>
-      </div>
+<!--      <div class="row" style="margin-right: 0px;">-->
+<!--        <div class="col-9"></div>-->
+<!--        <div class="col-3"-->
+<!--             style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">-->
+<!--          <input type="text" class="form-control" placeholder="Tìm kiếm..."-->
+<!--                 style="display: inline-block; width: 82%;margin-top: 6px;">-->
+<!--          <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">-->
+<!--            <i class="fa fa-search" style="color: white"></i></button>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
 
       </div>
@@ -28,13 +28,14 @@
       </div>
     </div>
     <div class="row w-75 m-auto p-0">
-      <div *ngIf="listStudent.length==0" style="text-align: center;margin: 100px 0" >
-        <h4 > Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
+      <div *ngIf="listStudent.length==0" style="text-align: center;margin: 100px 0">
+        <h4> Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
       </div>
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3" *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard }">
-        <div class="our-team"  [ngStyle]="{'opacity': s.groupStatus}" >
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3"
+           *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard }">
+        <div class="our-team" [ngStyle]="{'opacity': s.groupStatus}">
           <div class="picture">
-            <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
+            <img class="img-fluid" [src]="s.image">
           </div>
           <div class="team-content">
             <h4 class="name">{{s.name}}</h4>
@@ -42,12 +43,17 @@
             <p><i class="fas fa-file-code"></i> <b>Mã sinh viên: </b>{{s.code}}</p>
             <p><i class="fas fa-envelope"></i> <b>Email: </b>{{s.email}}</p>
             <p><i class="fas fa-phone-alt"></i> <b>ĐT: </b>{{s.phone}}</p>
-            <p><i class="fa fa-birthday-cake" aria-hidden="true"></i> <b>Ngày sinh: </b>{{s.dateOfBirth | date:"dd/MM/y"}}</p>
+            <p><i class="fa fa-birthday-cake" aria-hidden="true"></i> <b>Ngày
+              sinh: </b>{{s.dateOfBirth | date:"dd/MM/y"}}</p>
             <p><i class="fas fa-sitemap"></i> <b>Lớp: </b>{{s.classCode}}</p>
           </div>
           <ul class="social">
-            <li>  <button class="btn font-weight-bold "
-                          style="background-color: #4F9B65; color: white; border-radius: 1.5rem" (click)="deleteStudent(s)">Xóa khỏi nhóm</button></li>
+            <li>
+              <button class="btn font-weight-bold "
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem" (click)="deleteStudent(s)">
+                Xóa khỏi nhóm
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -56,7 +62,8 @@
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
 
         <ul class="pagination">
-          <li><input class="form-control" type="text" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px"></li>
+          <li><input class="form-control" type="text" placeholder="Tìm"
+                     style="height: 30px;width: 55px; border-radius: 20px"></li>
           <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>
           <li style="width: 20px"></li>
           <pagination-controls (pageChange)="page = $event"
@@ -69,18 +76,30 @@
         </ul>
       </div>
     </div>
-    <div *ngIf="project== null" style="text-align: center;margin: 50px 0" >
+    <div *ngIf="project== null" style="text-align: center;margin: 50px 0">
       <h4> Nhóm của bạn chưa đăng ký đề tài.</h4>
     </div>
     <div *ngIf="project!= null" style="text-align: center;margin: 30px 0">
-        <p>Tên đề tài: {{project.name}} </p>
-        <p>Nội dung đề tài: {{project.content}} </p>
-        <p>Hình ảnh: <img [src]="project.image" alt="Lỗi hiển thị"> </p>
-      p
+     <div class="row">
+       <div class="col-3"></div>
+       <div class="col-6"> <p>Tên đề tài:  </p>
+         <input type="text" class="form-control" formControlName="name" readonly  [value]="project.name"  required></div>
+       <div class="col-3"></div>
+     </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6"> <p> <b>Nội dung đề tài:  </b></p>
+          <input type="text" class="form-control" formControlName="name" readonly [value]="project.content"  required></div>
+        <div class="col-3"></div>
+      </div>
+
+      <p>Hình ảnh:</p>
+      <div> <img [src]="project.image" alt="Lỗi hiển thị"></div>
     </div>
     <div>
       <button class="btn font-weight-bold"
-              style="background-color: #4F9B65; color: white;width: 180px; border-radius: 1.5rem; margin-left: 45%" [disabled]="check== false || project != null"
+              style="background-color: #4F9B65; color: white;width: 180px; border-radius: 1.5rem; margin-left: 45%"
+              [disabled]="check== false || project != null"
               data-bs-toggle="modal" data-bs-target="#taoNhom" routerLink="/de-tai/dang-ky">Đăng ký đề tài
       </button>
     </div>

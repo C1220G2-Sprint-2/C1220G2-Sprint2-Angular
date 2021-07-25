@@ -187,3 +187,7 @@ button.search-btn{
   background-color: white;
   color: black;
 }
+.img-fluid{
+  width: 150px !important;
+  height: 130px !important;
+}
