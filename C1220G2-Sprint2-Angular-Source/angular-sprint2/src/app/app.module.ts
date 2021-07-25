@@ -20,6 +20,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {TeacherModule} from './teacher/teacher.module';
 
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -39,11 +40,11 @@ import {TeacherModule} from './teacher/teacher.module';
     StudentGroupModule,
     ProjectModule,
     StudentModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
-    AngularFireStorageModule, NgbModule // storage
-
+    AngularFireStorageModule, NgbModule, // storage
+    AngularFireDatabaseModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
