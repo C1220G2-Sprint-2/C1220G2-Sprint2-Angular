@@ -3,5 +3,4 @@ export interface ReviewDto {
   content: string;
   progressReview: string;
   teacherCode: string;
-  notification: 1;
 }

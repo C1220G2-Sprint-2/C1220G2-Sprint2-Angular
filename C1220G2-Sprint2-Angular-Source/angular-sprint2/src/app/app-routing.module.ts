@@ -1,11 +1,28 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-
+import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { Routes, RouterModule } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
+  //---------------------------- Kha code
+  {
+    path: 'trao-doi',
+    loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
+  },
+  {
+    path: 'thong-ke',
+    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule)
+  },
+  // -----------------------------
   {
     path: '',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
+  },
+  {
+    path: 'hoc-sinh',
+    loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
   },
   {
     path: 'nhom',
@@ -15,10 +32,8 @@ const routes: Routes = [
   {
     path: 'de-tai',
     loadChildren: () => import('./project/project.module').then(module => module.ProjectModule)
-  }, {
-    path: 'hoc-sinh',
-    loadChildren: () => import('./student/student.module').then(module => module.StudentModule)
   },
+  // code by sang
   {
     path: 'quan-ly-tien-do',
     loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)
@@ -30,11 +45,14 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   }
 ];
-
-
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    AngularFireModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase)
+  ],
   exports: [RouterModule]
 })
 

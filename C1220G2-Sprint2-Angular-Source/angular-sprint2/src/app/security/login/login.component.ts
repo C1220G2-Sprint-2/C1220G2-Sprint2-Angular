@@ -57,4 +57,9 @@ export class LoginComponent implements OnInit {
     this.toastService.error('Sai tên đăng nhập hoặc mật khẩu.', 'Đăng nhập thất bại.');
   }
 
+  // login() {
+  //   this.authService.login(this.email, this.password)
+  //   .catch(error => this.errorMsg = error.message);
+  // }
+
 }
