@@ -1,1 +1,204 @@
-<p>edit-student works!</p>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col" id="form">
+      <div class="row mb-2"></div>
+      <div class="row">
+        <div class="col text-center">
+          <h1>Sửa Thông Tin Sinh Viên</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-5 mt-1" style="text-align: right">
+          <img style="width: 100% !important; height: 83% !important;"
+               src="{{image}}">
+          <label class="btn font-weight-bold mt-2"
+                 style="background-color: #0498D6; color: white; border-radius: 1.5rem" for="image"><i
+            class="fas fa-images"></i> Thêm ảnh</label>
+          <input type="file" id="image" (change)="showPreview($event)" accept=".jpg,.jpeg,.png" hidden>
+        </div>
+        <div class="col-7">
+          <form [formGroup]="studentForm" (ngSubmit)="submitForm()" *ngIf="studentForm">
+            <div class="row">
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="name" class="form-label"><b>Tên sinh viên</b><span style="color: red">*</span></label>
+                  <input type="text" class="form-control" id="name" formControlName="name">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.name.hasError('required')
+         && studentForm.controls.name.dirty">
+                    Tên không được để trống.</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="md-form form-sm mb-2">
+                  <b class="form-label">Giới tính<span
+                    style="color: red">*</span></b>
+                  <br>
+                  <div class="form-check mt-2" style="display: inline-block">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio1" value="Nam">
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                  </div>
+                  <div class="form-check ml-3 mt-2" style="display: inline-block">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio2" value="Nữ">
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                  </div>
+                  <div class="form-check ml-3 mt-2" style="display: inline-block">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender"
+                           id="inlineRadio3" value="Khác">
+                    <label class="form-check-label" for="inlineRadio3">Khác</label>
+                  </div>
+                  <br>
+                </div>
+                <span style="color: red"
+                      *ngIf="studentForm.controls.gender.hasError('required')
+         && studentForm.controls.gender.dirty">
+                    giới tính không được để trống.</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="dateOfBirth" class="form-label"><b>Ngày sinh</b><span
+                    style="color: red">*</span></label>
+                  <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.dateOfBirth.hasError('required')
+         && studentForm.controls.dateOfBirth.dirty">
+                    ngày sinh không được để trống.</span>
+
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="phone" class="form-label"><b>Số điện thoại</b><span style="color: red">*</span></label>
+                  <input type="text" class="form-control" id="phone" formControlName="phone">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.phone.hasError('required')
+         && studentForm.controls.phone.dirty">
+                    SĐT không được để trống.</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="class" class="form-label"><b>Lớp</b><span style="color: red">*</span></label>
+                  <select id="class" class="form-select" aria-label="Default select example" formControlName="classStudent">
+                    <option selected>...</option>
+                    <option value="1">C10</option>
+                    <option value="2">C11</option>
+                    <option value="3">C12</option>
+                  </select>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.classStudent.hasError('required')
+         && studentForm.controls.classStudent.dirty">
+                    Lớp không được để trống.</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="faculty" class="form-label"><b>Khoa: </b> <span style="color: red">*</span></label>
+                  <select id="faculty" class="form-select" aria-label="Default select example" formControlName="faculty">
+                    <option selected>...</option>
+                    <option value="1">CNTT</option>
+                    <option value="2">DTVT</option>
+                    <option value="3">XD</option>
+                  </select>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.faculty.hasError('required')
+         && studentForm.controls.faculty.dirty">
+                    Khoa không được để trống.</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="email" class="form-label"><b>Email</b><span style="color: red">*</span></label>
+                  <input type="text" class="form-control" id="email" formControlName="email">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.email.hasError('required')
+         && studentForm.controls.email.dirty">
+                    Email không được để trống.</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="md-form form-sm">
+                  <label for="address" class="form-label"><b>Địa chỉ</b> <span style="color: red">*</span></label>
+                  <input type="text" class="form-control" id="address" formControlName="address">
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.address.hasError('required')
+         && studentForm.controls.address.dirty">
+                    Địa chỉ không được để trống.</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="md-form form-sm">
+                  <label for="fb" class="form-label"><b>Facebook</b></label>
+                  <input type="text" class="form-control" id="fb" placeholder="https://www.facebook.com/.." formControlName="facebook">
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2" >
+              <div class="col-6">
+
+              </div>
+              <div class="col-6" style="text-align: right">
+                <button type="button"
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal"
+                        class="btn font-weight-bold"
+                        style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
+                </button>
+                <button type="submit" class="btn font-weight-bold" [disabled]="!studentForm.valid"
+                        style="background-color: #4F9B65;color: white; border-radius: 1.5rem; width: 86px">Lưu
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hủy sửa thông tin.</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Bạn muốn hủy bỏ việc sửa thông tin?</div>
+      <div class="modal-footer">
+        <button class="btn font-weight-bold" data-mdb-dismiss="modal"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
+        </button>
+
+        <button class="btn font-weight-bold"
+                style="background-color: #4F9B65;color: white; border-radius: 1.5rem">ĐỒNG Ý
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

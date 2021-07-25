@@ -14,59 +14,14 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let student of studentList">
               <div class="our-team">
                 <div class="picture">
                   <img class="img-fluid" src="https://picsum.photos/130/130?image=1027">
                 </div>
                 <div class="team-content">
-                  <h5 class="name">Nguyễn Thanh Công</h5>
+                  <h5 class="name">{{student.name}}</h5>
                   <h4 class="title">Trưởng nhóm</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=839">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Đức Hậu</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=856">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Quốc Tuấn</h5>
-                  <h4 class="title">Thành viên</h4>
-                </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="https://picsum.photos/130/130?image=836">
-                </div>
-                <div class="team-content">
-                  <h5 class="name">Nguyễn Huy</h5>
-                  <h4 class="title">Thành viên</h4>
                 </div>
                 <ul class="social">
                   <li><a href="#" aria-hidden="true">Chi tiết</a>
@@ -236,10 +191,13 @@
       <tbody>
       <tr>
         <td class="text-center">
+          <!-- code cua hau-->
           <button class="btn font-weight-bold"
-                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%">Báo
+                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+                  routerLink="/bao-cao-tien-do/">Báo
             cáo tiến độ giai đoạn 1
           </button>
+          <!-- code cua hau-->
         </td>
         <td>
           <p style="font-weight: bold">Giai đoạn: 1 13-07-2021 20-07-2021 <span
@@ -695,10 +653,167 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <!--------------------------------------------------------------------------------------------------------------------->
+=======
+
+      <!--      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>-->
+      <!--    --------------------------------------------------------------------------------------------------------------->
+      <!--                                           CODE FROM HAUND                                                     -->
+      <!--                                          BÁO CÁO TIẾN ĐỘ CỦA SINH VIÊN                                                  -->
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="container">
+          <div class="card" style="min-height: 1000px">
+            <div class="card-header text-center">
+              <h1 class="h1" style="color:#042440">Báo cáo tiến độ của sinh viên</h1>
+            </div>
+            <div class="card-body">
+              <div class="container" style="background-color: #FFFEE0">
+                <div class="row">
+                  <div class="col-3 text-right">
+                    <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mx-2"/>
+                  </div>
+                  <div class="col-9 text-left">
+                    <div class="row">
+                      <small class="font-weight-bold text-primary">Hoàng Nam</small>
+                    </div>
+                    <div class="row">
+                      <small style="color: #0f6848"> Tiến độ 1</small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold "> Test nội dung </small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>
+                    </div>
+                    <div class="row" style="text-align: right">
+                      <p>
+                        19/07/2021
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-3 text-right">
+                    <img
+                      src="https://i.imgur.com/ZSkeqnd.jpg"
+                      width="70"
+                      class="user-img rounded-circle mx-2">
+                  </div>
+                  <div class="col-9 text-left">
+                    <div class="row">
+                      <small class="font-weight-bold text-primary">Văn Dũng</small>
+                    </div>
+                    <div class="row">
+                      <small style="color: #0f6848"> Tiến độ 1</small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold "> Test nội dung </small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>
+                    </div>
+                    <div class="row" style="text-align: right">
+                      <p>
+                        16/07/2021
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-3 text-right">
+                    <img src="https://i.imgur.com/C4egmYM.jpg"
+                         width="70"
+                         class="user-img rounded-circle mx-2">
+                  </div>
+                  <div class="col-9 text-left">
+                    <div class="row">
+                      <small class="font-weight-bold text-primary">Sinh viên A</small>
+                    </div>
+                    <div class="row">
+                      <small style="color: #0f6848"> Tiến độ 1</small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold "> Test nội dung </small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>
+                    </div>
+                    <div class="row" style="text-align: right">
+                      <p>
+                        15/07/2021
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-3 text-right">
+                    <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mx-2"/>
+                  </div>
+                  <div class="col-9 text-left">
+                    <div class="row">
+                      <small class="font-weight-bold text-primary">Sinh viên B</small>
+                    </div>
+                    <div class="row">
+                      <small style="color: #0f6848"> Tiến độ 1</small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold "> Test nội dung </small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>
+                    </div>
+                    <div class="row" style="text-align: right">
+                      <p>
+                        13/07/2021
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-3 text-right">
+                    <img src="https://i.imgur.com/ZSkeqnd.jpg"
+                         width="70"
+                         class="user-img rounded-circle mx-2">
+                  </div>
+                  <div class="col-9 text-left">
+                    <div class="row">
+                      <small class="font-weight-bold text-primary">Sinh viên C</small>
+                    </div>
+                    <div class="row">
+                      <small style="color: #0f6848"> Tiến độ 1</small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold "> Báo cáo tuần </small>
+                    </div>
+                    <div class="row">
+                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>
+                    </div>
+                    <div class="row" style="text-align: right">
+                      <p>
+                        12/07/2021
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--    --------------------------------------------------------------------------------------------------------------->
+      <!--                                      ENDCODE FROM HAUND                                              -->
+
+      <!--    --------------------------------------------------------------------------------------------------------------->
+>>>>>>> origin/dev
       <!--                                           CODE FROM DONGTHG                                                     -->
       <!--                                          THẮC MẮC SINH VIÊN                                                     -->
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>
+
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container">
           <div class="card" style="min-height: 1000px">
@@ -984,7 +1099,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Đánh giá của giáo viên</h5>
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

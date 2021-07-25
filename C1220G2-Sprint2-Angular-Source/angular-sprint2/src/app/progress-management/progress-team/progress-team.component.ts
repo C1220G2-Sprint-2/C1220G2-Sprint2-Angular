@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ProgressDto} from '../progress-dto';
+import {ProgressService} from '../progress.service';
 
 @Component({
   selector: 'app-progress-team',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgressTeamComponent implements OnInit {
 
-  constructor() { }
+  progressDtoList: ProgressDto[];
+  page = 1;
+  pageSize = 5;
+
+  constructor(private progressService: ProgressService) {
+  }
 
   ngOnInit(): void {
+    this.getAllProgressManagement();
+  }
+
+  getAllProgressManagement() {
+    this.progressService.getAllProgressManagement().subscribe(result => {
+      this.progressDtoList = result;
+    });
   }
 
 }
