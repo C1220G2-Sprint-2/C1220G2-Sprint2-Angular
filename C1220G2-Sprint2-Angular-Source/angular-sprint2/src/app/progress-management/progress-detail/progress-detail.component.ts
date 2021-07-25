@@ -10,24 +10,36 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class ProgressDetailComponent implements OnInit {
   studentList: StudentDto[];
-  public reviewForm: FormGroup;
+  reviewForm: FormGroup;
 
   constructor(private progressService: ProgressService) {
   }
 
   ngOnInit(): void {
     this.getAllStudentDto();
+    this.addNewReviewForm();
   }
 
   getAllStudentDto() {
     this.progressService.getAllStudentDto().subscribe(result => {
       this.studentList = result;
+      console.log('this' + result);
     });
   }
-  addNewReview(){
-    this.reviewForm = new FormGroup({
-     title: new FormControl(),
 
-    });
+  addNewReviewForm() {
+    this.reviewForm = new FormGroup(
+      {
+        title: new FormControl(''),
+        content: new FormControl(''),
+        progressReview: new FormControl(''),
+        teacherCode: new FormControl('TC00001')
+      }
+    );
+  }
+
+  onSubmit() {
+    const reviewDto = this.reviewForm.value;
+    this.progressService.addNewReview(reviewDto).subscribe();
   }
 }
