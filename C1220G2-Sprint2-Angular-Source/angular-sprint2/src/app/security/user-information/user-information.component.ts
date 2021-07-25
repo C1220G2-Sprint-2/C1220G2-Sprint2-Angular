@@ -32,7 +32,7 @@ export class UserInformationComponent implements OnInit {
       this.username = user.username;
       this.userId = user.id;
       this.userEmail = user.email;
-      this.userImage = user.image;
+      this.userImage = user.avatar;
 
     }
   }
