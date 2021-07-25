@@ -18,6 +18,7 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 
 @NgModule({
@@ -37,11 +38,11 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
     StudentGroupModule,
     ProjectModule,
     StudentModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
-    AngularFireStorageModule, NgbModule // storage
-
+    AngularFireStorageModule, NgbModule, // storage
+    AngularFireDatabaseModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
