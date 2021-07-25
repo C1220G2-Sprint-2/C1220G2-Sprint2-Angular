@@ -1,0 +1,21 @@
+
+<div class="row" >
+    <!-- style for the left side -->
+    <div class="messageData col-sm-2">
+        <div class="sender row" [ngClass]="{'text-warning': isOwnMessage}">
+            {{ userName }}
+        </div>
+        <!-- <span class="timestamp">
+        </span> -->
+    </div>
+    <!-- style for the right side -->
+    <div class="messageContent col-sm-10 p-1 my-1"
+     [ngClass]="{'isOwnMessageContent': isOwnMessage}">
+        <div class="row ml-1">
+            {{ userMessage }}
+        </div>
+        <div class="timestamp row ml-1 float-right mr-2" [ngClass]="{'isOwnTimestamp': isOwnMessage}">
+            {{ timeSent | date:'medium' }}
+        </div>
+    </div>
+</div>
