@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -10,6 +10,8 @@ import {
   ApexGrid,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { CategoryStatistic } from 'src/app/models/category-statistic.model';
+import { StatisticsService } from '../services/statistics.service';
 
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -43,91 +45,100 @@ export type ChartOptions = {
 })
 export class CategoryStatisticComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  public chartOptions: Partial<ChartOptions> = {
+    series:[]
+  }
+  // public chartOptions: Partial<ChartOptions>;
+  categoryStatistics: CategoryStatistic[]
+  categoryNames: string[] = [];
+  numberOfRegisters: number[] = [];
+  numberOfRegisteredCategories: number;
+  duplicatedCategories: number = 0;
 
-  constructor() { 
-    this.chartOptions = {
-      series: [
-        {
-          name: "Số lần đăng ký",
-          data: [21, 22, 10, 28, 16, 21, 13, 30]
+  constructor( private statisticsService: StatisticsService ) {
+    
+
+    this.statisticsService.getCategoryStatistic().subscribe(categoryStatistics => {
+      this.categoryStatistics = categoryStatistics;
+      this.numberOfRegisteredCategories = this.categoryStatistics.length;
+      this.categoryStatistics.forEach(e => {
+        // console.log("Category name: " + e.category_name);
+        this.categoryNames.push(e.category_name);
+        this.numberOfRegisters.push(e.number_of_registers);
+        if (e.number_of_registers > 1) {
+          this.duplicatedCategories += e.number_of_registers;
         }
-      ],
-      chart: {
-        height: 350,
-        type: "bar",
-        events: {
-          click: function(chart, w, e) {
-            // console.log(chart, w, e)
+      });
+
+      // console.log("number of duplicated categories: " + this.duplicatedCategories);
+      // console.log("Number of register: " + this.numberOfRegisters);
+      
+      const randomColors = this.getColors();
+      this.chartOptions = {
+          series: [
+            {
+              name: "Số lần đăng ký",
+              data: this.numberOfRegisters
+            }
+          ],
+          chart: {
+            height: 350,
+            type: "bar",
+            events: {
+              click: function(chart, w, e) {
+                // console.log(chart, w, e)
+              }
+            }
+          },
+          colors: randomColors,
+          plotOptions: {
+            bar: {
+              columnWidth: "45%",
+              distributed: true
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          legend: {
+            show: false
+          },
+          grid: {
+            show: true
+          },
+          xaxis: {
+            categories: this.categoryNames,
+            position: "top",
+            labels: {
+              style: {
+                colors: randomColors,
+                fontSize: "10px"
+              }
+            }     
+          },
+          title: {
+            text: "Thống kê danh mục đề tài sinh viên đăng ký",
+            floating: false,
+            offsetY: 330,
+            align: "center",
+            style: {
+              color: "#444"
+            }
           }
-        }
-      },
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8"
-      ],
-      plotOptions: {
-        bar: {
-          columnWidth: "45%",
-          distributed: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: false
-      },
-      grid: {
-        show: true
-      },
-      xaxis: {
-        categories: [
-          ["Thuật", "Toán"],
-          ["Giáo", "Dục"],
-          ["Môi", "Trường"],
-          ["Quản", "Lý"],
-          ["Thư", "Viện"],
-          ["Công", "Tuy"],
-          ["Quy Hoạch", "Động"],
-          ["Trường", "Học"]
-        ],
-        position: "top",
-        labels: {
-          style: {
-            colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
-            ],
-            fontSize: "12px"
-          }
-        }     
-      },
-      title: {
-        text: "Thống kê danh mục đề tài sinh viên đăng ký",
-        floating: false,
-        offsetY: 330,
-        align: "center",
-        style: {
-          color: "#444"
-        }
-      }
-    };
+      };
+    })
   }
 
   ngOnInit(): void {
+  }
+
+  getColors(): string[] {
+    let randomColors: string[] = [];
+    for (let i = 1; i <= this.numberOfRegisteredCategories; i++) {
+      let color = Math.floor(Math.random()*16777215).toString(16);
+      randomColors.push('#' + color);
+    }
+    return randomColors;
   }
 
 }

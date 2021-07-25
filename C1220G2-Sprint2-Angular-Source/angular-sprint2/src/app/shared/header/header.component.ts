@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/chat/services/auth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
-import { GroupUser } from 'src/app/models/group-user.model';
+import { GroupChat } from 'src/app/models/group-chat.model';
 import { User } from 'src/app/models/user.model';
 
 @Component({
@@ -15,34 +14,64 @@ import { User } from 'src/app/models/user.model';
 export class HeaderComponent implements OnInit {
   chatGroupName: FormControl;
 
-  // groupsOfUser: GroupUser[] = []
-  groupsOfUser: GroupUser[] = [];
+  // groupsOfUser: GroupUser[] = [];
+  groupNames: string[] = [];
   currentUser: User;
+  groups: GroupChat[] = [];
+
 
   constructor( private router: Router, 
     private chatService: ChatService,
     private authService: AuthService) {
-
-    }
-
-  ngOnInit(): void {
-    this.chatGroupName = new FormControl('');
-
-    this.authService.authUser().subscribe(user => {
-      this.currentUser = user;
-      this.groupsOfUser = [];
-      this.getGroupsOfUser();
-    });
   }
 
-  getGroupsOfUser() {
-    this.chatService.getBelongGroups().subscribe(groupList => {
-      groupList.forEach(e => {
+  ngOnInit(): void {
+    this.authService.authUser().subscribe(user => {
+      this.currentUser = user;
+      // this.groupsOfUser = [];
+      this.getBelongGroups();
+    });
+    this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.groups)]);
+  }
+
+  duplicatedGroupNameValidator(groups: GroupChat[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      let isDuplicated: boolean = false;
+      for (let i = 0; i < groups.length; i++) {
+        if (groups[i].groupName === control.value) {
+          isDuplicated = true;
+          break;
+        }
+      }
+      return isDuplicated ? {duplicatedGroupName: {value: control.value}} : null;
+    }
+  }
+
+  getGroupNames() {
+    this.chatService.getGroupsUsers().subscribe(groupUserList => {
+      if (this.groupNames.length > 0) this.groupNames = [];
+      groupUserList.forEach(e => {
         if (e.userEmail === this.currentUser.email) {
-          this.groupsOfUser.push(e);
+          this.groupNames.push(e.groupName);
         }
       });
     })
+  }
+
+  getGroupChats() {
+    this.chatService.getGroups().subscribe(groupChats => {
+      if (this.groups.length > 0) this.groups = [];
+      groupChats.forEach(e => {
+        if (this.groupNames.includes(e.groupName)) {
+          this.groups.push(e);
+        }
+      })
+    })
+  }
+
+  getBelongGroups() {
+    this.getGroupNames();
+    this.getGroupChats();
   }
 
   createNewChatGroup() {
@@ -55,10 +84,12 @@ export class HeaderComponent implements OnInit {
     // this.router.navigateByUrl("/trao-doi");
   }
 
+  // group name cannot be duplicated.
+  
+
   goToGroupChat(groupName: string) {
     // replace literal white space in path by its code.
-    groupName.replace(' ', "%20%");
-    // this.router.navigate(['/trao-doi', {groupName: groupName}]);
+    groupName.replace(" ", "%20%");
     this.router.navigateByUrl('/trao-doi/' + groupName);
   }
 

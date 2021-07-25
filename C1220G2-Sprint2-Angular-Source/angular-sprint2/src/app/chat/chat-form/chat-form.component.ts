@@ -13,7 +13,6 @@ export class ChatFormComponent implements OnInit {
   constructor(private chat: ChatService) { }
 
   ngOnInit(): void {
-    
   }
 
   send(): void {

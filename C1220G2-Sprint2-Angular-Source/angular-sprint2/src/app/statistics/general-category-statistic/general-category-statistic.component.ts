@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
@@ -6,9 +6,9 @@ import {
   ApexChart,
   ApexFill,
   ApexDataLabels,
-  ApexLegend,
-  ApexPlotOptions
+  ApexLegend
 } from "ng-apexcharts";
+import { StatisticsService } from '../services/statistics.service';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -28,11 +28,15 @@ export type ChartOptions = {
 export class GeneralCategoryStatisticComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() duplicatedCategories: number;
+  numberOfPassedCategories: number;
+  numberOfPendingCategories: number;
 
-  constructor() {
+  constructor(private statisticService: StatisticsService) {
+    // console.log("Number of duplicated categories: " + this.duplicatedCategories);
     this.chartOptions = {
-      series: [44, 55, 41],
-      labels: ["Đề tài chưa kiểm duyệt", "Đề tài trùng", "Đề tài đã kiểm duyệt"],
+      series: [5, 4],
+      labels: ["Giáo viên còn trống", "Giáo viên đã được đăng ký"],
       chart: {
         width: 350,
         type: "donut"
@@ -62,6 +66,15 @@ export class GeneralCategoryStatisticComponent implements OnInit {
         }
       ]
     }
+
+    // this.statisticService.getNumberOfPassedProjects().subscribe(numberOfPassed => {
+    //   this.numberOfPassedCategories = numberOfPassed;
+
+    //   console.log("Duplicated categories: " + this.duplicatedCategories);
+    //   console.log("Passed categories: " + this.numberOfPassedCategories);
+      
+    // });
+    
   }
 
   ngOnInit(): void {

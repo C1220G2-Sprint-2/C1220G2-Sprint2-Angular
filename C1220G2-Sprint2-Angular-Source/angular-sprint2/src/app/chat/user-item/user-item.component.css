@@ -42,3 +42,13 @@
 .userName{
     display: inline-block;
 }
+
+.outButton {
+    float: right;
+    padding-top: 2px;
+    /* font-size: 20px; */
+}
+
+.modal-header {
+    color: white;
+}

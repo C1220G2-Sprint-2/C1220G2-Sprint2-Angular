@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -10,6 +11,8 @@ import {
   ApexGrid,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { TeacherStatistic } from 'src/app/models/teacher-statistic.model';
+import { StatisticsService } from '../services/statistics.service';
 
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -44,87 +47,89 @@ export type ChartOptions = {
 export class TeacherStatisticComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  teacherStatistic: TeacherStatistic[] = [];
+  numberOfRegisterTeachers: number = 0;
+  teacherNames: string[] = [];
+  numberOfRegisters: number[] = [];
 
-  constructor() { 
-    this.chartOptions = {
-      series: [
-        {
-          name: "Số lần đăng ký",
-          data: [21, 22, 10, 28, 20, 15, 11]
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "bar",
-        events: {
-          click: function(chart, w, e) {
-            // console.log(chart, w, e)
+  constructor( private statisticsService: StatisticsService ) {
+    this.statisticsService.getTeacherStatistic().subscribe(data => {
+      this.teacherStatistic = data;
+      this.numberOfRegisterTeachers = this.teacherStatistic.length;
+      this.teacherStatistic.forEach(e => {
+        // console.log("teacher name: " + e.teacher_name);
+        this.teacherNames.push(e.teacher_name);
+        // console.log("number of register: " + e.number_of_registers);
+        this.numberOfRegisters.push(e.number_of_registers);
+      });
+
+      const randomColors = this.getColors();
+      this.chartOptions = {
+        series: [
+          {
+            name: "Số lần đăng ký",
+            // data: [21, 22, 10, 28, 20, 15, 11]
+            data: this.numberOfRegisters
           }
-        }
-      },
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-      ],
-      plotOptions: {
-        bar: {
-          columnWidth: "45%",
-          distributed: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: false
-      },
-      grid: {
-        show: true
-      },
-      xaxis: {
-        categories: [
-          ["Đoàn Công", "Trung"],
-          ["Trương Tấn", "Hải"],
-          ["Đặng Chí", "Trung"],
-          ["Nguyễn Vũ", "Thành Tiến"],
-          ["Đoàn Ngọc", "Lĩnh"],
-          ["Trần Văn", "Chánh"],
-          ["Chiến", "Trần"]
         ],
-        position: "top",
-        labels: {
-          style: {
-            colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-            ],
-            fontSize: "12px"
+        chart: {
+          height: 350,
+          type: "bar",
+          events: {
+            click: function (chart, w, e) {
+              // console.log(chart, w, e)
+            }
           }
-        }     
-      },
-      title: {
-        text: "Thống kê tình trạng đăng ký giáo viên",
-        floating: false,
-        offsetY: 330,
-        align: "center",
-        style: {
-          color: "#444"
+        },
+        colors: randomColors,
+        plotOptions: {
+          bar: {
+            columnWidth: "45%",
+            distributed: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          show: false
+        },
+        grid: {
+          show: true
+        },
+        xaxis: {
+          categories: this.teacherNames,
+          position: "top",
+          labels: {
+            style: {
+              colors: randomColors,
+              fontSize: "10px"
+            }
+          }
+        },
+        title: {
+          text: "Thống kê tình trạng đăng ký giáo viên",
+          floating: false,
+          offsetY: 330,
+          align: "center",
+          style: {
+            color: "#444"
+          }
         }
-      }
-    };
+      };
+    });
   }
 
   ngOnInit(): void {
+  }
+
+  getColors(): string[] {
+    let randomColors: string[] = [];
+    for (let i = 1; i <= this.numberOfRegisterTeachers; i++) {
+      let color = Math.floor(Math.random()*16777215).toString(16);
+      randomColors.push('#' + color);
+    }
+    return randomColors;
   }
 
 }

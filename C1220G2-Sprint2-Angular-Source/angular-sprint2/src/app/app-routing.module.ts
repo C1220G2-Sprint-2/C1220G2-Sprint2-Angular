@@ -14,7 +14,11 @@ const routes: Routes = [
   {
     path: 'thong-ke',
     loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule)
-  }
+  },
+  // {
+  //   path: 'bao-mat',
+  //   loadChildren: () => import('./security/security.module').then(m => m.SecurityModule)
+  // }
 ];
 
 @NgModule({

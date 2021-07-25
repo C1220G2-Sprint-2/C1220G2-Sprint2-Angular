@@ -1,5 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatMessage } from 'src/app/models/chat-message.model';
 import { ChatService } from '../services/chat.service';
 
@@ -8,7 +7,7 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './message-feed.component.html',
   styleUrls: ['./message-feed.component.css']
 })
-export class MessageFeedComponent implements OnInit, OnChanges {
+export class MessageFeedComponent implements OnInit {
 
   feed: ChatMessage[] = [];
   // feed: Observable<ChatMessage[]>;
@@ -16,19 +15,18 @@ export class MessageFeedComponent implements OnInit, OnChanges {
 
   constructor(private chatService: ChatService) { }
 
-  ngOnChanges(): void {
-    this.feed = [];
-    this.getAllMessagesInGroup();
-  }
+  // ngOnChanges(): void {
+  //   // this.getAllMessagesInGroup();
+  // }
 
   ngOnInit(): void {
-    // if (this.feed.length === 0) {
-    //   this.getAllMessagesInGroup();
-    // }
+    // this.feed = [];
+    this.getAllMessagesInGroup();
   }
 
   getAllMessagesInGroup() {
     this.chatService.getMessages().subscribe(messages => {
+      if (this.feed.length > 0) this.feed = [];
       messages.forEach(msg => {
         if (msg.groupName === this.groupName) {
           this.feed.push(msg); 
