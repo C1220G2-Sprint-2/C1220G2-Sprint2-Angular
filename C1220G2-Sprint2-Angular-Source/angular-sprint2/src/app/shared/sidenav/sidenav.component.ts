@@ -16,7 +16,7 @@ export class SidenavComponent implements OnInit {
   showStudentBoard = false;
   username: string;
   userId: number;
-
+  name: string;
   constructor(  private tokenStorageService: TokenStorageService, private router: Router,
                 private toastService: ToastrService) { }
 
@@ -30,6 +30,7 @@ export class SidenavComponent implements OnInit {
       this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
       this.username = user.username;
       this.userId = user.id;
+      this.name = user.name;
     }
   }
 
