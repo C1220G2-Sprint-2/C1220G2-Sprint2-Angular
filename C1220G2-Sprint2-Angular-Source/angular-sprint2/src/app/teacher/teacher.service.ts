@@ -10,7 +10,7 @@ import {Education} from '../models/education';
 })
 export class TeacherService {
 
-  API_URL: string = 'http://localhost:8080/teacher/';
+  API_URL: string = 'http://localhost:8080/api/teacher/';
 
   constructor(private http: HttpClient) { }
 

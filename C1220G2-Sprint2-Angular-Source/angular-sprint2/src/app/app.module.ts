@@ -21,6 +21,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {TeacherModule} from './teacher/teacher.module';
 
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,10 +42,12 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     ProjectModule,
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    FormsModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
