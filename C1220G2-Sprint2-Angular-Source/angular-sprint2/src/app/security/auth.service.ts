@@ -22,4 +22,9 @@ export class AuthService {
       password: credentials.password
     }, httpOptions);
   }
+
+  resetPw(email: string): Observable<void>{
+    return this.http.get<void>(AUTH_API + 'auth/user-reset-password/' + email)
+  }
+
 }
