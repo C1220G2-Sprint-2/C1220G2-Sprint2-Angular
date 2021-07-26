@@ -8,7 +8,9 @@ import {Education} from '../models/education';
   providedIn: 'root'
 })
 export class TeacherService {
+
   API_URL: string = 'http://localhost:8080/api/teacher/';
+
   constructor(private http: HttpClient) { }
   getAllTeacher(): Observable<Teacher[]> {
     console.log(this.API_URL + 'list-teacher');
