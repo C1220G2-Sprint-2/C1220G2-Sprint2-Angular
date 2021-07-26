@@ -16,6 +16,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {TeacherModule} from './teacher/teacher.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {FormsModule} from '@angular/forms';
 import {AngularFireModule} from "@angular/fire";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {ToastrModule} from "ngx-toastr";
@@ -40,12 +41,12 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ProjectModule,
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),
-      AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
-    AngularFireDatabaseModule
-
+    AngularFireDatabaseModule,
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
   ],
 
 
