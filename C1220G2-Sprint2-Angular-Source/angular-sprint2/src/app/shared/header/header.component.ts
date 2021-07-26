@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     /* --------------------- Kha code ---------------------------- */
     this.authService.authUser().subscribe(user => {
       this.currentUser = user;
@@ -51,6 +52,7 @@ export class HeaderComponent implements OnInit {
     /* ---------------------------- ---------------------------- */
 
     /* --------------------- Cong code ---------------------------- */
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
@@ -76,6 +78,7 @@ export class HeaderComponent implements OnInit {
       }
       return isDuplicated ? {duplicatedGroupName: {value: control.value}} : null;
     }
+
   }
 
   getGroupNames() {

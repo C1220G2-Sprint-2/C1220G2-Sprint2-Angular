@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class StudentGroupService {
-  API_URL = 'http://localhost:3000/productList/';
+  API_URL = 'http://localhost:8080/productList/';
 
   constructor(private http:HttpClient) { }
 
