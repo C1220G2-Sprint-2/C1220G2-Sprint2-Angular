@@ -6,6 +6,13 @@ import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+
+
+// @ts-ignore
+import {environment} from "../environments/environment";
+
+
+
 import {StudentGroupModule} from './student-group/student-group.module';
 import {ProjectModule} from './project/project.module';
 import {ToastrModule} from 'ngx-toastr';
@@ -20,7 +27,15 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {TeacherModule} from './teacher/teacher.module';
 
+
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+
+
+
+import {AngularFireModule} from "@angular/fire";
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {ToastrModule} from "ngx-toastr";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -41,12 +56,17 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     ProjectModule,
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),
+      AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
     AngularFireDatabaseModule
+
   ],
+
+
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {
