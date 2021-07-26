@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {StudentConcern} from '../models/student-concern';
 
-const API_URL = `${environment.apiUrl}` + '/api';
+const API_URL = `${environment.apiUrl}` + '/api/concern';
 
 
 @Injectable({

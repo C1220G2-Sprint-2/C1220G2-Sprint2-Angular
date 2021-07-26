@@ -6,6 +6,7 @@ import {StudentConcern} from '../../models/student-concern';
 import {StudentConcernService} from '../student-concern.service';
 import {Router} from '@angular/router';
 
+
 @Component({
   selector: 'app-progress-detail',
   templateUrl: './progress-detail.component.html',

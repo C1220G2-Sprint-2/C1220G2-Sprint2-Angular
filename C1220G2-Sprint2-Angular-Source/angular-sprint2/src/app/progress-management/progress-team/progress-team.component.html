@@ -33,7 +33,7 @@
           <td style="text-align: right"><span class="badge bg-info rounded-pill">{{progress.member}}</span>
           </td>
           <td class="text-center" style="vertical-align: middle!important;">
-            <a routerLink="/quan-ly-tien-do/chi-tiet-tien-do" class="view" title="View" data-toggle="tooltip"><i
+            <a [routerLink]="['/quan-ly-tien-do/chi-tiet-tien-do/',progress.projectName]" class="view" title="View" data-toggle="tooltip"><i
               class="material-icons text-success" style="font-size: 1.5rem">&#xE417;</i></a>
           </td>
         </tr>

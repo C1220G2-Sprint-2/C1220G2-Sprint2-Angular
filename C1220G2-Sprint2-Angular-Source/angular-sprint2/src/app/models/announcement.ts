@@ -1,7 +1,7 @@
-export interface StudentConcern {
+export interface Announcement {
   id?: number;
   title?: string;
   content?: string;
-  studentCode?: string;
+  teacherCode?: string;
   attachFile?: string;
 }

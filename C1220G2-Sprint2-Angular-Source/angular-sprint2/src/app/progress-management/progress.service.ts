@@ -6,6 +6,7 @@ import {ProgressDto} from './progress-dto';
 import {catchError} from 'rxjs/operators';
 import {StudentDto} from './student-dto';
 import {ReviewDto} from './review-dto';
+import {Project} from '../models/project';
 
 const API_URL = `${environment.apiUrl}` + '/api';
 
@@ -29,6 +30,9 @@ export class ProgressService {
     return this.http.post<void>(API_URL + '/review/review-save', reviewDto).pipe(catchError(this.handleError));
   }
 
+  findProjectById(idProject: number): Observable<Project> {
+    return this.http.get<Project>(`${API_URL}/project/${idProject}`);
+  }
 
   // ---------------------------------------------------------------------------------
   // sangld code
