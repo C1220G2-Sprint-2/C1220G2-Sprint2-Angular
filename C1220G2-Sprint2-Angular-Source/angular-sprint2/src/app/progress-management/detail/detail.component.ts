@@ -11,6 +11,7 @@ import {finalize} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Announcement} from '../../models/announcement';
 import {AnnouncementService} from '../announcement.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-detail',
@@ -36,7 +37,8 @@ export class DetailComponent implements OnInit {
               private announcementService: AnnouncementService,
               private router: Router,
               private tokenStorageService: TokenStorageService,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private toastService: ToastrService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.name = paramMap.get('name');
     });
@@ -47,7 +49,7 @@ export class DetailComponent implements OnInit {
     this.getAllStudentDto();
     this.getAnnouncementList();
     this.addNewConcernForm();
-    this.addNewAnnouncementForm()
+    this.addNewAnnouncementForm();
     this.getConcernList();
   }
 
@@ -78,6 +80,7 @@ export class DetailComponent implements OnInit {
     };
     this.studentConcernService.saveStudentConcern(this.studentConcern).subscribe(() => {
       console.log('Create successful !');
+      this.showSuccess();
     }, e => {
       console.log('Failed !');
     }, () => {
@@ -121,6 +124,7 @@ export class DetailComponent implements OnInit {
     };
     this.announcementService.saveAnnouncement(this.teacherAnnouncement).subscribe(() => {
       console.log('Create successful !');
+      this.showSuccess();
     }, e => {
       console.log('Failed !');
     }, () => {
@@ -151,6 +155,10 @@ export class DetailComponent implements OnInit {
         }, () => {
         }
       );
+  }
+
+  showSuccess() {
+    this.toastService.success('', 'Thành công !');
   }
 }
 
