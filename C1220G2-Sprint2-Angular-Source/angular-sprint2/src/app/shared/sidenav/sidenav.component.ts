@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+
 import {TeamService} from "../../student-group/team.service";
+import { ToastrService } from 'ngx-toastr';
+import { TokenStorageService } from 'src/app/security/token-storage.service';
+import {ActivatedRoute, Router} from '@angular/router';
+
+
+
+
+
 
 @Component({
   selector: 'app-sidenav',
@@ -7,23 +16,50 @@ import {TeamService} from "../../student-group/team.service";
   styleUrls: ['./sidenav.component.css']
 })
 export class SidenavComponent implements OnInit {
+  private roles: string[];
+  isLoggedIn: boolean;
+  showAdminBoard = false;
+  showTeacherBoard = false;
+  showStudentBoard = false;
+  username: string;
+  userId: number;
+  user;
+  studentTS: any = null;
 
-   user = {
-    studentCode: null,
-    teacherCode: "GV-0001",
+
+  constructor(private teamService: TeamService, private tokenStorageService: TokenStorageService, private router: Router,
+              private toastService: ToastrService,
+              private route: ActivatedRoute) {
+
   }
 
-  studentTS: any= null;
-
-  constructor(private teamService: TeamService ) { }
-
   ngOnInit(): void {
-    if(this.user.studentCode!= null) {
-      this.teamService.getStudent(this.user.studentCode).subscribe(data=> {
-        this.studentTS=data;
-      })
-    }
+    this.loadData();
+  }
+
+
+   loadData() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      if (user.username.charAt("SV") != -1) {
+        this.teamService.getStudent(user.username).subscribe(data => {
+          this.studentTS = data;
+          console.log(this.studentTS);
+        });
+        this.roles = user.roles;
+        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+        this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
+        this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
+        this.username = user.username;
+        console.log(this.username)
+        this.userId = user.id;
+        console.log(this.userId)
+      }
+      this.user = this.tokenStorageService.getUser();
+      console.log(this.user)
     }
 
 
+  }
 }

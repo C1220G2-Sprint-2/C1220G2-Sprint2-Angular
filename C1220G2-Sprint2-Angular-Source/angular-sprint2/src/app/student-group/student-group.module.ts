@@ -10,6 +10,7 @@ import { TeamManagementComponent } from './team-management/team-management.compo
 
 
 
+
 @NgModule({
   declarations: [StudentGroupRegistrationComponent, ListStudentGroupComponent, TeamManagementComponent],
   imports: [

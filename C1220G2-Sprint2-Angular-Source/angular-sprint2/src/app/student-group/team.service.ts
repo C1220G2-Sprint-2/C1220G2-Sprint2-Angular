@@ -34,6 +34,7 @@ export class TeamService {
   }
 
   public postTeam(team: any): Observable<any> {
+    console.log(team);
     return this.httpClient.post<any>(API_URLTEAM + '/postTeam', team, this.httpOptions);
   }
 
@@ -51,5 +52,13 @@ export class TeamService {
 
   searchTeamRegistration(searchStudent: string):Observable<any[]> {
     return this.httpClient.get<any>(API_URLTEAM + '/searchTeamRegistration?search='+searchStudent, this.httpOptions);
+  }
+
+  getTeam(id: any): Observable<any> {
+    return this.httpClient.get<any>(API_URLTEAM + '/findTeam?teamId='+id, this.httpOptions);
+  }
+
+  removeTeam(s: any): Observable<any> {
+    return this.httpClient.post<any>(API_URLTEAM + '/deleteStudent',s, this.httpOptions);
   }
 }

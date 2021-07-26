@@ -7,8 +7,7 @@
 
 <div class="login-form" style="margin: 20px">
   <div class="container-fluid p-0">
-    <h1 class="text-center p-5">Đăng ký nhóm sinh viên</h1>
-
+    <h1 class="text-center p-5">Nhóm sinh viên</h1>
     <div class="row w-75 m-auto p-0">
 <!--      <div class="row" style="margin-right: 0px;">-->
 <!--        <div class="col-9"></div>-->
@@ -33,7 +32,7 @@
       </div>
       <div class="col-12 col-sm-6 col-md-3 col-lg-3"
            *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard }">
-        <div class="our-team" [ngStyle]="{'opacity': s.groupStatus}">
+        <div class="our-team" [ngStyle]="{'opacity': s.groupStatus}"  >
           <div class="picture">
             <img class="img-fluid" [src]="s.image">
           </div>
@@ -46,13 +45,32 @@
             <p><i class="fa fa-birthday-cake" aria-hidden="true"></i> <b>Ngày
               sinh: </b>{{s.dateOfBirth | date:"dd/MM/y"}}</p>
             <p><i class="fas fa-sitemap"></i> <b>Lớp: </b>{{s.classCode}}</p>
+            <p style="text-align: center;background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(79,155,101,1) 70%, rgba(0,255,64,1) 100%)">   <i class="fas fa-star"  *ngIf="s.code == studentTS.code"></i></p>
           </div>
           <ul class="social">
             <li>
-              <button class="btn font-weight-bold "
-                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem" (click)="deleteStudent(s)">
+              <button class="btn font-weight-bold delete"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"  title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"  [disabled]="s.code == studentTS.code">
                 Xóa khỏi nhóm
               </button>
+              <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header" style=" background: #4F9B65; color: white">
+                      <h5 class="modal-title" id="">Xóa thành viên khỏi danh sách</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Bạn có chắc chắn muốn xóa thành viên <b style="color:red;"> {{s.name}} </b> này ra khỏi danh sách đăng ký không?
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Hủy bỏ</button>
+                      <button class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" (click)="deleteStudent(s)">Xóa</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -63,7 +81,7 @@
 
         <ul class="pagination">
           <li><input class="form-control" type="text" placeholder="Tìm"
-                     style="height: 30px;width: 55px; border-radius: 20px"></li>
+                     style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page"></li>
           <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>
           <li style="width: 20px"></li>
           <pagination-controls (pageChange)="page = $event"

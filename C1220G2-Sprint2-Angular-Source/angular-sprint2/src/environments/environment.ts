@@ -15,7 +15,10 @@ export const environment = {
     messagingSenderId: "336072027593",
     appId: "1:336072027593:web:fcc99769c6f58713fe4c18",
     measurementId: "G-S2F63541R8"
-}};
+},
+  apiUrl: 'http://localhost:8080'
+}
+
 
 /*
  * For easier debugging in development mode, you can import the following file

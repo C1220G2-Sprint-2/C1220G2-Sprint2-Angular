@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TeamService} from "../team.service";
 import {Router} from "@angular/router";
-import {forEachToken} from "tslint";
+
+import {TokenStorageService} from "../../security/token-storage.service";
 
 @Component({
   selector: 'app-team-management',
@@ -20,10 +21,7 @@ export class TeamManagementComponent implements OnInit {
   };
   nameTeam: string;
 
-  private user = {
-    studentCode: "SV-0001",
-    teacherCode: "GV-0001",
-  };
+  private user ;
   isLoggedIn: boolean = false;
   check:boolean = true;
   page: number = 1;
@@ -32,16 +30,21 @@ export class TeamManagementComponent implements OnInit {
   studentTS?: any = null;
   project: any;
 
-  constructor(private teamService: TeamService, private route: Router) {
+  constructor(   private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {
   }
 
 
   ngOnInit(): void {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      this.user = this.tokenStorageService.getUser();
+    }
 
-    if (this.user.studentCode != null) {
-      this.teamService.getStudent(this.user.studentCode).subscribe(data => {
+    if (this.user.username != null) {
+      this.teamService.getStudent(this.user.username).subscribe(data => {
         console.log(data);
         this.studentTS = data;
+
         this.teamService.findByTeam(this.studentTS.team.id).subscribe(data => {
           console.log("kiem tra project");
           console.log(data);
@@ -69,10 +72,18 @@ export class TeamManagementComponent implements OnInit {
         })
       })
     }
-
-
+    this.teamService.getTeam(this.studentTS.team.id).subscribe( data => {
+      this.team=data;
+      console.log(this.team)
+    })
   }
 
   deleteStudent(s: any) {
+    this.teamService.removeTeam(s).subscribe( data => {
+      this.route.navigateByUrl('nhom/quan-ly-nhom');
+      console.log(this.team)
+    })
   }
+
+
 }

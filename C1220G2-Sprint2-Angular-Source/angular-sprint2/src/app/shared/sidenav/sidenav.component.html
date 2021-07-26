@@ -1,5 +1,6 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul *ngIf="isLoggedIn" class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -7,7 +8,7 @@
             <i class="fas fa-laugh-wink"></i>
             <!-- <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> -->
         </div>
-        <div class="sidebar-brand-text mx-3">Douglas McGee</div>
+        <div class="sidebar-brand-text mx-3">{{username}}</div>
     </a>
 
     <!-- Divider -->
@@ -67,7 +68,7 @@
 
     <!-- Nav Item - Student Management-->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link">
             <!-- <i class="fas fa-user"></i> -->
             <i class="fas fa-user-graduate"></i>
             <span>Quản Lý Sinh Viên</span></a>
@@ -89,9 +90,9 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-      <div *ngIf="user.studentCode!=null then student; else teacher"></div>
+      <div *ngIf="user.username.charAt('^(SV)') !=-1 then student; else teacher"></div>
       <ng-template #student>
-        <div *ngIf="studentTS.team.id!=1 then studentNew; else studentOld"></div>
+        <div *ngIf="studentTS.team.id ==1 then studentNew; else studentOld"></div>
         <ng-template #studentNew>
           <a class="nav-link" routerLink="/nhom/dang-ky" >
             <i class="fas fa-users"></i>
@@ -115,7 +116,7 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" routerLink="/de-tai/dang-ky">
+        <a class="nav-link" >
             <i class="fas fa-atom"></i>
             <span>Quản Lý Đề Tài</span></a>
     </li>
@@ -140,12 +141,5 @@
             <span>Liên Hệ</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <!-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div> -->
 </ul>
 <!-- End of Sidebar -->

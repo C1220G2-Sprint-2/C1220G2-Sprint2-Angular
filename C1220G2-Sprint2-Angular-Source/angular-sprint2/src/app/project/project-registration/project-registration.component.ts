@@ -6,7 +6,8 @@ import {AngularFireStorage} from "@angular/fire/storage";
 import {Observable} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {Validation} from "./Validation";
-
+import {TokenStorageService} from "../../security/token-storage.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-project-registration',
@@ -22,10 +23,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   pageProject: number = 1;
   public createForm!: FormGroup;
 
-  private user = {
-    studentCode: "SV-0001",
-    teacherCode: null,
-  }
+  private user;
 
   title = "cloudsSorage";
   selectedFile: File = null;
@@ -35,14 +33,19 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   description: string = '';
   studentTS: any;
   project: any;
+  isLoggedIn: boolean = false;
 
-  constructor(private teamService: TeamService, private route: Router, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private storage: AngularFireStorage) {
+  constructor(private tokenStorageService: TokenStorageService, private teamService: TeamService, private route: Router, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private storage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
-    this.teamService
-    if (this.user.studentCode != null) {
-      this.teamService.getStudent(this.user.studentCode).subscribe(data => {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      this.user = this.tokenStorageService.getUser();
+    }
+
+    if (this.user.username != null) {
+      this.teamService.getStudent(this.user.username).subscribe(data => {
         console.log(data);
         this.studentTS = data;
         this.teamService.findByTeam(this.studentTS.team.id).subscribe(data => {
@@ -52,25 +55,25 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
         });
       });
     }
-
-
     this.teamService.listProject().subscribe(data => {
+      console.log("this.listProject")
+      console.log(data);
       this.listProject = data.filter(function (project) {
         return project.enable == true && project.status == 1;
       })
-      this.listProject
+
     });
 
     this.teamService.listTeacher().subscribe(data => {
+      console.log(this.listTeacher);
       this.listTeacher = data.filter(function (project) {
         return project.enable == true;
       })
-
+      console.log(this.listTeacher)
     });
-
     this.teamService.listCategory().subscribe(data => {
       this.listCategory = data;
-
+      console.log(data);
     });
     this.initForm();
   }
@@ -97,11 +100,11 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     console.log(check);
     if (check) {
       this.teamService.postProject(project).subscribe(() => {
-        // this.showSuccess();
+        this.showSuccess();
         this.route.navigateByUrl('nhom/quan-ly-nhom');
       })
     } else {
-      alert(" Giáo viên hướng dẫn hoặc Danh mục không đúng");
+    this.showError();
     }
   }
 
@@ -182,6 +185,22 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   ngDoCheck(): void {
     // console.log(this.createForm.value);
   }
+  errorMessage = '';
+  showSuccess() {
+    Swal.fire({
+      title: 'Bạn đã đăng ký đề tài thành công, chờ giáo viên phê duyệt!',
+      text: this.errorMessage,
+      icon: 'success',
+      confirmButtonText: 'Đóng'
+    })
+  }
 
-
+  showError() {
+    Swal.fire({
+      title: 'Không thể đăng ký đề tài vì Giáo viên hướng dẫn hoặc Danh mục không đúng!',
+      text: this.errorMessage,
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    })
+  }
 }
