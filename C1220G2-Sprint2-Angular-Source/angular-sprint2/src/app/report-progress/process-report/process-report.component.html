@@ -15,15 +15,22 @@
           </div>
           <div class="row mt-2">
             <div class="col-sm-3">
-              <label for="stage"> Giai đoạn 2 </label>
+              <label for="stage"> Giai đoạn </label>
             </div>
             <div class="col-sm-9">
               <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-danger" id="stage" role="progressbar"
-                     style="width: 25%"
-                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
+                <div class="progress-bar" id="stage" role="progressbar" [style.backgroundColor]="backgroundColor"
+                     [ngStyle]="{width: stages +'%'}"
+                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+              <input type="number" [(ngModel)]="stages">
             </div>
           </div>
           <div class="row mt-2">
