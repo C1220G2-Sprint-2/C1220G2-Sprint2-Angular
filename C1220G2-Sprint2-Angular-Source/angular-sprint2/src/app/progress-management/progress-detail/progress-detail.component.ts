@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StudentDto} from '../student-dto';
 import {ProgressService} from '../progress.service';
-import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-progress-detail',
@@ -10,7 +9,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class ProgressDetailComponent implements OnInit {
   studentList: StudentDto[];
-  public reviewForm: FormGroup;
 
   constructor(private progressService: ProgressService) {
   }
@@ -22,12 +20,7 @@ export class ProgressDetailComponent implements OnInit {
   getAllStudentDto() {
     this.progressService.getAllStudentDto().subscribe(result => {
       this.studentList = result;
-    });
-  }
-  addNewReview(){
-    this.reviewForm = new FormGroup({
-     title: new FormControl(),
-
+      console.log('this' + result);
     });
   }
 }

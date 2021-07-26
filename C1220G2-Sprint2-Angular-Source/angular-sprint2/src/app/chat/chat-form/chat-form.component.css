@@ -1,0 +1,16 @@
+.chatButton {
+    background-color: #4F9B65;
+    color: white; 
+    border-radius: 1.2rem; 
+    min-width: 50%
+}
+
+.chatInput {
+    font-family: 'Open Sans', sans-serif;
+    /* background-color: #eee; */
+    color: #000;
+    transition: 0.1s ease-out;
+    padding-left: 20px;
+    background-color: white;
+    border-radius: 1.2em;
+}

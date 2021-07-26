@@ -61,15 +61,15 @@
        </li>
 
        <!-- Nav Item - Messages -->
-       <li class="nav-item dropdown no-arrow mx-1">
+       <!-- <li class="nav-item dropdown no-arrow mx-1">
            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-envelope fa-fw"></i>
+               <i class="fas fa-envelope fa-fw"></i> -->
                <!-- Counter - Messages -->
-               <span class="badge badge-danger badge-counter">7</span>
-           </a>
+               <!-- <span class="badge badge-danger badge-counter">7</span>
+           </a> -->
            <!-- Dropdown - Messages -->
-           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+           <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                aria-labelledby="messagesDropdown">
                <h6 class="dropdown-header">
                    Tin Nhắn
@@ -120,6 +120,57 @@
                </a>
                <a class="dropdown-item text-center small text-gray-500" href="#">Đọc thêm tin nhắn</a>
            </div>
+       </li> -->
+
+       <!-- Nav Item - Create new room chat -->
+       <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="newRoomDropdown"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+               data-bs-toggle="tooltip" data-bs-placement="top" title="Tạo phòng chat mới">
+               <i class="fas fa-plus-circle"></i>
+           </a>
+           <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="newRoomDropdown">
+                <h6 class="dropdown-header">Nhập tên phòng</h6>
+                <div class="dropdown-item d-flex flex-column align-items-center">
+                    <input type="text" class="form-control p-2" [formControl]="chatGroupName">
+                    <small class="text-danger p-2" *ngIf="chatGroupName.errors?.duplicatedGroupName">
+                        Tên phòng đã tồn tại. Vui lòng chọn tên khác.
+                    </small>
+                </div>
+
+                <div class="dropdown-item d-flex align-items-center justify-content-end">
+                    <button class="btn" [disabled]="chatGroupName.invalid"
+                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+                    (click)="createNewChatGroup()">
+                    Xác nhận
+                    </button>
+                </div>
+            </div>
+       </li>
+
+       <!-- Nav Item - list of group chat -->
+       <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" role="button" id="newRoomDropdown"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            data-bs-toggle="tooltip" data-bs-placement="top" title="Danh sách nhóm chat"
+            (click)="getBelongGroups()">
+            <i class="fas fa-comments"></i>
+        </a>
+        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="newRoomDropdown">
+         <h6 class="dropdown-header">Phòng họp đang tham gia</h6>
+
+         <!-- group chat list of user -->
+         <a class="dropdown-item d-flex align-items-center" (click)="goToGroupChat(group.groupName)"
+            *ngFor="let group of groups">
+            <div class="font-weight-bold">
+                <div class="text-truncate">{{ group.groupName }}</div>
+                <div class="small text-gray-500">{{ group.owner }} · chủ phòng</div>
+            </div>
+        </a>
+
+        </div>
        </li>
 
        <div class="topbar-divider d-none d-sm-block"></div>
@@ -130,12 +181,12 @@
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{username}}</span>
                <img class="img-profile rounded-circle"
-                   src="assets/img/undraw_profile.svg">
+                   src="{{userImage}}">
            </a>
            <!-- Dropdown - User Information -->
            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                aria-labelledby="userDropdown">
-               <a class="dropdown-item" href="#">
+               <a class="dropdown-item" routerLink="/user/information">
                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                    Thông tin
                </a>
@@ -155,6 +206,5 @@
            </div>
        </li>
    </ul>
-
   </nav>
   <!-- End of Topbar -->

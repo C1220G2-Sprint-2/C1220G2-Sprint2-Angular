@@ -1,0 +1,5 @@
+<div class="userList">
+    <app-user-item [isCurrentUser]='user.email === currentUser.email'
+     [user]="user" *ngFor="let user of users"
+     [groupName]="groupName"></app-user-item>
+</div>

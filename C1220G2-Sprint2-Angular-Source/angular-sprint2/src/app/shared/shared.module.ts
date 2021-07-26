@@ -6,6 +6,8 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { FooterComponent } from './footer/footer.component';
 import {TeamService} from "../student-group/team.service";
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -13,6 +15,7 @@ import {TeamService} from "../student-group/team.service";
   imports: [
     CommonModule,
     SharedRoutingModule,
+    ReactiveFormsModule
   ],
   exports: [HeaderComponent, SidenavComponent, FooterComponent,],
 
