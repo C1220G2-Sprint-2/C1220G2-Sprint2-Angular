@@ -6,10 +6,6 @@ import {StudentConcern} from '../models/student-concern';
 
 const API_URL = `${environment.apiUrl}` + '/api/concern';
 
-import { Injectable } from '@angular/core';
-
-
-
 @Injectable({
   providedIn: 'root'
 })

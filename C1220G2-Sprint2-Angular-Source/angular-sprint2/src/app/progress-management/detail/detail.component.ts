@@ -27,9 +27,13 @@ export class DetailComponent implements OnInit {
   teacherAnnouncement: Announcement;
   concernList: StudentConcern[];
   announcementList: Announcement[];
-  studentAvatar: string;
+  avatar: string;
   downloadURL: Observable<string>;
   attachFile: string;
+  isLoggedIn = false;
+  isTeacherLogging = false;
+  username: string;
+  currentUsername: string;
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -45,12 +49,22 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.studentAvatar = this.tokenStorageService.getUser().avatar;
+    this.avatar = this.tokenStorageService.getUser().avatar;
+    this.currentUsername = this.tokenStorageService.getUser().name;
     this.getAllStudentDto();
-    this.getAnnouncementList();
     this.addNewConcernForm();
     this.addNewAnnouncementForm();
+    this.getAnnouncementList();
     this.getConcernList();
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.username = user.username;
+
+      if (this.username.substring(0,2) == "TC") {
+        this.isTeacherLogging = true;
+      }
+    }
   }
 
   getAllStudentDto() {
@@ -78,6 +92,7 @@ export class DetailComponent implements OnInit {
       attachFile: this.attachFile,
       studentCode: this.tokenStorageService.getUser().username
     };
+    console.log(this.studentConcern);
     this.studentConcernService.saveStudentConcern(this.studentConcern).subscribe(() => {
       console.log('Create successful !');
       this.showSuccess();
@@ -115,20 +130,21 @@ export class DetailComponent implements OnInit {
   }
 
   submitAnnouncement() {
-    const announcement = this.concernForm;
+    const announcement = this.announcementForm;
     this.teacherAnnouncement = {
       title: announcement.value.title,
       content: announcement.value.content,
       attachFile: this.attachFile,
       teacherCode: this.tokenStorageService.getUser().username
     };
+    console.log(this.teacherAnnouncement);
     this.announcementService.saveAnnouncement(this.teacherAnnouncement).subscribe(() => {
       console.log('Create successful !');
       this.showSuccess();
     }, e => {
       console.log('Failed !');
     }, () => {
-      this.getConcernList();
+      this.getAnnouncementList();
     });
   }
 
