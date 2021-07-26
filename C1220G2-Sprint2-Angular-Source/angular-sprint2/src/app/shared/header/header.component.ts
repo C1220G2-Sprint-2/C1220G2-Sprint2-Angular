@@ -30,10 +30,11 @@ export class HeaderComponent implements OnInit {
   username: string;
   userId: number;
   userImage: string;
+  name: string;
   // -----------------------------------------------
 
 
-  constructor( private router: Router, 
+  constructor( private router: Router,
     private chatService: ChatService,
     private authService: AuthService,
     private tokenStorageService: TokenStorageService,
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     /* --------------------- Kha code ---------------------------- */
     this.authService.authUser().subscribe(user => {
       this.currentUser = user;
@@ -51,12 +53,14 @@ export class HeaderComponent implements OnInit {
     /* ---------------------------- ---------------------------- */
 
     /* --------------------- Cong code ---------------------------- */
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
       this.userId = user.id;
       this.userImage = user.avatar;
+      this.name = user.name;
     }
     /* ---------------------------- ---------------------------- */
 
@@ -76,6 +80,7 @@ export class HeaderComponent implements OnInit {
       }
       return isDuplicated ? {duplicatedGroupName: {value: control.value}} : null;
     }
+
   }
 
   getGroupNames() {
@@ -116,7 +121,7 @@ export class HeaderComponent implements OnInit {
   }
 
   // group name cannot be duplicated.
-  
+
 
   goToGroupChat(groupName: string) {
     // replace literal white space in path by its code.
