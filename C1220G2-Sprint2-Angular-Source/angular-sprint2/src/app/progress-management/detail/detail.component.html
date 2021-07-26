@@ -691,10 +691,10 @@
                       data-bs-whatever="@getbootstrap"> Tạo thắc mắc
               </button>
               <div class="container">
-                <div class="card p-3 my-3">
+                <div class="card p-3 my-3" *ngFor="let concern of concernList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <img src="{{studentAvatar}}" width="30" class="user-img rounded-circle mx-2"/>
                       <h6>
                         <small class="font-weight-bold text-primary">Trần Văn A</small>
                       </h6>
@@ -702,20 +702,16 @@
                   </div>
                   <div>
                     <h5>
-                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
-                        em? </small>
+                      <small class="font-weight-bold">{{concern.title}}</small>
                     </h5>
                   </div>
                   <div class="action d-flex justify-content-start mt-2">
                     <p class="text-secondary">
-                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
-                      và @output,
-                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
-                      nào để truyền dữ liệu qua lại không ạ.
+                     {{concern.content}}
                     </p>
                   </div>
                   <div>
-                    <img src="assets/img/concern-1.png" alt="">
+                    <img src="{{concern.attachFile}}" width="300" height="200" alt="">
                   </div>
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
                     <div class="text-muted small">
@@ -746,7 +742,7 @@
                             <input hidden type="file" id="test3">
                             <button class="btn font-weight-bold"
                                     style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                    onclick="myFunction()">
+                                    (change)="addFile($event)">
                               Chọn ảnh
                             </button>
                             <button type="button" class="btn font-weight-bold"
@@ -818,10 +814,10 @@
                       data-bs-whatever="@getbootstrap"> Tạo thông báo
               </button>
               <div class="container">
-                <div class="card p-3 my-3">
+                <div class="card p-3 my-3" *ngFor="let announcement of announcementList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <img src="{{studentAvatar}}" width="30" class="user-img rounded-circle mx-2"/>
                       <h6>
                         <small class="font-weight-bold text-primary">Thầy A</small>
                       </h6>
@@ -829,20 +825,16 @@
                   </div>
                   <div>
                     <h5>
-                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
-                        em? </small>
+                      <small class="font-weight-bold">{{announcement.title}}</small>
                     </h5>
                   </div>
                   <div class="action d-flex justify-content-start mt-2">
                     <p class="text-secondary">
-                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
-                      và @output,
-                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
-                      nào để truyền dữ liệu qua lại không ạ.
+                     {{announcement.content}}
                     </p>
                   </div>
                   <div>
-                    <img src="assets/img/concern-1.png" alt="">
+                    <img src="{{announcement.attachFile}}" width="300" height="200" alt="">
                   </div>
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
                     <div class="text-muted small">
@@ -1030,30 +1022,44 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()" *ngIf="concernForm">
           <div class="mb-3">
             <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
-            <input type="text" class="form-control" id="concern-title">
+            <input type="text" class="form-control" id="concern-title" formControlName="title">
+            <small class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
+              && concernForm.controls.title.touched">
+              Vui lòng nhập tiêu đề.
+            </small>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
+              && concernForm.controls.content.touched">
+              Tiêu đề không được quá 100 ký tự.
+            </small>
           </div>
           <div class="mb-3">
             <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content"></textarea>
+            <textarea class="form-control" id="concern-content" formControlName="content"></textarea>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
+              && concernForm.controls.content.touched">
+              Vui lòng nhập nội dung.
+            </small>
           </div>
           <div class="mb-3">
             <label for="upload-file" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test4">
+            <input type="file" hidden id="test4" formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg">
             <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
                     style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
             </button>
           </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"
                 style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
           Đóng
         </button>
-        <button type="button" class="btn font-weight-bold btn-modal"
+        <button type="button" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
                 style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc mắc
         </button>
       </div>
@@ -1069,30 +1075,44 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()" *ngIf="announcementForm">
           <div class="mb-3">
-            <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+            <label for="announcement-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
-            <input type="text" class="form-control" id="announce-title">
+            <input type="text" class="form-control" id="announcement-title" formControlName="title">
+            <small class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
+              && concernForm.controls.title.touched">
+              Vui lòng nhập tiêu đề.
+            </small>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
+              && concernForm.controls.content.touched">
+              Tiêu đề không được quá 100 ký tự.
+            </small>
           </div>
           <div class="mb-3">
-            <label for="announce-content" class="col-form-label">Nội dung thông báo <span
+            <label for="announcement-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="announce-content"></textarea>
+            <textarea class="form-control" id="announcement-content" formControlName="content"></textarea>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
+              && concernForm.controls.content.touched">
+              Vui lòng nhập nội dung.
+            </small>
           </div>
           <div class="mb-3">
-            <label for="upload-file-announce" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test6">
-            <button id="upload-file-announce" class="btn font-weight-bold" onclick="myFunction1()"
+            <label for="announcement-upload-file" class="col-form-label"> File đính kèm:</label>
+            <input type="file" hidden id="test2" formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg">
+            <button id="announcement-upload-file" class="btn font-weight-bold" onclick="myFunction1()"
                     style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
             </button>
           </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"
                 style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
           Đóng
         </button>
-        <button type="button" class="btn font-weight-bold btn-modal"
+        <button type="button" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
                 style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thông báo
         </button>
       </div>
