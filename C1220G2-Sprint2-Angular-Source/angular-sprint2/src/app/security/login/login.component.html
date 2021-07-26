@@ -17,13 +17,11 @@
                     <input id="userName" name="username" [(ngModel)]="form.username" #username="ngModel"
                            type="text" class="form-control form-control-user"
                            placeholder="Tên đăng nhập...">
-                    <span class="validate-msg"  *ngIf="f.submitted && username.invalid">Vui lòng nhập tên đăng nhập.</span>
                   </div>
                   <div class="form-group">
                     <label for="password">Mật khẩu <sup style="color: red">*</sup></label>
                     <input id="password" name="password" [(ngModel)]="form.password" #password="ngModel" type="password" class="form-control form-control-user"
                            placeholder="Mật khẩu...">
-                    <span style="color: red;"  *ngIf="f.submitted && username.invalid">Vui lòng nhập mật khẩu.</span>
                   </div>
 
                   <div class="row mb-3">
@@ -43,7 +41,7 @@
                     </div>
                   </div>
                   <div>
-                    <button class="btn btn-block font-weight-bold"
+                    <button class="btn btn-block font-weight-bold" [disabled]="readonly"
                             style="color: white;background-color: #4F9B65; border-radius: 1.5rem">
                       ĐĂNG NHẬP
                     </button>

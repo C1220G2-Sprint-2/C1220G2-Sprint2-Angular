@@ -18,7 +18,6 @@ export class ProgressDetailComponent implements OnInit {
   concernForm: FormGroup;
   studentConcern: StudentConcern;
 
-
   constructor(private progressService: ProgressService,
               private studentConcernService: StudentConcernService,
               private router: Router) {

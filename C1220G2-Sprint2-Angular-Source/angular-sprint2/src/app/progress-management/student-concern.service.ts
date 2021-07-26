@@ -4,9 +4,10 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {StudentConcern} from '../models/student-concern';
 
-const API_URL = `${environment.apiUrl}` + '/api';
+const API_URL = `${environment.apiUrl}` + '/api/concern';
 
 import { Injectable } from '@angular/core';
+
 
 
 @Injectable({
@@ -25,5 +26,3 @@ export class StudentConcernService {
     return this.http.post<StudentConcern>(API_URL + '/student-concern-save', concern);
   }
 }
-
-

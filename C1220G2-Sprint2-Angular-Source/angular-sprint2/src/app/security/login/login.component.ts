@@ -12,6 +12,7 @@ import {AuthService} from '../auth.service';
 export class LoginComponent implements OnInit {
   form: any = {};
   roles: string[] = [];
+  readonly = false;
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
               private router: Router,
               private toastService: ToastrService) {
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.readonly = true;
     this.authService.login(this.form).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
         window.location.assign('/de-tai/danh-sach-de-tai');
       },
       err => {
+        this.readonly = false;
         this.showLoginFailed();
       }, () => {
       }
