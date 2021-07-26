@@ -11,7 +11,7 @@ import {AuthService} from '../auth.service';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
-  userEmail: string = 'Nhập email của bạn...';
+  userEmail: string = '';
 
   constructor(private authService: AuthService,
               private toastService: ToastrService) {
