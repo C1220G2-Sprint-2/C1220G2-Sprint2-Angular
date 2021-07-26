@@ -18,6 +18,8 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import {TeacherModule} from './teacher/teacher.module';
+
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 @NgModule({
@@ -31,6 +33,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     ToastrModule.forRoot(),
     AppRoutingModule,
     SharedModule,
+    TeacherModule,
     NgbModule, // code by sang
     NgxPaginationModule,
     HttpClientModule,

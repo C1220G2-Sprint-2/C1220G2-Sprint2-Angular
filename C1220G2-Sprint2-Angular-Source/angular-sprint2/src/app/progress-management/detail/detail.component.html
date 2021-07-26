@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: Quản lý đặt phòng
+      Chi tiết tiến độ Nhóm 1 - Đề tài: {{name}}
     </p>
   </div>
 </div>
@@ -66,7 +66,7 @@
           <!-- code cua hau-->
           <button class="btn font-weight-bold"
                   style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
-                  routerLink="/bao-cao-tien-do/">Báo
+                  [routerLink]="['/bao-cao-tien-do/bao-cao',name]">Báo
             cáo tiến độ giai đoạn 1
           </button>
           <!-- code cua hau-->
