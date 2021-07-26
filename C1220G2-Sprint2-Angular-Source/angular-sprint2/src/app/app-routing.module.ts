@@ -49,7 +49,7 @@ const routes: Routes = [
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
-  },
+  }
 ];
 
 
