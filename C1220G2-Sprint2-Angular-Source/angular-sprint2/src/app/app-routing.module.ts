@@ -45,6 +45,13 @@ const routes: Routes = [
     path: 'bao-cao-tien-do',
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   },
+
+  {
+    path: '',
+    loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
+  }
+
+  ];
   //code by Tam
   {
     path: 'giang-vien',
