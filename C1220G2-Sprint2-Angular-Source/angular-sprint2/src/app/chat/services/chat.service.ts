@@ -23,7 +23,8 @@ export class ChatService {
 
   messagesRef: AngularFireList<ChatMessage>;
   messages: Observable<ChatMessage[]>;
-  username: string;
+  // username: string;
+  userAvatar: string;
 
   // firebase groups
   groupsRef: AngularFireList<GroupChat>;
@@ -62,7 +63,7 @@ export class ChatService {
         this.user = auth;
       }
 
-      this.getUser().subscribe((currentUser) => this.username = currentUser.displayName);
+      // this.getUser().subscribe((currentUser: FirebaseUser) => this.userAvatar = currentUser.avatar);
     })
   }
 
@@ -79,19 +80,28 @@ export class ChatService {
   sendMessage(msg: string, groupName: string): any {
     const timestamp: string = this.getTimeStamp();
     const email: string = this.user.email;
-    // this.chatMessages = this.getMessages();
-    const value = {
+    this.getUser().subscribe((currentUser: FirebaseUser) => {
+      this.userAvatar = currentUser.avatar;
+
+      const value = {
         email: email,
         groupName: groupName,
-        userName: this.username,
+        // userName: this.user.username,
+        userAvatar: this.userAvatar,
         message: msg,
         timeSend: timestamp
-    };
-    const convertedEmail = email.replace(/\./g, '');
-    const key = groupName + '+' + convertedEmail + '+' + timestamp;
+      };
+      const convertedEmail = email.replace(/\./g, '');
+      const key = groupName + '+' + convertedEmail + '+' + timestamp;
 
-    const promise = this.messagesRef.update(key, value);
-    return promise;
+      const promise = this.messagesRef.update(key, value);
+      return promise;
+    });
+
+    
+    // console.log("msg email: " + email);
+    // console.log("msg group name: " + groupName);
+    // console.log("msg avatar: " + this.userAvatar);
   }
 
   removeMessage(key: string): any {
@@ -121,8 +131,8 @@ export class ChatService {
     return now.toString();
   }
 
-  createGroup(name: string) {
-    this.groupsRef.push(
+  createGroup(name: string): any {
+    return this.groupsRef.push(
       {
         owner: this.user.email,
         groupName: name

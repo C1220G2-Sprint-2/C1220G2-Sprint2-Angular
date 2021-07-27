@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
 import {Observable} from "rxjs";
+import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 
 @Component({
   selector: 'app-create-student',
@@ -15,7 +16,9 @@ export class CreateStudentComponent implements OnInit {
 
   constructor(private studentService: StudentService,
               private router: Router,
-              private angularFireStorage: AngularFireStorage) { }
+              private angularFireStorage: AngularFireStorage,
+              private firebaseAuthService: FirebaseAuthService  // kha code
+  ) { }
 
   studentForm: FormGroup;
   ngOnInit(): void {
@@ -38,6 +41,10 @@ export class CreateStudentComponent implements OnInit {
     student.image = this.image;
     console.log(student);
     this.studentService.create(student).subscribe(() => {
+      // ------------ kha code-----------
+      // const defaultPassword: string = "123456"
+      // this.firebaseAuthService.signUp(student.email, defaultPassword, this.image);
+      // --------------------------------
     }, e => {
 
     }, () =>{

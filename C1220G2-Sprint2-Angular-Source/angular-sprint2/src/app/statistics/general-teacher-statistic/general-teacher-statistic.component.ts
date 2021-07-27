@@ -41,7 +41,7 @@ export class GeneralTeacherStatisticComponent implements OnInit {
         series: [this.numberOfNotRegisteredTeachers, this.numberOfRegisteredTeachers],
         labels: ["Giáo viên còn trống", "Giáo viên đã được đăng ký"],
         chart: {
-          width: 350,
+          width: 400,
           type: "donut"
         },
         dataLabels: {
@@ -75,7 +75,6 @@ export class GeneralTeacherStatisticComponent implements OnInit {
   
 
   ngOnInit(): void {
-    
   }
 
 }

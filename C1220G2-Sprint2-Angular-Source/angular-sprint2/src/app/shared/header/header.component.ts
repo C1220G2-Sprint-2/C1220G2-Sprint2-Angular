@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/chat/services/auth.service';
+import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
 import { GroupChat } from 'src/app/models/group-chat.model';
 import { User } from 'src/app/models/user.model';
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   groupNames: string[] = [];
   currentUser: User;
   groups: GroupChat[] = [];
+  allGroupChats: GroupChat[] = [];
   // -----------------------------------------------
 
   /* --------------------- Cong code ---------------------------- */
@@ -35,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
   constructor( private router: Router, 
     private chatService: ChatService,
-    private authService: AuthService,
+    private authService: FirebaseAuthService,
     private tokenStorageService: TokenStorageService,
     private toastService: ToastrService) {
   }
@@ -43,11 +44,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     /* --------------------- Kha code ---------------------------- */
     this.authService.authUser().subscribe(user => {
-      this.currentUser = user;
-      // this.groupsOfUser = [];
-      this.getBelongGroups();
+      if (user !== null && user !== undefined) {
+        this.currentUser = user;
+        this.getBelongGroups();
+      }
     });
-    this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.groups)]);
+
+    this.getAllGroupChats();
+
+    this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.allGroupChats)]);
     /* ---------------------------- ---------------------------- */
 
     /* --------------------- Cong code ---------------------------- */
@@ -59,8 +64,6 @@ export class HeaderComponent implements OnInit {
       this.userImage = user.avatar;
     }
     /* ---------------------------- ---------------------------- */
-
-
   }
 
     /* --------------------- Kha code ---------------------------- */
@@ -79,6 +82,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getGroupNames() {
+    // Get name of groups that the current user belongs to.
     this.chatService.getGroupsUsers().subscribe(groupUserList => {
       if (this.groupNames.length > 0) this.groupNames = [];
       groupUserList.forEach(e => {
@@ -90,13 +94,15 @@ export class HeaderComponent implements OnInit {
   }
 
   getGroupChats() {
+    // Get groups that the current user belongs to.
     this.chatService.getGroups().subscribe(groupChats => {
+      // console.log("Group chats: " + groupChats);
       if (this.groups.length > 0) this.groups = [];
       groupChats.forEach(e => {
         if (this.groupNames.includes(e.groupName)) {
           this.groups.push(e);
         }
-      })
+      });
     })
   }
 
@@ -108,14 +114,20 @@ export class HeaderComponent implements OnInit {
   createNewChatGroup() {
     const roomName = this.chatGroupName.value;
     // create group on firebase.
-    this.chatService.createGroup(roomName);
-    this.authService.authUser().subscribe(user => {
-      this.chatService.createGroupUser(roomName, user.email);
-    });
-    // this.router.navigateByUrl("/trao-doi");
+    this.chatService.createGroup(roomName)
+      .then(() => {
+        this.authService.authUser().subscribe(user => {
+          this.chatService.createGroupUser(roomName, user.email)
+            .then(() => {
+              // this.router.navigateByUrl("/trao-doi");
+              this.toastService.success("Tạo phòng họp thành công!", "Thành Công");
+            })
+        });
+      }).catch(() => {
+        this.toastService.error("Tạo phòng họp thất bại. Xin vui lòng thử lại!", "Thất Bại");
+      });
+    
   }
-
-  // group name cannot be duplicated.
   
 
   goToGroupChat(groupName: string) {
@@ -124,11 +136,21 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/trao-doi/' + groupName);
   }
 
+  getAllGroupChats() {
+    this.chatService.getGroups().subscribe((groups: GroupChat[]) => {
+      this.allGroupChats = groups;
+      // console.log("All group chats: " + this.allGroupChats);
+      this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.allGroupChats)]);
+
+    })
+  }
+
   /* ---------------------------- ---------------------------- */
 
 
   /* ---------------------------- Cong code ---------------------------- */
   signOut() {
+    this.authService.signOut(); // kha code
     this.tokenStorageService.signOut();
     window.location.assign("");
   }

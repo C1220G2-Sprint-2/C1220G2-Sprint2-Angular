@@ -9,7 +9,8 @@ import {Student} from "../../model/student";
 })
 export class ListStudentComponent implements OnInit {
 
-  studentList: Student[];
+  // studentList: Student[];
+  studentList: Student[] = []; // kha code
   collectionSize = 0;
   page = 1;
   pageSize = 4;
