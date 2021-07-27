@@ -3,7 +3,30 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyDjn5hxznLpvyKYrSFDrKGDngcFIzrr6cg",
+    authDomain: "chatbox-c1220g2.firebaseapp.com",
+    databaseURL: "https://chatbox-c1220g2-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    projectId: "chatbox-c1220g2",
+    storageBucket: "chatbox-c1220g2.appspot.com",
+    messagingSenderId: "74384038345",
+    appId: "1:74384038345:web:9e6c3b9d7d47d1e410f018",
+    measurementId: "G-8MFPR47L5N"
+  },
+
+  apiUrl: 'http://localhost:8080',
+  firebaseConfig: {
+    apiKey: 'AIzaSyBjULnBU6qUT2QeLmnAVuHdj7MDnoQlO7w',
+    authDomain: 'meeting-management-ec115.firebaseapp.com',
+    databaseURL: 'https://meeting-management-ec115-default-rtdb.firebaseio.com',
+    projectId: 'meeting-management-ec115',
+    storageBucket: 'meeting-management-ec115.appspot.com',
+    messagingSenderId: '38337192579',
+    appId: '1:38337192579:web:d0835ea2d7c2dde63f71b6',
+    measurementId: 'G-RVKTZKLWHT'
+  }
+
 };
 
 /*
