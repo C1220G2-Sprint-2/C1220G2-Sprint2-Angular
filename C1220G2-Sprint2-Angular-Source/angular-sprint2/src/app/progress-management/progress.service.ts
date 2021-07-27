@@ -6,8 +6,9 @@ import {ProgressDto} from './progress-dto';
 import {catchError} from 'rxjs/operators';
 import {StudentDto} from './student-dto';
 import {ReviewDto} from './review-dto';
+import {Project} from '../models/project';
 
-const API_URL = `${environment.apiUrl}` + '/api/progress';
+const API_URL = `${environment.apiUrl}` + '/api';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,20 @@ export class ProgressService {
   }
 
   getAllProgressManagement(): Observable<ProgressDto[]> {
-    return this.http.get<ProgressDto[]>(API_URL + '/list').pipe(catchError(this.handleError));
+    return this.http.get<ProgressDto[]>(API_URL + '/progress/list').pipe(catchError(this.handleError));
   }
 
   getAllStudentDto(): Observable<StudentDto[]> {
-    return this.http.get<StudentDto[]>(API_URL + '/student-list').pipe(catchError(this.handleError));
+    return this.http.get<StudentDto[]>(API_URL + '/progress/student-list').pipe(catchError(this.handleError));
   }
 
   addNewReview(reviewDto: ReviewDto): Observable<void> {
-    return this.http.post<void>(API_URL + '/review-save', reviewDto).pipe(catchError(this.handleError));
+    return this.http.post<void>(API_URL + '/review/review-save', reviewDto).pipe(catchError(this.handleError));
   }
 
+  findProjectById(idProject: number): Observable<Project> {
+    return this.http.get<Project>(`${API_URL}/project/${idProject}`);
+  }
 
   // ---------------------------------------------------------------------------------
   // sangld code

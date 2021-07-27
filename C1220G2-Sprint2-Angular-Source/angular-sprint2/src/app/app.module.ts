@@ -22,38 +22,40 @@ import {AuthInterceptor} from './helpers/auth.interceptor';
 import {NgxPaginationModule} from "ngx-pagination";
 
 
-
-
+import {TeacherModule} from './teacher/teacher.module';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
 
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        SharedModule,
-        StudentModule,
-      HttpClientModule,
-      AngularFireModule.initializeApp(environment.firebaseConfig),
-      AngularFirestoreModule,
-      AngularFireAuthModule, // auth
-      AngularFireStorageModule, NgbModule, // storage
-
-      BrowserAnimationsModule,
-      ToastrModule.forRoot(),
-      AppRoutingModule,
-      SharedModule,
-      NgxPaginationModule,
-      HttpClientModule,
-      StudentGroupModule,
-      ProjectModule,
-
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    AppRoutingModule,
+    SharedModule,
+    TeacherModule,
+    NgbModule, // code by sang
+    NgxPaginationModule,
+    HttpClientModule,
+    StudentGroupModule,
+    ProjectModule,
+    StudentModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
+    AngularFirestoreModule,
+    AngularFireAuthModule, // auth
+    AngularFireStorageModule, NgbModule, // storage
+    AngularFireDatabaseModule
+  ],
 
 
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {
