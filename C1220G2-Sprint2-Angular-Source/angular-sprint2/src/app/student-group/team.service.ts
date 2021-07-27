@@ -61,4 +61,8 @@ export class TeamService {
   removeTeam(s: any): Observable<any> {
     return this.httpClient.post<any>(API_URLTEAM + '/deleteStudent',s, this.httpOptions);
   }
+
+  public listTeam(): Observable<any[]> {
+    return this.httpClient.get<any[]>('http://localhost:8080/api/team/listTeam', this.httpOptions);
+  }
 }

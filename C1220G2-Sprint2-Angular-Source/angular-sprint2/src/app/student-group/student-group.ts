@@ -1,7 +1,7 @@
 export interface StudentGroup {
   id: number;
   name: string;
-  teamLeader: number;
+  teamLeader: string;
   enable: boolean;
   student: number;
   project: number;
