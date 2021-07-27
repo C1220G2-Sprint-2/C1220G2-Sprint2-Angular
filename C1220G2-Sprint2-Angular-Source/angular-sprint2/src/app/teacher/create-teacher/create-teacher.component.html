@@ -1,1 +1,251 @@
-<p>create-teacher works!</p>
+<!--Tam update create teacher FE-->
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col" id="form">
+      <div class="row mb-2"></div>
+      <div class="row">
+        <div class="col text-center pb-3">
+          <h1>Thêm mới giảng viên</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 mt-1" style="text-align: right">
+          <img style="width: 350px; height: 400px"
+               [src]="imageFirebase">
+          <label class="btn font-weight-bold mt-3"
+                 style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 20%" for="image"><i
+            class="fas fa-images"></i> Thêm ảnh</label>
+        </div>
+        <div class="col-md-7">
+          <form [formGroup]="createTeacherForm" (ngSubmit)="submit()">
+            <input formControlName="image" type="file" id="image" (change)="showPreview($event)"
+                   accept=".jpg,.jpeg,.png" hidden>
+            <div class="row">
+              <div class="col-md-6">
+                <b for="code" class="form-label">Tên Giảng viên<span
+                  style="color: red">*</span></b>
+                <input formControlName="name" type="text" class="form-control" id="code">
+                <span *ngIf="!name.valid && name.touched"
+                      [hidden]="!name.hasError('required')" class="text-danger">
+                  Tên giảng viên không được để trống.
+                </span>
+                <span *ngIf="!name.valid && name.touched"
+                      [hidden]="!name.hasError('minlength')" class="text-danger">
+                  Tên giảng viên phải có từ 3-30 ký tự.
+                </span>
+                <span *ngIf="!name.valid && name.touched"
+                      [hidden]="!name.hasError('maxlength')" class="text-danger">
+                  Tên giảng viên phải có từ 3-30 ký tự.
+                </span>
+                <span *ngIf="!name.valid && name.touched"
+                      [hidden]="!name.hasError('pattern')" class="text-danger">
+                  Vui lòng không sử dụng số, ký tự đặc biệt, và viết hoa chữ cái đầu. Tên hợp lệ ( Nguyễn Văn A ).
+                </span>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="address" class="form-label">Địa chỉ</b>
+                  <input formControlName="address" type="text" class="form-control" id="address">
+                  <span *ngIf="!address.valid && address.touched"
+                        [hidden]="!address.hasError('required')" class="text-danger">
+                  Địa chỉ không được để trống.
+                </span>
+                  <span *ngIf="!address.valid && address.touched"
+                        [hidden]="!address.hasError('minlength')" class="text-danger">
+                  Địa chỉ phải có từ 3-200 ký tự.
+                </span>
+                  <span *ngIf="!address.valid && address.touched"
+                        [hidden]="!address.hasError('maxlength')" class="text-danger">
+                  Địa chỉ phải có từ 3-200 ký tự.
+                </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="degree" class="form-label">Học vị<span style="color: red">*</span></b>
+                  <select formControlName="educationId" class="form-select" aria-label="Default select example"
+                          id="degree">
+                    <option value="">Chọn học vị</option>
+                    <option *ngFor="let education of educationList" [value]="education.id">{{education.name}}</option>
+                  </select>
+                  <span *ngIf="!educationId.valid && educationId.touched"
+                        [hidden]="!educationId.hasError('required')" class="text-danger">
+                  Học vị không được để trống.
+                </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b class="form-label">Giới tính<span
+                    style="color: red">*</span></b>
+                  <br>
+                  <div class="form-check">
+                    <input formControlName="gender" class="form-check-input" type="radio" name="gender"
+                           id="inlineRadio1" value="Nam">
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                  </div>
+                  <div class="form-check ml-3 pt-2">
+                    <input formControlName="gender" class="form-check-input" type="radio" name="gender"
+                           id="inlineRadio2" value="Nữ">
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                  </div>
+                  <div class="form-check ml-3 pt-2">
+                    <input formControlName="gender" class="form-check-input" type="radio" name="gender"
+                           id="inlineRadio3" value="Khác">
+                    <label class="form-check-label" for="inlineRadio3">Khác</label>
+                  </div>
+                  <br>
+                  <span *ngIf="!gender.valid && gender.touched"
+                        [hidden]="!gender.hasError('required')" class="text-danger">
+                  Giới tính không được để trống.
+                </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="dateOfBirth" class="form-label">Ngày sinh<span
+                    style="color: red">*</span></b>
+                  <input formControlName="dateOfBirth" type="date" class="form-control" id="dateOfBirth">
+                  <span *ngIf="!dateOfBirth.valid && dateOfBirth.touched"
+                        [hidden]="!dateOfBirth.hasError('required')" class="text-danger">
+                  Ngày sinh không được để trống.
+                </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="phone" class="form-label">Số điện thoại<span style="color: red">*</span></b>
+                  <input formControlName="phone" type="text" class="form-control" id="phone">
+                  <span *ngIf="!phone.valid && phone.touched"
+                        [hidden]="!phone.hasError('required')" class="text-danger">
+                  Số điện thoại không được để trống.
+                </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="faculty" class="form-label">Khoa<span style="color: red">*</span></b>
+                  <select formControlName="facultyId" class="form-select" aria-label="Default select example"
+                          id="faculty">
+                    <option value="">Chọn khoa</option>
+                    <option *ngFor="let faculty of facultyList" [value]="faculty.id">{{faculty.name}}</option>
+                  </select>
+                  <span *ngIf="!facultyId.valid && facultyId.touched"
+                        [hidden]="!facultyId.hasError('required')" class="text-danger">
+                  Khoa không được để trống.
+                </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <div class="md-form form-sm">
+                    <b for="email" class="form-label">Email<span style="color: red">*</span></b>
+                    <input formControlName="email" type="text" class="form-control" id="email">
+                    <span *ngIf="!email.valid && email.touched"
+                          [hidden]="!email.hasError('required')" class="text-danger">
+                  Email không được để trống.
+                </span>
+                    <span *ngIf="!email.valid && email.touched"
+                          [hidden]="!email.hasError('minlength')" class="text-danger">
+                  Email phải có từ 3-50 ký tự.
+                </span>
+                    <span *ngIf="!email.valid && email.touched"
+                          [hidden]="!email.hasError('maxlength')" class="text-danger">
+                  Email phải có từ 3-50 ký tự.
+                </span>
+                    <span *ngIf="!email.valid && email.touched"
+                          [hidden]="!email.hasError('pattern')" class="text-danger">
+                  Email không đúng định dạng.
+                </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <b for="twitter" class="form-label">Twitter</b>
+                <input formControlName="twitter" type="text" class="form-control" id="twitter">
+                <span *ngIf="!twitter.valid && twitter.touched"
+                      [hidden]="!twitter.hasError('minlength')" class="text-danger">
+                  Twitter phải có từ 3-200 ký tự.
+                </span>
+                <span *ngIf="!twitter.valid && twitter.touched"
+                      [hidden]="!twitter.hasError('maxlength')" class="text-danger">
+                  Twitter phải có từ 3-200 ký tự.
+                </span>
+              </div>
+              <div class="col-md-6">
+                <div class="md-form form-sm">
+                  <b for="fb" class="form-label">FaceBook</b>
+                  <input formControlName="facebook" type="text" class="form-control" id="fb">
+                  <span *ngIf="!facebook.valid && facebook.touched"
+                        [hidden]="!facebook.hasError('minlength')" class="text-danger">
+                  Facebook phải có từ 3-200 ký tự.
+                </span>
+                  <span *ngIf="!facebook.valid && facebook.touched"
+                        [hidden]="!facebook.hasError('maxlength')" class="text-danger">
+                  Facebook phải có từ 3-200 ký tự.
+                </span>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6" style="text-align: right">
+                <button type="button"
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal"
+                        class="btn font-weight-bold"
+                        style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 20%">HỦY BỎ
+                </button>
+                <button class="btn font-weight-bold" type="submit" [disabled]="!createTeacherForm.valid"
+                        style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%">THÊM MỚI
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-2"></div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #4F9B65;">
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel">Hủy Thêm Mới</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc chắn hủy bỏ thêm mới không?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 20%"
+                data-mdb-dismiss="modal">
+          Đóng
+        </button>
+        <button type="button" class="btn font-weight-bold" data-mdb-dismiss="modal" routerLink="/danh-sach"
+                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%">Đồng ý
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Tam update create teacher FE-->

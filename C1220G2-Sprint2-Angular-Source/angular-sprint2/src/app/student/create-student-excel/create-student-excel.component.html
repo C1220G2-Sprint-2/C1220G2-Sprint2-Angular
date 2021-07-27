@@ -1,0 +1,159 @@
+<div class="container-xl w-75">
+  <div class="table-responsive" >
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6"><h1>Thêm mới <b>Sinh viên</b></h1></div>
+          <div class="col-sm-3">
+            <div style="height: 52px;">
+              <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                     style="display: inline-block; width: 85%;margin-top: 6px;border-radius: 1.5rem">
+              <button class="btn btn-default" title="Reload"
+                      style="display: inline-block; float: right;margin-top: 6px;border-radius: 50%">
+                <i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <label for="excel" class="btn font-weight-bold" style="background-color: #0498D6; margin-top: 6px; color: white; text-align: center; border-radius: 1.5rem; width: 100%">Thêm file</label>
+            <input type="file" id="excel" accept=".xlsx, .pdf" style="background: #4F9B65" hidden>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr class="text-center">
+          <th scope="col">STT</th>
+          <th scope="col">Tên sinh viên <i class="fa fa-sort"></i></th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Ngày sinh</th>
+          <th scope="col">Email</th>
+          <th scope="col">Giới tính</th>
+          <th scope="col">Số điện thoại</th>
+          <th scope="col">Lớp</th>
+          <th scope="col">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="font-weight-bold">1</td>
+          <td>Nguyễn Đức Hậu</td>
+          <td>Đà Nẵng</td>
+          <td>07/08/1998</td>
+          <td>duchau@gmail.com</td>
+          <td>Nam</td>
+          <td>0905999999</td>
+          <td>C1220G2</td>
+          <td class="text-center">
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">2</td>
+          <td>Lê Đức Sang</td>
+          <td>Quảng Nam</td>
+          <td>07/08/1992</td>
+          <td>sangld@gmail.com</td>
+          <td>Nam</td>
+          <td>0905456789</td>
+          <td>C1220G2</td>
+          <td class="text-center">
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">3</td>
+          <td>Trần Hồng Gia Đông</td>
+          <td>Quảng Ngãi</td>
+          <td>07/08/1995</td>
+          <td>giadong95@gmail.com</td>
+          <td>Nam</td>
+          <td>0772777777</td>
+          <td>C1220G2</td>
+          <td class="text-center">
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">4</td>
+          <td>Nguyễn Thị Thanh Hoa</td>
+          <td>Hà Nội</td>
+          <td>07/12/2000</td>
+          <td>thanhhoa@gmail.com</td>
+          <td>Nữ</td>
+          <td>0775824544</td>
+          <td>C1120G1</td>
+          <td class="text-center">
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">5</td>
+          <td>Hoàng Thị Hương</td>
+          <td>Hồ Chí Minh</td>
+          <td>19/02/1999</td>
+          <td>huonghuh@gmail.com</td>
+          <td>Nữ</td>
+          <td>0336785466</td>
+          <td>C0221G1</td>
+          <td class="text-center">
+            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+               data-bs-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <div class="hint-text">Hiển thị <b>5</b> trên <b>25</b> dòng</div>
+        <ul class="pagination">
+          <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+          <li class="page-item disabled"><a href="#"><i class="fas fa-angle-left"></i></a></li>
+          <li class="page-item active"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item"><a href="#" class="page-link">...</a></li>
+          <li class="page-item"><a href="#" class="page-link">9</a></li>
+          <li class="page-item"><a href="#" class="page-link">10</a></li>
+          <li class="page-item"><a href="#"><i class="fas fa-angle-right"></i></a></li>
+          <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+          </li>
+        </ul>
+      </div>
+      <div class="text-end me-md-2 mt-2">
+        <button class="btn font-weight-bold "
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem; width: 10%">Hủy
+        </button>
+        <button class="btn font-weight-bold "
+                style="background-color: #4F9B65; color: white; border-radius: 1.5rem; width: 10%">Thêm mới
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #4F9B65">
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel">Xóa sinh viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa <span style="color: red">Nguyễn Đức Hậu</span> khỏi danh sách không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn font-weight-bold" data-bs-dismiss="modal"
+                style="background-color: #d91a37;color: white; border-radius: 1.5rem">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
