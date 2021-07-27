@@ -40,7 +40,7 @@
  <li class="nav-item">
       <div *ngIf="user.username.charAt('^(SV)') !=-1 then student; else teacher"></div>
       <ng-template #student>
-        <div *ngIf="studentTS.team.id ==1 then studentNew; else studentOld"></div>
+        <div *ngIf="studentTS.team?.id ==1 then studentNew; else studentOld"></div>
         <ng-template #studentNew>
           <a class="nav-link" routerLink="/nhom/dang-ky" >
             <i class="fas fa-users"></i>

@@ -24,7 +24,7 @@ export class SidenavComponent implements OnInit {
   username: string;
   userId: number;
   user;
-  studentTS: any = null;
+  studentTS: any = {};
 
 
   constructor(private teamService: TeamService, private tokenStorageService: TokenStorageService, private router: Router,
