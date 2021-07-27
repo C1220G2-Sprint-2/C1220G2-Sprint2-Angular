@@ -1,6 +1,8 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
 import {Router} from "@angular/router";
 import {TeamService} from "../team.service";
+import {TokenStorageService} from "../../security/token-storage.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-student-group-registration',
@@ -13,38 +15,48 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   listStudent: any = [];
   listTeam: any[] = [];
 
-  private team= {
+  private team = {
     name: "",
     enable: false,
     teamLeader: "",
     listTeam: []
   };
   nameTeam: string;
-
-  private user = {
-    code: "SV-0001",
-  }
+  checkSortName = false;
+  checkSortCode = false;
+  checkSortClass = false;
+  private user ;
   isLoggedIn: boolean = false;
 
   page: number = 1;
   collection: any[] = this.listStudent;
-  pageCard: number=1;
-
-  constructor(private teamService: TeamService, private route: Router) {
+  pageCard: number = 1;
+  studentTS: any;
+  searchStudent: string = '';
+p
+  constructor(  private tokenStorageService: TokenStorageService, private teamService: TeamService, private route: Router) {
   }
 
   ngOnInit(): void {
 
-    // this.isLoggedIn = !!this.tokenStorageService.getToken();
-    // if (this.isLoggedIn) {
-    //   this.user = this.tokenStorageService.getUser();
-    // }
-
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      this.user = this.tokenStorageService.getUser();
+      console.log(this.listStudent);
+      this.teamService.getStudent(this.user.username).subscribe(data => {
+        console.log(data);
+        this.studentTS = data;
+      });
+    }
 
     this.teamService.listStudent().subscribe(data => {
       this.listStudent = data.filter(function (student) {
         return student.team.id == 1 && student.enable == true;
       })
+
+      this.listTeam.push(this.studentTS);
+
+
 
     });
 
@@ -52,7 +64,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
 
   addStudent(s: any) {
     if (this.listTeam.includes(s)) {
-      alert("da ton tai");
+      this.showErrorAdd();
     } else {
       this.listTeam.push(s);
     }
@@ -65,9 +77,9 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   }
 
   delete(code: any) {
-    for (let i=0; i<this.listTeam.length;i++) {
-      if (this.listTeam[i].code==code) {
-        this.listTeam.splice(i,1)
+    for (let i = 0; i < this.listTeam.length; i++) {
+      if (this.listTeam[i].code == code) {
+        this.listTeam.splice(i, 1)
       }
     }
   }
@@ -75,14 +87,111 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   createTeam() {
 
     this.team.listTeam = this.listTeam;
+    for (let i=0;i<this.team.listTeam.length;i++) {
+      if (this.listTeam[i].code== this.studentTS.code) {
+        this.listTeam[i].groupStatus= 1.0;
+      } else {
+        this.listTeam[i].groupStatus= 0.5;
+      }
+    }
     console.log("this.team.listTeam");
     console.log(this.team.listTeam);
-    this.team.name= this.nameTeam;
-    this.team.enable= true;
+    this.team.name = this.nameTeam;
+    this.team.enable = true;
     // @ts-ignore
-    this.team.teamLeader= this.user.code;
+    this.team.teamLeader = this.studentTS.code;
     this.teamService.postTeam(this.team).subscribe(data => {
-      // this.route.navigateByUrl('do-an/dang-ky');
+      this.showSuccess();
+      this.route.navigateByUrl('nhom/quan-ly-nhom');
     });
+  }
+
+  searchTeamRegistration() {
+    this.teamService.searchTeamRegistration(this.searchStudent).subscribe(data => {
+      this.listStudent = data.filter(function (student) {
+        return student.team.id == 1 && student.enable == true;
+      })
+    })
+  }
+
+  sortCode() {
+    this.checkSortCode = !this.checkSortCode;
+    console.log("da vao")
+    if (this.checkSortCode) {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.code;
+        let b = sv2.code;
+        return a === b ? 0 : a > b ? 1 : -1;
+      })
+    } else {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.code;
+        let b = sv2.code;
+        return a === b ? 0 : a > b ? -1 : 1;
+      })
+    }
+
+  }
+
+  sortName() {
+    console.log("vao")
+    this.checkSortName = !this.checkSortName;
+    if (this.checkSortName) {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.name;
+        let b = sv2.name;
+        return a === b ? 0 : a > b ? 1 : -1;
+      })
+    } else {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.name;
+        let b = sv2.name;
+        return a === b ? 0 : a > b ? -1 : 1;
+      })
+    }
+  }
+
+  sortClass() {
+    this.checkSortClass = !this.checkSortClass;
+    if (this.checkSortClass) {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.classCode;
+        let b = sv2.classCode;
+        return a === b ? 0 : a > b ? 1 : -1;
+      })
+    } else {
+      this.listTeam.sort(function (sv1, sv2) {
+        let a = sv1.classCode;
+        let b = sv2.classCode;
+        return a === b ? 0 : a > b ? -1 : 1;
+      })
+    }
+  }
+  errorMessage = '';
+  showSuccess() {
+    Swal.fire({
+      title: 'Bạn đã đăng ký nhóm thành công!',
+      text: this.errorMessage,
+      icon: 'success',
+      confirmButtonText: 'Đóng'
+    })
+  }
+
+  showError() {
+    Swal.fire({
+      title: 'Không thể đăng ký đề tài vì Giáo viên hướng dẫn hoặc Danh mục không đúng!',
+      text: this.errorMessage,
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    })
+  }
+
+  showErrorAdd() {
+    Swal.fire({
+      title: 'Đã thêm vào danh sách!',
+      text: this.errorMessage,
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    })
   }
 }

@@ -3,11 +3,11 @@ import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@an
 import { Router } from '@angular/router';
 import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
-import { GroupChat } from 'src/app/models/group-chat.model';
-import { User } from 'src/app/models/user.model';
 
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../../security/token-storage.service';
+import { User } from 'src/app/models/user.model';
+import { GroupChat } from 'src/app/models/group-chat.model';
 
 @Component({
   selector: 'app-header',
@@ -15,33 +15,29 @@ import {TokenStorageService} from '../../security/token-storage.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
   /* --------------------- Kha code ---------------------------- */
   chatGroupName: FormControl;
-
   // groupsOfUser: GroupUser[] = [];
   groupNames: string[] = [];
   currentUser: User;
   groups: GroupChat[] = [];
   allGroupChats: GroupChat[] = [];
   // -----------------------------------------------
-
   /* --------------------- Cong code ---------------------------- */
   isLoggedIn: boolean = false;
   username: string;
   userId: number;
   userImage: string;
+  name: string;
   // -----------------------------------------------
-
-
-  constructor( private router: Router, 
-    private chatService: ChatService,
-    private authService: FirebaseAuthService,
-    private tokenStorageService: TokenStorageService,
-    private toastService: ToastrService) {
+  constructor( private router: Router,
+               private chatService: ChatService,
+               private authService: FirebaseAuthService,
+               private tokenStorageService: TokenStorageService,
+               private toastService: ToastrService) {
   }
-
   ngOnInit(): void {
+
     /* --------------------- Kha code ---------------------------- */
     this.authService.authUser().subscribe(user => {
       if (user !== null && user !== undefined) {
@@ -54,20 +50,19 @@ export class HeaderComponent implements OnInit {
 
     this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.allGroupChats)]);
     /* ---------------------------- ---------------------------- */
-
     /* --------------------- Cong code ---------------------------- */
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
       this.userId = user.id;
       this.userImage = user.avatar;
+      this.name = user.name;
     }
     /* ---------------------------- ---------------------------- */
   }
-
-    /* --------------------- Kha code ---------------------------- */
-
+  /* --------------------- Kha code ---------------------------- */
   duplicatedGroupNameValidator(groups: GroupChat[]): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       let isDuplicated: boolean = false;
@@ -79,8 +74,8 @@ export class HeaderComponent implements OnInit {
       }
       return isDuplicated ? {duplicatedGroupName: {value: control.value}} : null;
     }
-  }
 
+  }
   getGroupNames() {
     // Get name of groups that the current user belongs to.
     this.chatService.getGroupsUsers().subscribe(groupUserList => {
@@ -92,7 +87,6 @@ export class HeaderComponent implements OnInit {
       });
     })
   }
-
   getGroupChats() {
     // Get groups that the current user belongs to.
     this.chatService.getGroups().subscribe(groupChats => {
@@ -105,12 +99,10 @@ export class HeaderComponent implements OnInit {
       });
     })
   }
-
   getBelongGroups() {
     this.getGroupNames();
     this.getGroupChats();
   }
-
   createNewChatGroup() {
     const roomName = this.chatGroupName.value;
     // create group on firebase.
@@ -128,8 +120,7 @@ export class HeaderComponent implements OnInit {
       });
     
   }
-  
-
+  // group name cannot be duplicated.
   goToGroupChat(groupName: string) {
     // replace literal white space in path by its code.
     groupName.replace(" ", "%20%");
@@ -146,8 +137,6 @@ export class HeaderComponent implements OnInit {
   }
 
   /* ---------------------------- ---------------------------- */
-
-
   /* ---------------------------- Cong code ---------------------------- */
   signOut() {
     this.authService.signOut(); // kha code
@@ -155,5 +144,4 @@ export class HeaderComponent implements OnInit {
     window.location.assign("");
   }
   /* ---------------------------- ---------------------------- */
-
 }

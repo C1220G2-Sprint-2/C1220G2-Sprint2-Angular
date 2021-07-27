@@ -12,7 +12,9 @@ import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service'
 })
 export class LoginComponent implements OnInit {
   form: any = {};
-  roles: string[] = [];
+  readonly = false;
+  test: any;
+
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
               private router: Router,
               private toastService: ToastrService,
@@ -26,26 +28,26 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.readonly = true;
     this.authService.login(this.form).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
-        this.roles = this.tokenStorage.getUser().roles;
 
         // -------------------kha code---------------
         const authenUser = this.tokenStorage.getUser();
         const promise = this.firebaseAuthService.login(authenUser.email, this.form.password);
         promise
           .then(() => {
-            this.showSuccess();
             window.location.assign('/de-tai/danh-sach-de-tai');
+            this.showSuccess();
           })
           .catch(() => {
             // this.showLoginFailed();
             this.firebaseAuthService.signUp(authenUser.email, this.form.password, authenUser.avatar)
               .then((success) => {
-                this.showSuccess();
                 window.location.assign('/de-tai/danh-sach-de-tai');
+                this.showSuccess();
               })
               .catch((error) => this.showLoginFailed());
           });
@@ -55,6 +57,7 @@ export class LoginComponent implements OnInit {
         // window.location.assign('/de-tai/danh-sach-de-tai');
       },
       err => {
+        this.readonly = false;
         this.showLoginFailed();
       }, () => {
       }
@@ -68,7 +71,7 @@ export class LoginComponent implements OnInit {
 
   showSuccess() {
     this.toastService.success('Thành công !', 'Đăng nhập',{
-      timeOut: 1000
+      timeOut: 10000
     });
   }
 
@@ -81,4 +84,8 @@ export class LoginComponent implements OnInit {
   //   .catch(error => this.errorMsg = error.message);
   // }
 
+  // value(event: Event) {
+  //   this.test = (event.target as HTMLInputElement).value;
+  //   console.log( this.test)
+  // }
 }

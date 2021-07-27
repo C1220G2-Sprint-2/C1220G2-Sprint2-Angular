@@ -10,7 +10,8 @@ export interface Student {
   gender: string
   status: boolean
   address: string
-  team: number
+  team: string
   enable: boolean
   dateOfBirth: string
+
 }

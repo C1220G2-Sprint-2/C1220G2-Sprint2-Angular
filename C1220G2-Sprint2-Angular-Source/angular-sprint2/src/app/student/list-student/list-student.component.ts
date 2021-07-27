@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudentService} from "../student.service";
 import {Student} from "../../model/student";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-list-student',
@@ -14,7 +15,6 @@ export class ListStudentComponent implements OnInit {
   collectionSize = 0;
   page = 1;
   pageSize = 4;
-  messageSearch = '';
 
   constructor(private studentService: StudentService) { }
 
@@ -33,7 +33,7 @@ export class ListStudentComponent implements OnInit {
     this.keyword = $event.target.value;
   }
 
-  meesageSearch ='';
+  messageSearch ='';
   listSearch() {
     this.messageSearch = '';
     this.studentService.findSearch(this.keyword).subscribe(
@@ -49,9 +49,22 @@ export class ListStudentComponent implements OnInit {
 
   codeDelete: string;
   nameDelete: string;
+  teamDelete: string;
+  student: Student;
+  checkDelete = false;
+  check = false;
   passData(code: string, name: string) {
+    this.checkDelete = false;
     this.codeDelete =code;
     this.nameDelete = name;
+    this.studentService.findById(this.codeDelete).subscribe(value => {
+      this.student = value;
+      this.teamDelete = this.student.team;
+      if(this.student.team == "Chưa có nhóm"){
+      this.checkDelete = true;
+      }
+      this.check = true;
+    });
   }
 
   delete() {
@@ -59,4 +72,42 @@ export class ListStudentComponent implements OnInit {
       this.listSearch();
     })
   }
+
+  block() {
+    this.delay();
+    this.studentService.block(this.codeDelete, this.nameDelete, this.teamDelete).subscribe(value => {
+      this.listSearch();
+    })
+  }
+
+  delay() {
+    let timerInterval;
+    Swal.fire({
+      title: '',
+      html: 'Vui lòng chờ trong <b></b> giây.',
+      timer: 15000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        timerInterval = setInterval(() => {
+          const content = Swal.getHtmlContainer();
+          if (content) {
+            const b = content.querySelector('b');
+            if (b) {
+              b.textContent = String(Swal.getTimerLeft())
+            }
+          }
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+    })
+  }
+
 }
