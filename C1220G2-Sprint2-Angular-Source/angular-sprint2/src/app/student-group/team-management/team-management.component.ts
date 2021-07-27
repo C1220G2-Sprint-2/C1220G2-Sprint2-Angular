@@ -3,6 +3,7 @@ import {TeamService} from "../team.service";
 import {Router} from "@angular/router";
 
 import {TokenStorageService} from "../../security/token-storage.service";
+import {StudentGroupService} from "../student-group.service";
 
 @Component({
   selector: 'app-team-management',
@@ -19,18 +20,21 @@ export class TeamManagementComponent implements OnInit {
     teamLeader: "",
     listTeam: []
   };
-  nameTeam: string;
+  nameTeam: string = '';
 
   private user ;
   isLoggedIn: boolean = false;
   check:boolean = true;
-  page: number = 1;
+
   collection: any[] = this.listStudent;
   pageCard: number = 1;
-  studentTS?: any = null;
-  project: any;
+  studentTS?: any = {};
+  project: any = {};
+   teamDB: any ={};
+  pageCard2: number = 1;
+   studentDelete: any= {};
 
-  constructor(   private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {
+  constructor(  private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {
   }
 
 
@@ -44,24 +48,28 @@ export class TeamManagementComponent implements OnInit {
       this.teamService.getStudent(this.user.username).subscribe(data => {
         console.log(data);
         this.studentTS = data;
-
+        this.teamService.getTeam(this.studentTS.team.id).subscribe(data=>{
+          this.teamDB=data;
+          console.log(this.teamDB);
+        })
         this.teamService.findByTeam(this.studentTS.team.id).subscribe(data => {
           console.log("kiem tra project");
           console.log(data);
           this.project=data;
         });
+
         this.teamService.listStudent().subscribe(data => {
           console.log(data);
           this.listStudent = data.filter(function (student) {
             return student.enable == true;
           })
-          let newListStudent= []
+          let newListStudent= [];
           for(let i=0; i<this.listStudent.length;i++ ) {
-            if(this.listStudent[i].team.id== this.studentTS.team.id) {
+            if(this.listStudent[i].team?.id== this.studentTS.team?.id) {
               newListStudent.push(this.listStudent[i]);
             }
           }
-          console.log(newListStudent)
+          console.log(newListStudent);
           this.listStudent= newListStudent;
 
           for(let i=0; i< newListStudent.length;i++) {
@@ -72,7 +80,7 @@ export class TeamManagementComponent implements OnInit {
         })
       })
     }
-    this.teamService.getTeam(this.studentTS.team.id).subscribe( data => {
+    this.teamService.getTeam(this.studentTS.team?.id).subscribe( data => {
       this.team=data;
       console.log(this.team)
     })
@@ -80,10 +88,27 @@ export class TeamManagementComponent implements OnInit {
 
   deleteStudent(s: any) {
     this.teamService.removeTeam(s).subscribe( data => {
-      this.route.navigateByUrl('nhom/quan-ly-nhom');
-      console.log(this.team)
+      this.teamService.listStudent().subscribe(data => {
+        console.log(data);
+        this.listStudent = data.filter(function (student) {
+          return student.enable == true;
+        })
+        let newListStudent= [];
+        for(let i=0; i<this.listStudent.length;i++ ) {
+          if(this.listStudent[i].team.id== this.studentTS.team.id) {
+            newListStudent.push(this.listStudent[i]);
+          }
+        }
+        console.log(newListStudent);
+        this.listStudent= newListStudent;
+
+      })
+
     })
   }
-
+  guiThongtin(studentDelete: any) {
+    console.log(studentDelete)
+    this.studentDelete= studentDelete;
+  }
 
 }
