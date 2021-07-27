@@ -7,6 +7,7 @@ import {catchError} from 'rxjs/operators';
 import {StudentDto} from './student-dto';
 import {ReviewDto} from './review-dto';
 import {Project} from '../models/project';
+import {ProjectDto} from './project-dto';
 
 const API_URL = `${environment.apiUrl}` + '/api';
 
@@ -22,16 +23,28 @@ export class ProgressService {
     return this.http.get<ProgressDto[]>(API_URL + '/progress/list').pipe(catchError(this.handleError));
   }
 
-  getAllStudentDto(): Observable<StudentDto[]> {
-    return this.http.get<StudentDto[]>(API_URL + '/progress/student-list').pipe(catchError(this.handleError));
+  getProjectById(projectId: number): Observable<ProjectDto> {
+    return this.http.get<ProjectDto>(API_URL + '/progress/project/' + projectId).pipe(catchError(this.handleError));
+  }
+
+  searchByName(nameProject: string): Observable<ProgressDto[]> {
+    return this.http.get<ProgressDto[]>(API_URL + '/progress/search?projectName=' + nameProject).pipe(catchError(this.handleError));
+  }
+
+  getStudentOfGroup(projectId: number): Observable<StudentDto[]> {
+    return this.http.get<StudentDto[]>(API_URL + '/progress/student-list-of-group/' + projectId).pipe(catchError(this.handleError));
+  }
+
+  getAllReview(): Observable<ReviewDto[]> {
+    return this.http.get<ReviewDto[]>(API_URL + '/review/review-list').pipe(catchError(this.handleError));
   }
 
   addNewReview(reviewDto: ReviewDto): Observable<void> {
     return this.http.post<void>(API_URL + '/review/review-save', reviewDto).pipe(catchError(this.handleError));
   }
 
-  findProjectById(idProject: number): Observable<Project> {
-    return this.http.get<Project>(`${API_URL}/project/${idProject}`);
+  findProjectById(idProject: number): Observable<ProjectDto> {
+    return this.http.get<ProjectDto>(`${API_URL}/progress/project/${idProject}`);
   }
 
   // ---------------------------------------------------------------------------------

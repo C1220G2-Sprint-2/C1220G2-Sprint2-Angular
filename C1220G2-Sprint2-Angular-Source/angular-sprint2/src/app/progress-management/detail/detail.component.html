@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: {{name}}
+      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>
     </p>
   </div>
 </div>
@@ -21,7 +21,8 @@
                 </div>
                 <div class="team-content">
                   <h5 class="name">{{student.name}}</h5>
-                  <h4 class="title">Trưởng nhóm</h4>
+                  <h4 class="title">{{student.email| lowercase}}</h4>
+                  <h4 class="title text-info">{{student.phone}}</h4>
                 </div>
                 <ul class="social">
                   <li><a href="#" aria-hidden="true">Chi tiết</a>
@@ -79,7 +80,7 @@
             <div
               class="progress-bar bg-success"
               role="progressbar"
-              style="width: 100%;"
+              [ngStyle]="{'width': '100%'}"
               aria-valuenow="100"
               aria-valuemin="0"
               aria-valuemax="100"
@@ -222,310 +223,75 @@
             <div class="card-header text-center">
               <h1 class="h1" style="color: #042440">Đánh giá của giáo viên</h1>
             </div>
-            <button class="btn font-weight-bold m-3"
+            <button *ngIf="isTeacherLogin" class="btn font-weight-bold m-3"
                     style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                     data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-bs-whatever="@getbootstrap"> Tạo đánh giá
             </button>
-            <div class="container w-100">
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/hczKIze.jpg" width="30"
-                         class="user-img rounded-circle mx-2"/>
-                    <h6>
-                      <small class="font-weight-bold text-primary">Đặng Chí Trung</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Tiến độ 1</small>
-                  </h5>
-                </div>
-
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small text-center align-self-center">
-                    <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
-                      </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
+            <div class="container mb-5 mt-5">
+              <div class="card">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="media my-5" *ngFor="let review of reviewList"><img class="mr-3 rounded-circle"
+                                                                                   alt="Bootstrap Media Preview"
+                                                                                   src="https://i.imgur.com/xELPaag.jpg"/>
+                      <div class="media-body text-left">
+                        <div class="row">
+                          <div class="col-8 d-flex">
+                            <h5 class="text-info">{{review.teacherName}}</h5> <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}
+                            &nbsp; &nbsp; &nbsp; &nbsp;<b>{{review.title}}</b></span>
+                          </div>
+                          <div class="col-4">
+                            <div class="pull-right reply"><a href="#"><span><i
+                              class="fa fa-reply"></i> Trả lời</span></a></div>
+                          </div>
+                        </div>
+                        Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét: {{review.content}}
+                        <div class="media mt-4"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                              alt="Bootstrap Media Another Preview"
+                                                                              src="https://i.imgur.com/nUNhspp.jpg"/></a>
+                          <div class="media-body">
+                            <div class="row">
+                              <div class="col-12 d-flex">
+                                <h5 class="text-info">Thanh Công</h5> <span>- 5 hours ago</span>
+                              </div>
+                            </div>
+                            Dạ chiều nay nghĩ tới mấy giờ vậy a
+                          </div>
+                        </div>
+                        <div class="media mt-3"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                              alt="Bootstrap Media Another Preview"
+                                                                              src="https://i.imgur.com/HjKTNkG.jpg"/></a>
+                          <div class="media-body">
+                            <div class="row">
+                              <div class="col-12 d-flex">
+                                <h5 class="text-info">Gia Đông</h5> <span>- 5 hours ago</span>
+                              </div>
+                            </div>
+                            Em xin vắng chiều nay đi thi Toeic nha anh ơi
+                          </div>
+                        </div>
+                        <div class="media mt-3"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                              alt="Bootstrap Media Another Preview"
+                                                                              src="https://i.imgur.com/nAcoHRf.jpg"/></a>
+                          <div class="media-body">
+                            <div class="row">
+                              <div class="col-12 d-flex">
+                                <h5>Sang Le</h5> <span>- 4 hours ago</span>
+                              </div>
+                            </div>
+                            Dạ em sẽ triển khai ngay
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên A
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên B
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/ZSkeqnd.jpg"
-                         width="30"
-                         class="user-img rounded-circle mx-2">
-                    <h6>
-                      <small class="font-weight-bold text-primary">Trần Thị Tố Tâm</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Hoàn thành sản phẩm
-                      Prototype: </small>
-                  </h5>
-                </div>
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small">
-                    <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample1"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample1">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample1">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment1" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
-                      </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test1">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction1()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên C
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên D
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!--      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>-->
-      <!--    --------------------------------------------------------------------------------------------------------------->
-      <!--                                           CODE FROM HAUND                                                     -->
-      <!--                                          BÁO CÁO TIẾN ĐỘ CỦA SINH VIÊN                                                  -->
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="container">
           <div class="card" style="min-height: 1000px">
@@ -671,13 +437,6 @@
           </div>
         </div>
       </div>
-      <!--    --------------------------------------------------------------------------------------------------------------->
-      <!--                                      ENDCODE FROM HAUND                                              -->
-
-      <!--    --------------------------------------------------------------------------------------------------------------->
-      <!--                                           CODE FROM DONGTHG                                                     -->
-      <!--                                          THẮC MẮC SINH VIÊN                                                     -->
-
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container">
           <div class="card" style="min-height: 1000px">
@@ -733,27 +492,27 @@
                         </div>
                       </div>
                       <div class="collapse" id="collapseComment">
-                          <div class="form-group">
+                        <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentConcern" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
                                          </textarea>
-                          </div>
-                          <div class="form-group mt-2" style="text-align: right!important;">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                              Hủy
-                            </button>
-                            <input hidden type="file" id="test3">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                    onclick="myFunction()">
-                              Chọn ảnh
-                            </button>
-                            <button type="button" class="btn font-weight-bold"
-                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                              Gửi
-                            </button>
-                          </div>
+                        </div>
+                        <div class="form-group mt-2" style="text-align: right!important;">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                            Hủy
+                          </button>
+                          <input hidden type="file" id="test3">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                  onclick="myFunction()">
+                            Chọn ảnh
+                          </button>
+                          <button type="button" class="btn font-weight-bold"
+                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                            Gửi
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -804,221 +563,233 @@
           </div>
         </div>
       </div>
-      <!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                            -->
-      <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">
-        <div class="container">
-          <div class="card" style="min-height: 1000px">
-            <div class="card-header text-center">
-              <h1 class="h1" style="color: #042440">Thông báo của giáo viên</h1>
-            </div>
-            <div class="card-body">
-              <button class="btn font-weight-bold m-3"
-                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
-                      data-bs-toggle="modal" data-bs-target="#announceModal"
-                      data-bs-whatever="@getbootstrap"> Tạo thông báo
-              </button>
-              <div class="container">
-                <div class="card p-3 my-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center">
-                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
-                      <h6>
-                        <small class="font-weight-bold text-primary">Thầy A</small>
-                      </h6>
+    </div>
+  </div>
+
+  <!--      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Alo</div>-->
+  <!--    --------------------------------------------------------------------------------------------------------------->
+  <!--                                           CODE FROM HAUND                                                     -->
+  <!--                                          BÁO CÁO TIẾN ĐỘ CỦA SINH VIÊN                                                  -->
+  <!--    --------------------------------------------------------------------------------------------------------------->
+  <!--                                      ENDCODE FROM HAUND                                              -->
+
+  <!--    --------------------------------------------------------------------------------------------------------------->
+  <!--                                           CODE FROM DONGTHG                                                     -->
+  <!--                                          THẮC MẮC SINH VIÊN                                                     -->
+
+  <!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                            -->
+  <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">
+    <div class="container">
+      <div class="card" style="min-height: 1000px">
+        <div class="card-header text-center">
+          <h1 class="h1" style="color: #042440">Thông báo của giáo viên</h1>
+        </div>
+        <div class="card-body">
+          <button class="btn font-weight-bold m-3"
+                  style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                  data-bs-toggle="modal" data-bs-target="#announceModal"
+                  data-bs-whatever="@getbootstrap"> Tạo thông báo
+          </button>
+          <div class="container">
+            <div class="card p-3 my-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-row align-items-center">
+                  <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                  <h6>
+                    <small class="font-weight-bold text-primary">Thầy A</small>
+                  </h6>
+                </div>
+              </div>
+              <div>
+                <h5>
+                  <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
+                    em? </small>
+                </h5>
+              </div>
+              <div class="action d-flex justify-content-start mt-2">
+                <p class="text-secondary">
+                  Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
+                  và @output,
+                  vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
+                  nào để truyền dữ liệu qua lại không ạ.
+                </p>
+              </div>
+              <div>
+                <img src="assets/img/concern-1.png" alt="">
+              </div>
+              <div class="action d-flex justify-content-between mt-2 align-items-center">
+                <div class="text-muted small">
+                  <div class="row">
+                    <div class="col-6">
+                      <a data-bs-toggle="collapse" href="#collapseExample"
+                         role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
+                      </a>
+                    </div>
+                    <div class="col-6" style="text-align: right">
+                      <p>
+                        12/07/2021
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <h5>
-                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
-                        em? </small>
-                    </h5>
-                  </div>
-                  <div class="action d-flex justify-content-start mt-2">
-                    <p class="text-secondary">
-                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
-                      và @output,
-                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
-                      nào để truyền dữ liệu qua lại không ạ.
-                    </p>
-                  </div>
-                  <div>
-                    <img src="assets/img/concern-1.png" alt="">
-                  </div>
-                  <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="text-muted small">
-                      <div class="row">
-                        <div class="col-6">
-                          <a data-bs-toggle="collapse" href="#collapseExample"
-                             role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
-                          </a>
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                          <p>
-                            12/07/2021
-                          </p>
-                        </div>
-                      </div>
-                      <div class="collapse" id="collapseAnnouncement">
-                          <div class="form-group">
+                  <div class="collapse" id="collapseAnnouncement">
+                    <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="comment-announcement" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
                                          </textarea>
-                          </div>
-                          <div class="form-group mt-2" style="text-align: right!important;">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                              Hủy
-                            </button>
-                            <input hidden type="file" id="test5">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                    onclick="myFunction()">
-                              Chọn ảnh
-                            </button>
-                            <button type="button" class="btn font-weight-bold"
-                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                              Gửi
-                            </button>
-                          </div>
-                      </div>
+                    </div>
+                    <div class="form-group mt-2" style="text-align: right!important;">
+                      <button class="btn font-weight-bold"
+                              style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                        Hủy
+                      </button>
+                      <input hidden type="file" id="test5">
+                      <button class="btn font-weight-bold"
+                              style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                              onclick="myFunction()">
+                        Chọn ảnh
+                      </button>
+                      <button type="button" class="btn font-weight-bold"
+                              style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                        Gửi
+                      </button>
                     </div>
                   </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                    <table>
-                      <tr>
-                        <td rowspan="3" style="vertical-align: top">
-                          <img src="https://i.imgur.com/C4egmYM.jpg"
-                               width="30"
-                               class="user-img rounded-circle mx-2">
-                        </td>
-                        <td style="text-align: left!important;">
+                </div>
+              </div>
+              <div class="user d-flex flex-row align-items-center my-2 mx-5">
+                <table>
+                  <tr>
+                    <td rowspan="3" style="vertical-align: top">
+                      <img src="https://i.imgur.com/C4egmYM.jpg"
+                           width="30"
+                           class="user-img rounded-circle mx-2">
+                    </td>
+                    <td style="text-align: left!important;">
                                     <span class="font-weight-bold text-primary">
                                         Sinh viên A
                                     </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          Cái này quá dễ với anh Công.
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
-                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
-                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          <img src="image/toptal-blog-image-1518523133236-d2bc894552c77f954f1e5ce48da6604d.png"
-                               width="200" height="75">
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                    <table>
-                      <tr>
-                        <td rowspan="3" style="vertical-align: top">
-                          <img src="https://i.imgur.com/ZSkeqnd.jpg"
-                               width="30"
-                               class="user-img rounded-circle mx-2">
-                        </td>
-                        <td style="text-align: left!important;">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">
+                      Cái này quá dễ với anh Công.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
+                      iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
+                      beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">
+                      <img src="image/toptal-blog-image-1518523133236-d2bc894552c77f954f1e5ce48da6604d.png"
+                           width="200" height="75">
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="user d-flex flex-row align-items-center my-2 mx-5">
+                <table>
+                  <tr>
+                    <td rowspan="3" style="vertical-align: top">
+                      <img src="https://i.imgur.com/ZSkeqnd.jpg"
+                           width="30"
+                           class="user-img rounded-circle mx-2">
+                    </td>
+                    <td style="text-align: left!important;">
                                     <span class="font-weight-bold text-primary">
                                         Sinh viên C
                                     </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          Cái này quá dễ với anh Công.
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
-                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
-                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          <img src="assets/img/concern-2.png"
-                               width="200" height="75">
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">
+                      Cái này quá dễ với anh Công.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
+                      iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
+                      beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">
+                      <img src="assets/img/concern-2.png"
+                           width="200" height="75">
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--------------------------------------------END CODE FROM DONGTHG---------------------------------------------------->
   </div>
 </div>
+<!--------------------------------------------END CODE FROM DONGTHG---------------------------------------------------->
+
 <!-- New Thread Modal -->
-<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--  <div class="modal-dialog modal-lg">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>-->
-<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <form>-->
-<!--          <div class="mb-3">-->
-<!--            <label for="recipient-name" class="col-form-label">Tiêu đề:</label>-->
-<!--            <input type="text" class="form-control" id="recipient-name">-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>-->
-<!--            <textarea class="form-control" id="message-text"></textarea>-->
-<!--          </div>-->
-<!--          <div class="mb-3 form-group">-->
-<!--            <label>Đánh giá theo tỉ lệ:</label> <br>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio1"-->
-<!--                     value="option1">-->
-<!--              <label class="form-check-label" for="inlineRadio1">0%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio2"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">25%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio3"-->
-<!--                     value="option1">-->
-<!--              <label class="form-check-label" for="inlineRadio1">50%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio4"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">75%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio5"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">100%</label>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn font-weight-bold btn-modal"-->
-<!--                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">-->
-<!--          Đóng-->
-<!--        </button>-->
-<!--        <button type="button" class="btn font-weight-bold btn-modal"-->
-<!--                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi đánh giá-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Tiêu đề:</label>
+            <input type="text" class="form-control" id="recipient-name" formControlName="title">
+            <div
+              *ngIf="!title?.valid && (title?.dirty ||title?.touched)">
+              <div [hidden]="!title.errors.required">
+                <span class="text-danger">Vui lòng nhập tiêu đề.</span>
+              </div>
+              <div [hidden]="!title.errors.minlength">
+                <span class="text-danger"> Tiêu đề phải lớn hơn 5 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
+            <textarea class="form-control" id="message-text" formControlName="content"></textarea>
+            <div
+              *ngIf="!content?.valid && (content?.dirty ||content?.touched)">
+              <div [hidden]="!content.errors.required">
+                <span class="text-danger">Vui lòng nhập nội dung.</span>
+              </div>
+              <div [hidden]="!content.errors.minlength">
+                <span class="text-danger"> Nội dung phải lớn hơn 5 ký tự.</span>
+              </div>
+              <div [hidden]="!content.errors.maxlength">
+                <span class="text-danger"> Nội dung phải nhỏ hơn 250 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 form-group">
+            <label>Đánh giá theo tỉ lệ:</label> <br>
+            <input type="range" class="form-range" id="customRange1" formControlName="progressReview">
+            <div
+              *ngIf="!progressReview?.valid && (progressReview?.dirty ||progressReview?.touched)">
+              <div [hidden]="!progressReview.errors.required">
+                <span class="text-danger">Vui lòng nhập đánh giá bằng tỷ lệ.</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn font-weight-bold btn-modal"
+                    style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" [disabled]="reviewForm.invalid" class="btn font-weight-bold btn-modal"
+                    data-bs-dismiss="modal"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi đánh giá
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--------------------------------------------------------------------------------------------------------------------->
 <!--                             CODE FROM DONGTHG                                                                   -->
@@ -1030,23 +801,23 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <div class="mb-3">
-            <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
-              :</label>
-            <input type="text" class="form-control" id="concern-title">
-          </div>
-          <div class="mb-3">
-            <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
-              style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="upload-file" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test4">
-            <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
-                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
-            </button>
-          </div>
+        <div class="mb-3">
+          <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+            :</label>
+          <input type="text" class="form-control" id="concern-title">
+        </div>
+        <div class="mb-3">
+          <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
+            style="color: red">*</span> :</label>
+          <textarea class="form-control" id="concern-content"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="upload-file" class="col-form-label"> File đính kèm:</label>
+          <input type="file" hidden id="test4">
+          <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
+                  style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"
@@ -1069,23 +840,23 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <div class="mb-3">
-            <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
-              :</label>
-            <input type="text" class="form-control" id="announce-title">
-          </div>
-          <div class="mb-3">
-            <label for="announce-content" class="col-form-label">Nội dung thông báo <span
-              style="color: red">*</span> :</label>
-            <textarea class="form-control" id="announce-content"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="upload-file-announce" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test6">
-            <button id="upload-file-announce" class="btn font-weight-bold" onclick="myFunction1()"
-                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
-            </button>
-          </div>
+        <div class="mb-3">
+          <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+            :</label>
+          <input type="text" class="form-control" id="announce-title">
+        </div>
+        <div class="mb-3">
+          <label for="announce-content" class="col-form-label">Nội dung thông báo <span
+            style="color: red">*</span> :</label>
+          <textarea class="form-control" id="announce-content"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="upload-file-announce" class="col-form-label"> File đính kèm:</label>
+          <input type="file" hidden id="test6">
+          <button id="upload-file-announce" class="btn font-weight-bold" onclick="myFunction1()"
+                  style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold btn-modal"

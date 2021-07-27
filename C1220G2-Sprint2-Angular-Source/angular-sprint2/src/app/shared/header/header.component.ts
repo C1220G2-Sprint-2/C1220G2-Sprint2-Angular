@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/chat/services/auth.service';
-import { ChatService } from 'src/app/chat/services/chat.service';
-import { GroupChat } from 'src/app/models/group-chat.model';
-import { User } from 'src/app/models/user.model';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthService} from 'src/app/chat/services/auth.service';
+import {ChatService} from 'src/app/chat/services/chat.service';
+import {GroupChat} from 'src/app/models/group-chat.model';
+import {User} from 'src/app/models/user.model';
 
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../../security/token-storage.service';
@@ -30,14 +30,15 @@ export class HeaderComponent implements OnInit {
   username: string;
   userId: number;
   userImage: string;
+
   // -----------------------------------------------
 
 
-  constructor( private router: Router, 
-    private chatService: ChatService,
-    private authService: AuthService,
-    private tokenStorageService: TokenStorageService,
-    private toastService: ToastrService) {
+  constructor(private router: Router,
+              private chatService: ChatService,
+              private authService: AuthService,
+              private tokenStorageService: TokenStorageService,
+              private toastService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-    /* --------------------- Kha code ---------------------------- */
+  /* --------------------- Kha code ---------------------------- */
 
   duplicatedGroupNameValidator(groups: GroupChat[]): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -75,29 +76,33 @@ export class HeaderComponent implements OnInit {
         }
       }
       return isDuplicated ? {duplicatedGroupName: {value: control.value}} : null;
-    }
+    };
   }
 
   getGroupNames() {
     this.chatService.getGroupsUsers().subscribe(groupUserList => {
-      if (this.groupNames.length > 0) this.groupNames = [];
+      if (this.groupNames.length > 0) {
+        this.groupNames = [];
+      }
       groupUserList.forEach(e => {
         if (e.userEmail === this.currentUser.email) {
           this.groupNames.push(e.groupName);
         }
       });
-    })
+    });
   }
 
   getGroupChats() {
     this.chatService.getGroups().subscribe(groupChats => {
-      if (this.groups.length > 0) this.groups = [];
+      if (this.groups.length > 0) {
+        this.groups = [];
+      }
       groupChats.forEach(e => {
         if (this.groupNames.includes(e.groupName)) {
           this.groups.push(e);
         }
-      })
-    })
+      });
+    });
   }
 
   getBelongGroups() {
@@ -116,11 +121,11 @@ export class HeaderComponent implements OnInit {
   }
 
   // group name cannot be duplicated.
-  
+
 
   goToGroupChat(groupName: string) {
     // replace literal white space in path by its code.
-    groupName.replace(" ", "%20%");
+    groupName.replace(' ', '%20%');
     this.router.navigateByUrl('/trao-doi/' + groupName);
   }
 
@@ -130,8 +135,9 @@ export class HeaderComponent implements OnInit {
   /* ---------------------------- Cong code ---------------------------- */
   signOut() {
     this.tokenStorageService.signOut();
-    window.location.assign("");
+    window.location.assign('');
   }
+
   /* ---------------------------- ---------------------------- */
 
 }
