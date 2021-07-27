@@ -90,7 +90,7 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-      <div *ngIf="user.username.charAt('^(SV)') !=-1 then student; else teacher"></div>
+      <div *ngIf="user.username.startsWith('SV')  then student; else teacher"></div>
       <ng-template #student>
         <div *ngIf="studentTS.team?.id ==1 then studentNew; else studentOld"></div>
         <ng-template #studentNew>
@@ -116,7 +116,7 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" >
+        <a class="nav-link" routerLink="de-tai/danh-sach-de-tai" >
             <i class="fas fa-atom"></i>
             <span>Quản Lý Đề Tài</span></a>
     </li>

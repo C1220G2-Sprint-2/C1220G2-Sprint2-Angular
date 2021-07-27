@@ -161,7 +161,7 @@
             <tr *ngFor="let project of listProject | paginate: { id: 'projectPage',  itemsPerPage: 10, currentPage: pageProject }; index as i">
               <td class="font-weight-bold">{{i+1}}</td>
               <td style="text-align: left">{{project.name}}</td>
-              <td><a href="#"><i class="fa fa-eye text-success"></i></a></td>
+              <td><a  [routerLink]="['/de-tai/chi-tiet/',project.id]"><i class="fa fa-eye text-success"></i></a></td>
             </tr>
 
             </tbody>

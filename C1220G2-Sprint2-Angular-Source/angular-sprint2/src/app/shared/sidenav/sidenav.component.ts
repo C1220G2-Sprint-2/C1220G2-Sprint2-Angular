@@ -23,7 +23,7 @@ export class SidenavComponent implements OnInit {
   showStudentBoard = false;
   username: string;
   userId: number;
-  user;
+  user= {};
   studentTS: any = {};
 
 
@@ -42,7 +42,7 @@ export class SidenavComponent implements OnInit {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-      if (user.username.charAt("SV") != -1) {
+      if (user.username.indexOf("SV") != -1) {
         this.teamService.getStudent(user.username).subscribe(data => {
           this.studentTS = data;
           console.log(this.studentTS);
