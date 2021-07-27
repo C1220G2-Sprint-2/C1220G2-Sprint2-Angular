@@ -5,20 +5,24 @@ import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+// @ts-ignore
+import {environment} from "../environments/environment";
 import {StudentGroupModule} from './student-group/student-group.module';
 import {ProjectModule} from './project/project.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from './helpers/auth.interceptor';
 import {StudentModule} from './student/student.module';
-import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {TeacherModule} from './teacher/teacher.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+
 import {AngularFireModule} from "@angular/fire";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {ToastrModule} from "ngx-toastr";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgxLoadingModule} from "ngx-loading";
+
 
 @NgModule({
   declarations: [
@@ -37,6 +41,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     HttpClientModule,
     StudentGroupModule,
     ProjectModule,
+    NgxLoadingModule.forRoot({}),
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -45,6 +50,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
     AngularFireDatabaseModule
+
   ],
 
 

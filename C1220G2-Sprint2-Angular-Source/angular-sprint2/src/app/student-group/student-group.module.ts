@@ -7,18 +7,20 @@ import { ListStudentGroupComponent } from './list-student-group/list-student-gro
 import {NgxPaginationModule} from "ngx-pagination";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TeamManagementComponent } from './team-management/team-management.component';
+import {NgxLoadingModule} from "ngx-loading";
 
 
 
 
 @NgModule({
   declarations: [StudentGroupRegistrationComponent, ListStudentGroupComponent, TeamManagementComponent],
-  imports: [
-    CommonModule,
-    StudentGroupRoutingModule,
-    NgxPaginationModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        StudentGroupRoutingModule,
+        NgxPaginationModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgxLoadingModule,
+    ]
 })
 export class StudentGroupModule { }

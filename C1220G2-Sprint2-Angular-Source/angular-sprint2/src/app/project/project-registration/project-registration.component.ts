@@ -99,7 +99,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
     console.log(check);
     if (check) {
-      this.delay(2000);
+      this.delay(4000);
       this.teamService.postProject(project).subscribe(() => {
         this.showSuccess();
         this.route.navigateByUrl('nhom/quan-ly-nhom');
