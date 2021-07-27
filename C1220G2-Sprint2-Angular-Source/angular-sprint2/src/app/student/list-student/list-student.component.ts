@@ -60,7 +60,7 @@ export class ListStudentComponent implements OnInit {
     this.studentService.findById(this.codeDelete).subscribe(value => {
       this.student = value;
       this.teamDelete = this.student.team;
-      if(this.student.team == "Chưa có nhóm"){
+      if(this.student.team == "không có nhóm"){
       this.checkDelete = true;
       }
       this.check = true;
@@ -68,6 +68,7 @@ export class ListStudentComponent implements OnInit {
   }
 
   delete() {
+    console.log(this.codeDelete);
     this.studentService.delete(this.codeDelete).subscribe(value => {
       this.listSearch();
     })
