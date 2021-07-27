@@ -42,14 +42,14 @@ export class EditStudentComponent implements OnInit {
           this.student = value;
           console.log(this.student);
           this.studentForm = new FormGroup({
-            name: new FormControl(this.student.name, [Validators.required,Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
+            name: new FormControl(this.student.name, [Validators.maxLength(50),Validators.required,Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
             gender: new FormControl(this.student.gender, Validators.required),
             dateOfBirth: new FormControl(this.student.dateOfBirth, [Validators.required, this.validateAge18]),
-            phone: new FormControl(this.student.phone, Validators.required),
+            phone: new FormControl(this.student.phone, [Validators.required,Validators.pattern('^(090|091)[0-9]{7}$')]),
             classStudent: new FormControl(this.student.classStudent, Validators.required),
             faculty: new FormControl(this.student.faculty, Validators.required),
-            email: new FormControl(this.student.email, Validators.required),
-            address: new FormControl(this.student.address, Validators.required),
+            email: new FormControl(this.student.email, [Validators.maxLength(50),Validators.required,Validators.pattern('^[A-Za-z0-9]+[@][a-z]+\\.[a-z]+$')]),
+            address: new FormControl(this.student.address, [Validators.required,Validators.maxLength(50)]),
             facebook: new FormControl(this.student.facebook),
             team: new FormControl(this.student.team),
             image: new FormControl(this.student.image),
@@ -88,8 +88,9 @@ export class EditStudentComponent implements OnInit {
     this.selectedImage = event.target.files[0];
     this.chooseImage(this.selectedImage);
   }
-
+checkUpload = true;
   chooseImage(selectedImage: any) {
+    this.checkUpload = false;
     const nameImg = selectedImage.name;
     const fileRef = this.angularFireStorage.ref(nameImg);
     this.angularFireStorage.upload(nameImg, selectedImage).snapshotChanges().pipe(
@@ -97,7 +98,7 @@ export class EditStudentComponent implements OnInit {
         this.downloadURL = fileRef.getDownloadURL();
         this.downloadURL.subscribe(url => {
           this.image = url;
-          console.log(this.image);
+          this.checkUpload = true;
         })
       })
     ).subscribe();
