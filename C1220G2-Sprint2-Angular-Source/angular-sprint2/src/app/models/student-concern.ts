@@ -4,4 +4,6 @@ export interface StudentConcern {
   content?: string;
   studentCode?: string;
   attachFile?: string;
+  avatar: string;
+  name: string;
 }
