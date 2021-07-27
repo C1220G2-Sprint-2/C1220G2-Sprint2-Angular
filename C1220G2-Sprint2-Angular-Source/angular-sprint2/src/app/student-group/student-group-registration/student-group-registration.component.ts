@@ -29,7 +29,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   checkSortClass = false;
    user ;
   isLoggedIn: boolean = false;
-
+  public loading = false;
   page: number = 1;
   collection: any[] = this.listStudent;
   pageCard: number = 1;
@@ -100,11 +100,11 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
         }
       }
     }
-
+    this.page=1;
   }
 checkName:boolean = false;
   createTeam() {
-
+    this.loading=true;
     this.team.listTeam = this.listTeam;
     for (let i=0;i<this.team.listTeam.length;i++) {
       if (this.listTeam[i].code== this.studentTS.code) {
@@ -119,10 +119,13 @@ checkName:boolean = false;
     this.team.enable = true;
     // @ts-ignore
     this.team.teamLeader = this.studentTS.code;
-    this.delay();
+    // this.delay();
     this.teamService.postTeam(this.team).subscribe(data => {
+      this.loading=false;
       this.showSuccess();
       this.route.navigateByUrl('nhom/quan-ly-nhom');
+    },error => {
+      this.loading=false;
     });
   }
 
@@ -150,7 +153,6 @@ checkName:boolean = false;
         return a === b ? 0 : a > b ? -1 : 1;
       })
     }
-
   }
 
   sortName() {
@@ -233,7 +235,7 @@ delay() {
   Swal.fire({
     title: 'Auto close alert!',
     html: 'I will close in <b></b> milliseconds.',
-    timer: 5000,
+    timer: 8000,
     timerProgressBar: true,
     didOpen: () => {
       Swal.showLoading()
