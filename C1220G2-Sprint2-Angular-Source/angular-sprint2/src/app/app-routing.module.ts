@@ -49,15 +49,13 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
-  }
-
-  ];
+  },
   //code by Tam
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
   }
-];
+  ];
 
 
 @NgModule({
