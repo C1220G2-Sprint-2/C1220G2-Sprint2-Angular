@@ -47,12 +47,13 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   },
 
+
   //code by Tam
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
   }
-];
+  ];
 
 
 @NgModule({

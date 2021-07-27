@@ -43,9 +43,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     StudentGroupModule,
     ProjectModule,
     StudentModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
+    AngularFireModule.initializeApp(environment.firebase),  // Thống nhất dùng firebase này nha mn - kha
+    // AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
