@@ -22,7 +22,8 @@ import {AuthInterceptor} from './helpers/auth.interceptor';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxLoadingModule} from "ngx-loading";
 import {TeacherModule} from './teacher/teacher.module';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {AngularFireDatabaseModule } from '@angular/fire/database';
+import {AngularFireModule} from "@angular/fire";
 
 
 @NgModule({
