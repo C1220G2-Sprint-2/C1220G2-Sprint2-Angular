@@ -24,7 +24,7 @@ export class SidenavComponent implements OnInit {
   username: string;
   userId: number;
 
-  user= {};
+  user;
   name: string;
   
 
