@@ -24,7 +24,6 @@ import {NgxPaginationModule} from "ngx-pagination";
 
 import {TeacherModule} from './teacher/teacher.module';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
