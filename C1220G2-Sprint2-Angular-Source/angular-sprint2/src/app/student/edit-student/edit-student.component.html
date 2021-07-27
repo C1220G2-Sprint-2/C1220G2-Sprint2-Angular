@@ -29,6 +29,10 @@
                         *ngIf="studentForm.controls.name.hasError('required')
          && studentForm.controls.name.dirty">
                     Tên không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.name.hasError('pattern')
+         && studentForm.controls.name.dirty">
+                    Tên không hợp lệ.</span>
                 </div>
               </div>
               <div class="col-6">
@@ -57,6 +61,7 @@
                       *ngIf="studentForm.controls.gender.hasError('required')
          && studentForm.controls.gender.dirty">
                     giới tính không được để trống.</span>
+
               </div>
             </div>
             <div class="row">
@@ -69,6 +74,10 @@
                         *ngIf="studentForm.controls.dateOfBirth.hasError('required')
          && studentForm.controls.dateOfBirth.dirty">
                     ngày sinh không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.dateOfBirth.hasError('invalid18')
+         && studentForm.controls.dateOfBirth.dirty">
+                    ngày sinh không hợp lệ.</span>
 
                 </div>
               </div>
@@ -87,11 +96,8 @@
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="class" class="form-label"><b>Lớp</b><span style="color: red">*</span></label>
-                  <select id="class" class="form-select" aria-label="Default select example" formControlName="classStudent">
-                    <option selected>...</option>
-                    <option value="1">C10</option>
-                    <option value="2">C11</option>
-                    <option value="3">C12</option>
+                  <select  id="class" class="form-select" aria-label="Default select example" formControlName="classStudent">
+                    <option *ngFor="let classStudent of listClass" value="{{classStudent.id}}">{{classStudent.name}}</option>
                   </select>
                   <span style="color: red"
                         *ngIf="studentForm.controls.classStudent.hasError('required')
@@ -103,10 +109,7 @@
                 <div class="md-form form-sm">
                   <label for="faculty" class="form-label"><b>Khoa: </b> <span style="color: red">*</span></label>
                   <select id="faculty" class="form-select" aria-label="Default select example" formControlName="faculty">
-                    <option selected>...</option>
-                    <option value="1">CNTT</option>
-                    <option value="2">DTVT</option>
-                    <option value="3">XD</option>
+                    <option *ngFor="let faculty of listFaculty" value="{{faculty.id}}">{{faculty.name}}</option>
                   </select>
                   <span style="color: red"
                         *ngIf="studentForm.controls.faculty.hasError('required')
@@ -151,10 +154,8 @@
               </div>
               <div class="col-6" style="text-align: right">
                 <button type="button"
-                        data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal"
                         class="btn font-weight-bold"
-                        style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
+                        style="background-color: #616C8C; color: white; border-radius: 1.5rem" [routerLink]="['/hoc-sinh/danh-sach']">HỦY BỎ
                 </button>
                 <button type="submit" class="btn font-weight-bold" [disabled]="!studentForm.valid"
                         style="background-color: #4F9B65;color: white; border-radius: 1.5rem; width: 86px">Lưu
@@ -169,36 +170,6 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Hủy sửa thông tin.</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-mdb-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">Bạn muốn hủy bỏ việc sửa thông tin?</div>
-      <div class="modal-footer">
-        <button class="btn font-weight-bold" data-mdb-dismiss="modal"
-                style="background-color: #616C8C; color: white; border-radius: 1.5rem">HỦY BỎ
-        </button>
 
-        <button class="btn font-weight-bold"
-                style="background-color: #4F9B65;color: white; border-radius: 1.5rem">ĐỒNG Ý
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
