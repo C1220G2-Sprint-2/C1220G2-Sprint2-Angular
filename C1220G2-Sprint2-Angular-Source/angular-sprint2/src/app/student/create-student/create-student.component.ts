@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
 import {Observable} from "rxjs";
+import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import {Class} from "../../model/class";
 import {Faculty} from "../../model/faculty";
 import {ToastrService} from "ngx-toastr";
