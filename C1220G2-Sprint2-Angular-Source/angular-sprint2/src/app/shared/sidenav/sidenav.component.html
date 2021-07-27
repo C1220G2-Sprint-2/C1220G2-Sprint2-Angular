@@ -25,6 +25,7 @@
       <i class="fas fa-user-graduate"></i>
       <span>Quản Lý Sinh Viên</span>
     </a>
+  </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Nav Item - Charts -->
@@ -34,24 +35,49 @@
       <i class="fas fa-chalkboard-teacher"></i>
       <span>Quản Lý Giảng Viên</span></a>
   </li>
+
   <!-- Divider -->
-  <hr class="sidebar-divider">
-  <!-- Nav Item - Charts -->
-  <li class="nav-item">
-    <a class="nav-link" href="nhom/danh-sach">
-      <!--         <a class="nav-link" routerLink="/nhom/dang-ky" > -->
-      <i class="fas fa-users"></i>
-      <span>Quản Lý Nhóm</span></a>
-  </li>
+    <hr class="sidebar-divider">
+  
+   <!-- Nav Item - Charts -->
+    <li class="nav-item">
+      <div *ngIf="user.username.startsWith('SV')  then student; else teacher"></div>
+
+      <ng-template #student>
+        <div *ngIf="studentTS.team?.id ==1 then studentNew; else studentOld"></div>
+        <ng-template #studentNew>
+          <a class="nav-link" routerLink="/nhom/dang-ky" >
+            <i class="fas fa-users"></i>
+            <span>Quản Lý Nhóm</span></a>
+        </ng-template >
+        <ng-template #studentOld>
+          <a class="nav-link" routerLink="/nhom/quan-ly-nhom" >
+            <i class="fas fa-users"></i>
+            <span>Quản Lý Nhóm</span></a>
+        </ng-template>
+      </ng-template>
+      <ng-template #teacher>
+        <a class="nav-link" routerLink="nhom/danh-sach">
+          <i class="fas fa-users"></i>
+          <span>Quản Lý Nhóm</span></a>
+      </ng-template>
+    </li>
+
   <!-- Divider -->
   <hr class="sidebar-divider">
   <!-- Nav Item - Tables -->
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/de-tai/dang-ky">
-      <i class="fas fa-atom"></i>
-      <span>Quản Lý Đề Tài</span></a>
-  </li>
+
+     <li class="nav-item">
+        <a class="nav-link" routerLink="de-tai/danh-sach-de-tai" >
+            <i class="fas fa-atom"></i>
+            <span>Quản Lý Đề Tài</span></a>
+    </li>
+
+
+  <!-- Divider -->
+
   <hr class="sidebar-divider">
+
   <li class="nav-item">
     <a class="nav-link" routerLink="/quan-ly-tien-do/danh-sach-tien-do">
       <i class="fas fa-atom"></i>
@@ -61,9 +87,13 @@
   <hr class="sidebar-divider d-none d-md-block">
   <!-- Nav Item - Tables -->
   <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/thong-ke/de-tai']" routerLinkActive="active" >
+
+    <a class="nav-link" [routerLink]="['/thong-ke/de-tai']" routerLinkActive="active"> </a>
+
+
       <i class="fas fa-chart-bar"></i>
-      <span>Thống Kê</span></a>
+      <span>Thống Kê</span>
+    </a>
   </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
@@ -79,5 +109,6 @@
   <!-- <div class="text-center d-none d-md-inline">
       <button class="rounded-circle border-0" id="sidebarToggle"></button>
   </div> -->
+
 </ul>
 <!-- End of Sidebar -->

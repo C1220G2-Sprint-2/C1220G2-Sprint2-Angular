@@ -1,5 +1,8 @@
+// kha code
 export class FirebaseUser {
-    email: string;
-    displayName: string;
-    status: string;
+    // username?: string;
+    email?: string;
+    // displayName: string;
+    avatar?: string;
+    status?: string;
 }

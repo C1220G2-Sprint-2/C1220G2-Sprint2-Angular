@@ -17,6 +17,7 @@ const routes: Routes = [
     loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule)
   },
   // -----------------------------
+
   {
     path: '',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
@@ -45,12 +46,14 @@ const routes: Routes = [
     path: 'bao-cao-tien-do',
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   },
+
+
   //code by Tam
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
-  },
-];
+  }
+  ];
 
 
 @NgModule({

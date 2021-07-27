@@ -8,6 +8,8 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {StudentGroupModule} from "../student-group/student-group.module";
 import {Validation} from "./project-registration/Validation";
+import {ProjectDetailComponent} from "./project-detail/project-detail.component";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -15,7 +17,7 @@ import {Validation} from "./project-registration/Validation";
     exports: [
         ProjectListComponent
     ],
-  declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent],
+  declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent, ProjectDetailComponent],
   imports: [
     CommonModule,
     ProjectRoutingModule,
@@ -23,6 +25,8 @@ import {Validation} from "./project-registration/Validation";
     ReactiveFormsModule,
     FormsModule,
     StudentGroupModule,
+    NgbPaginationModule,
+
   ],
 
 })

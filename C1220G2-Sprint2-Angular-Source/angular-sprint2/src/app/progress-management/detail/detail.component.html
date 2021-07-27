@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: {{name}}
+      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>
     </p>
   </div>
 </div>
@@ -21,7 +21,8 @@
                 </div>
                 <div class="team-content">
                   <h5 class="name">{{student.name}}</h5>
-                  <h4 class="title">Trưởng nhóm</h4>
+                  <h4 class="title">{{student.email| lowercase}}</h4>
+                  <h4 class="title text-info">{{student.phone}}</h4>
                 </div>
                 <ul class="social">
                   <li><a href="#" aria-hidden="true">Chi tiết</a>
@@ -228,293 +229,60 @@
                     data-bs-whatever="@getbootstrap"> Tạo đánh giá
             </button>
             <div class="container w-100">
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/hczKIze.jpg" width="30"
-                         class="user-img rounded-circle mx-2"/>
-                    <h6>
-                      <small class="font-weight-bold text-primary">Đặng Chí Trung</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Tiến độ 1</small>
-                  </h5>
-                </div>
-
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small text-center align-self-center">
+              <div class="col-md-12">
+                <div class="media my-5" *ngFor="let review of reviewList"><img class="mr-3 rounded-circle"
+                                                                               alt="Bootstrap Media Preview"
+                                                                               src="https://i.imgur.com/xELPaag.jpg"/>
+                  <div class="media-body text-left">
                     <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
+                      <div class="col-8 d-flex">
+                        <h5 class="text-info">{{review.teacherName}}</h5>
+                        <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}
+                          &nbsp; &nbsp; &nbsp; &nbsp;<b>{{review.title}}</b></span>
                       </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
+                      <div class="col-4">
+                        <div class="pull-right reply"><a href="#"><span><i
+                          class="fa fa-reply"></i> Trả lời</span></a></div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên A
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên B
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/ZSkeqnd.jpg"
-                         width="30"
-                         class="user-img rounded-circle mx-2">
-                    <h6>
-                      <small class="font-weight-bold text-primary">Trần Thị Tố Tâm</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Hoàn thành sản phẩm
-                      Prototype: </small>
-                  </h5>
-                </div>
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small">
-                    <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample1"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample1">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample1">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment1" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
+                    Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét: {{review.content}}
+                    <div class="media mt-4"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                          alt="Bootstrap Media Another Preview"
+                                                                          src="https://i.imgur.com/nUNhspp.jpg"/></a>
+                      <div class="media-body">
+                        <div class="row">
+                          <div class="col-12 d-flex">
+                            <h5 class="text-info">Thanh Công</h5> <span>- 5 hours ago</span>
+                          </div>
+                        </div>
+                        Dạ chiều nay nghĩ tới mấy giờ vậy a
                       </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test1">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction1()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
+                    </div>
+                    <div class="media mt-3"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                          alt="Bootstrap Media Another Preview"
+                                                                          src="https://i.imgur.com/HjKTNkG.jpg"/></a>
+                      <div class="media-body">
+                        <div class="row">
+                          <div class="col-12 d-flex">
+                            <h5 class="text-info">Gia Đông</h5> <span>- 5 hours ago</span>
+                          </div>
+                        </div>
+                        Em xin vắng chiều nay đi thi Toeic nha anh ơi
+                      </div>
+                    </div>
+                    <div class="media mt-3"><a class="pr-3" href="#"><img class="rounded-circle"
+                                                                          alt="Bootstrap Media Another Preview"
+                                                                          src="https://i.imgur.com/nAcoHRf.jpg"/></a>
+                      <div class="media-body">
+                        <div class="row">
+                          <div class="col-12 d-flex">
+                            <h5>Sang Le</h5> <span>- 4 hours ago</span>
+                          </div>
+                        </div>
+                        Dạ em sẽ triển khai ngay
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên C
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên D
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
                 </div>
               </div>
             </div>

@@ -16,7 +16,8 @@ import {CommentConcern} from '../../models/comment-concern';
 import {CommentAnnouncement} from '../../models/comment-announcement';
 import {CommentConcernService} from '../comment-concern.service';
 import {CommentAnnouncementService} from '../comment-announcement.service';
-import Swal from "sweetalert2";
+import {ReviewDto} from "../review-dto";
+
 
 @Component({
   selector: 'app-detail',
@@ -48,6 +49,15 @@ export class DetailComponent implements OnInit {
   concernId: number;
   announcementId: number;
   fileName: string;
+  accountName: string;
+  projectId: number;
+  reviewForm: FormGroup;
+  review: ReviewDto;
+  projectDto: ProjectDto;
+  reviewList: ReviewDto[];
+  isTeacherLogin = false;
+  userImage: string;
+
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
               private studentConcernService: StudentConcernService,
@@ -59,7 +69,7 @@ export class DetailComponent implements OnInit {
               private storage: AngularFireStorage,
               private toastService: ToastrService,) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      this.name = paramMap.get('name');
+      this.projectId = +paramMap.get('id');
     });
   }
 
@@ -67,6 +77,7 @@ export class DetailComponent implements OnInit {
     this.avatar = this.tokenStorageService.getUser().avatar;
     this.currentUsername = this.tokenStorageService.getUser().name;
     this.getAllStudentDto();
+    console.log('all student ' + this.studentList.length);
     this.addNewConcernForm();
     this.addNewAnnouncementForm();
     this.addNewAnnouncementCommentForm();
@@ -80,15 +91,35 @@ export class DetailComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
 
+
       if (this.username.substring(0,2) == "GV") {
         this.isTeacherLogging = true;
       }
     }
+    this.addNewReviewForm();
+    this.getAllReview();
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.username = user.username;
+      this.userImage = user.avatar;
+      this.accountName = user.name;
+      console.log(this.username);
+      if (this.username.substring(0, 2) === 'TC') {
+        this.isTeacherLogin = true;
+      }
+      console.log('hello teacher ' + this.isTeacherLogin);
+    }
+    this.progressService.getProjectById(this.projectId).subscribe(result => {
+      this.projectDto = result;
+    });
+    console.log('hello------------- ' + this.projectDto.id);
   }
 
   getAllStudentDto() {
     this.progressService.getAllStudentDto().subscribe(result => {
       this.studentList = result;
+      console.log('this' + result.length);
     });
   }
 
@@ -306,9 +337,42 @@ export class DetailComponent implements OnInit {
       );
   }
 
+  onSubmit() {
+    const reviewDto = this.reviewForm.value;
+    this.review = {
+      title: reviewDto.title,
+      content: reviewDto.content,
+      progressReview: reviewDto.progressReview,
+      teacherCode: this.tokenStorageService.getUser().username
+    };
+    console.log('dasdasdasd' + this.review.teacherCode);
+    console.log('this.gif do' + reviewDto);
+    this.progressService.addNewReview(this.review).subscribe(() => {
+      this.showSuccessReview();
+      // @ts-ignore
+      window.location.reload();
+    });
+  }
+
+  addNewReviewForm() {
+    this.reviewForm = new FormGroup({
+      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]),
+      progressReview: new FormControl(0, [Validators.required]),
+      teacherCode: new FormControl('')
+    });
+  }
+
+  getAllReview() {
+    this.progressService.getAllReview().subscribe(result => {
+      this.reviewList = result;
+    });
+  }
+
   showSuccess() {
     this.toastService.success('', 'Thành công !');
   }
+
 
   uploading() {
     let timerInterval;
@@ -338,6 +402,21 @@ export class DetailComponent implements OnInit {
         console.log('I was closed by the timer');
       }
     });
+
+  showSuccessReview() {
+    this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
+  }
+
+  get title() {
+    return this.reviewForm.get('title');
+  }
+
+  get content() {
+    return this.reviewForm.get('content');
+  }
+
+  get progressReview() {
+    return this.reviewForm.get('progressReview');
   }
 }
 
