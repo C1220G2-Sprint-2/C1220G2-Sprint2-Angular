@@ -133,7 +133,8 @@
             aria-labelledby="newRoomDropdown">
                 <h6 class="dropdown-header">Nhập tên phòng</h6>
                 <div class="dropdown-item d-flex flex-column align-items-center">
-                    <input type="text" class="form-control p-2" [formControl]="chatGroupName">
+                    <input type="text" class="form-control p-2"
+                    [formControl]="chatGroupName">
                     <small class="text-danger p-2" *ngIf="chatGroupName.errors?.duplicatedGroupName">
                         Tên phòng đã tồn tại. Vui lòng chọn tên khác.
                     </small>

@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ProgressTeamComponent
   },
   {
-    path: 'chi-tiet-tien-do/:name',
+    path: 'chi-tiet-tien-do/:id',
     component: DetailComponent
   },
   {
