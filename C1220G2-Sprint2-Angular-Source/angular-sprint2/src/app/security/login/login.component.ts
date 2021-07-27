@@ -11,10 +11,13 @@ import {AuthService} from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   form: any = {};
-  roles: string[] = [];
+  readonly = false;
+  test: any;
+
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
               private router: Router,
               private toastService: ToastrService) {
+
   }
 
   ngOnInit(): void {
@@ -24,15 +27,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.readonly = true;
     this.authService.login(this.form).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
-        this.roles = this.tokenStorage.getUser().roles;
         this.showSuccess();
         window.location.assign('/de-tai/danh-sach-de-tai');
       },
       err => {
+        this.readonly = false;
         this.showLoginFailed();
       }, () => {
       }
@@ -46,7 +50,7 @@ export class LoginComponent implements OnInit {
 
   showSuccess() {
     this.toastService.success('Thành công !', 'Đăng nhập',{
-      timeOut: 1000
+      timeOut: 10000
     });
   }
 
@@ -59,4 +63,8 @@ export class LoginComponent implements OnInit {
   //   .catch(error => this.errorMsg = error.message);
   // }
 
+  // value(event: Event) {
+  //   this.test = (event.target as HTMLInputElement).value;
+  //   console.log( this.test)
+  // }
 }

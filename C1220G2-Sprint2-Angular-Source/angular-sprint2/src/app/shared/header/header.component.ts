@@ -5,41 +5,34 @@ import { AuthService } from 'src/app/chat/services/auth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
 import { GroupChat } from 'src/app/models/group-chat.model';
 import { User } from 'src/app/models/user.model';
-
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../../security/token-storage.service';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
   /* --------------------- Kha code ---------------------------- */
   chatGroupName: FormControl;
-
   // groupsOfUser: GroupUser[] = [];
   groupNames: string[] = [];
   currentUser: User;
   groups: GroupChat[] = [];
   // -----------------------------------------------
-
   /* --------------------- Cong code ---------------------------- */
   isLoggedIn: boolean = false;
   username: string;
   userId: number;
   userImage: string;
+  name: string;
   // -----------------------------------------------
-
-
-  constructor( private router: Router, 
-    private chatService: ChatService,
-    private authService: AuthService,
-    private tokenStorageService: TokenStorageService,
-    private toastService: ToastrService) {
+  constructor( private router: Router,
+               private chatService: ChatService,
+               private authService: AuthService,
+               private tokenStorageService: TokenStorageService,
+               private toastService: ToastrService) {
   }
-
   ngOnInit(): void {
 
     /* --------------------- Kha code ---------------------------- */
@@ -50,7 +43,6 @@ export class HeaderComponent implements OnInit {
     });
     this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.groups)]);
     /* ---------------------------- ---------------------------- */
-
     /* --------------------- Cong code ---------------------------- */
 
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -59,14 +51,11 @@ export class HeaderComponent implements OnInit {
       this.username = user.username;
       this.userId = user.id;
       this.userImage = user.avatar;
+      this.name = user.name;
     }
     /* ---------------------------- ---------------------------- */
-
-
   }
-
-    /* --------------------- Kha code ---------------------------- */
-
+  /* --------------------- Kha code ---------------------------- */
   duplicatedGroupNameValidator(groups: GroupChat[]): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       let isDuplicated: boolean = false;
@@ -80,7 +69,6 @@ export class HeaderComponent implements OnInit {
     }
 
   }
-
   getGroupNames() {
     this.chatService.getGroupsUsers().subscribe(groupUserList => {
       if (this.groupNames.length > 0) this.groupNames = [];
@@ -91,7 +79,6 @@ export class HeaderComponent implements OnInit {
       });
     })
   }
-
   getGroupChats() {
     this.chatService.getGroups().subscribe(groupChats => {
       if (this.groups.length > 0) this.groups = [];
@@ -102,12 +89,10 @@ export class HeaderComponent implements OnInit {
       })
     })
   }
-
   getBelongGroups() {
     this.getGroupNames();
     this.getGroupChats();
   }
-
   createNewChatGroup() {
     const roomName = this.chatGroupName.value;
     // create group on firebase.
@@ -117,24 +102,17 @@ export class HeaderComponent implements OnInit {
     });
     // this.router.navigateByUrl("/trao-doi");
   }
-
   // group name cannot be duplicated.
-  
-
   goToGroupChat(groupName: string) {
     // replace literal white space in path by its code.
     groupName.replace(" ", "%20%");
     this.router.navigateByUrl('/trao-doi/' + groupName);
   }
-
   /* ---------------------------- ---------------------------- */
-
-
   /* ---------------------------- Cong code ---------------------------- */
   signOut() {
     this.tokenStorageService.signOut();
     window.location.assign("");
   }
   /* ---------------------------- ---------------------------- */
-
 }

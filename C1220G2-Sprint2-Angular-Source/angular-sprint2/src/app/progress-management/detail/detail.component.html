@@ -691,31 +691,27 @@
                       data-bs-whatever="@getbootstrap"> Tạo thắc mắc
               </button>
               <div class="container">
-                <div class="card p-3 my-3">
+                <div class="card p-3 my-3" *ngFor="let concern of concernList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <img src="{{avatar}}" width="30" class="user-img rounded-circle mx-2"/>
                       <h6>
-                        <small class="font-weight-bold text-primary">Trần Văn A</small>
+                        <small class="font-weight-bold text-primary">{{currentUsername}}</small>
                       </h6>
                     </div>
                   </div>
                   <div>
-                    <h5>
-                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
-                        em? </small>
-                    </h5>
+                    <h3>
+                      <span class="font-weight-bold">{{concern.title}}</span>
+                    </h3>
                   </div>
                   <div class="action d-flex justify-content-start mt-2">
                     <p class="text-secondary">
-                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
-                      và @output,
-                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
-                      nào để truyền dữ liệu qua lại không ạ.
+                      {{concern.content}}
                     </p>
                   </div>
-                  <div>
-                    <img src="assets/img/concern-1.png" alt="">
+                  <div style="text-align: left !important;">
+                    <a href="{{concern.attachFile}}" target="_blank">File đính kèm</a>
                   </div>
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
                     <div class="text-muted small">
@@ -733,27 +729,27 @@
                         </div>
                       </div>
                       <div class="collapse" id="collapseComment">
-                          <div class="form-group">
+                        <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentConcern" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
                                          </textarea>
-                          </div>
-                          <div class="form-group mt-2" style="text-align: right!important;">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                              Hủy
-                            </button>
-                            <input hidden type="file" id="test3">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                    onclick="myFunction()">
-                              Chọn ảnh
-                            </button>
-                            <button type="button" class="btn font-weight-bold"
-                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                              Gửi
-                            </button>
-                          </div>
+                        </div>
+                        <div class="form-group mt-2" style="text-align: right!important;">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                            Hủy
+                          </button>
+                          <input hidden type="file" id="test3">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                  (change)="addFile($event)">
+                            Chọn ảnh
+                          </button>
+                          <button type="button" class="btn font-weight-bold"
+                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                            Gửi
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -815,34 +811,30 @@
               <button class="btn font-weight-bold m-3"
                       style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                       data-bs-toggle="modal" data-bs-target="#announceModal"
-                      data-bs-whatever="@getbootstrap"> Tạo thông báo
+                      data-bs-whatever="@getbootstrap" *ngIf="isTeacherLogging"> Tạo thông báo
               </button>
               <div class="container">
-                <div class="card p-3 my-3">
+                <div class="card p-3 my-3" *ngFor="let announcement of announcementList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mx-2"/>
+                      <img src="{{avatar}}" width="30" class="user-img rounded-circle mx-2"/>
                       <h6>
-                        <small class="font-weight-bold text-primary">Thầy A</small>
+                        <small class="font-weight-bold text-primary">{{currentUsername}}</small>
                       </h6>
                     </div>
                   </div>
                   <div>
-                    <h5>
-                      <small class="font-weight-bold">Làm thế nào để để truyền dữ liệu giữa các component anh
-                        em? </small>
-                    </h5>
+                    <h3>
+                      <span class="font-weight-bold">{{announcement.title}}</span>
+                    </h3>
                   </div>
                   <div class="action d-flex justify-content-start mt-2">
                     <p class="text-secondary">
-                      Trong Angular thì mình có thể truyền dữ liệu giữa các component cha và con thông qua @input
-                      và @output,
-                      vậy những component anh em hoặc những component không có mối liên hệ trực tiếp thì có cách
-                      nào để truyền dữ liệu qua lại không ạ.
+                      {{announcement.content}}
                     </p>
                   </div>
-                  <div>
-                    <img src="assets/img/concern-1.png" alt="">
+                  <div style="text-align: left !important;">
+                    <a href="{{announcement.attachFile}}" target="_blank">File đính kèm</a>
                   </div>
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
                     <div class="text-muted small">
@@ -860,27 +852,28 @@
                         </div>
                       </div>
                       <div class="collapse" id="collapseAnnouncement">
-                          <div class="form-group">
+                        <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="comment-announcement" cols="200"
                                                    rows="5" name="comment" class="form-control" rows="3">
                                          </textarea>
-                          </div>
-                          <div class="form-group mt-2" style="text-align: right!important;">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                              Hủy
-                            </button>
-                            <input hidden type="file" id="test5">
-                            <button class="btn font-weight-bold"
-                                    style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                    onclick="myFunction()">
-                              Chọn ảnh
-                            </button>
-                            <button type="button" class="btn font-weight-bold"
-                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                              Gửi
-                            </button>
-                          </div>
+                        </div>
+                        <div class="form-group mt-2" style="text-align: right!important;">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
+                            Hủy
+                          </button>
+                          <input hidden type="file" id="test5">
+                          <button class="btn font-weight-bold"
+                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
+                                  onclick="myFunction()"
+                                  (change)="addFile($event)">
+                            Chọn ảnh
+                          </button>
+                          <button type="button" class="btn font-weight-bold"
+                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                            Gửi
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1030,37 +1023,52 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()" *ngIf="concernForm">
           <div class="mb-3">
             <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
-            <input type="text" class="form-control" id="concern-title">
+            <input type="text" class="form-control" id="concern-title" formControlName="title">
+            <small class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
+              && concernForm.controls.title.touched">
+              Vui lòng nhập tiêu đề.
+            </small>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
+              && concernForm.controls.content.touched">
+              Tiêu đề không được quá 100 ký tự.
+            </small>
           </div>
           <div class="mb-3">
             <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content"></textarea>
+            <textarea class="form-control" id="concern-content" formControlName="content"></textarea>
+            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
+              && concernForm.controls.content.touched">
+              Vui lòng nhập nội dung.
+            </small>
           </div>
           <div class="mb-3">
-            <label for="upload-file" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test4">
-            <button id="upload-file" class="btn font-weight-bold" onclick="myFunction1()"
-                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            <label class="col-form-label"> File đính kèm:</label>
+            <label for="concern-upload-file" class="btn font-weight-bold"
+                   style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            </label>
+            <input type="file" hidden id="concern-upload-file"
+                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                   (change)="addFile($event)">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn font-weight-bold btn-modal"
+                    style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc mắc
             </button>
           </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn font-weight-bold btn-modal"
-                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
-          Đóng
-        </button>
-        <button type="button" class="btn font-weight-bold btn-modal"
-                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc mắc
-        </button>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
 <div class="modal fade" id="announceModal" tabindex="-1" aria-labelledby="announceModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -1069,32 +1077,48 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()" *ngIf="announcementForm">
           <div class="mb-3">
-            <label for="announce-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
+            <label for="announcement-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
-            <input type="text" class="form-control" id="announce-title">
+            <input type="text" class="form-control" id="announcement-title" formControlName="title">
+            <small class="text-danger" *ngIf="announcementForm.controls.title.hasError('required')
+              && announcementForm.controls.title.touched">
+              Vui lòng nhập tiêu đề.
+            </small>
+            <small class="text-danger" *ngIf="announcementForm.controls.content.hasError('maxlength')
+              && announcementForm.controls.content.touched">
+              Tiêu đề không được quá 100 ký tự.
+            </small>
           </div>
           <div class="mb-3">
-            <label for="announce-content" class="col-form-label">Nội dung thông báo <span
+            <label for="announcement-content" class="col-form-label">Nội dung thông báo <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="announce-content"></textarea>
+            <textarea class="form-control" id="announcement-content" formControlName="content"></textarea>
+            <small class="text-danger" *ngIf="announcementForm.controls.content.hasError('required')
+              && announcementForm.controls.content.touched">
+              Vui lòng nhập nội dung.
+            </small>
           </div>
           <div class="mb-3">
-            <label for="upload-file-announce" class="col-form-label"> File đính kèm:</label>
-            <input type="file" hidden id="test6">
-            <button id="upload-file-announce" class="btn font-weight-bold" onclick="myFunction1()"
-                    style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            <label class="col-form-label"> File đính kèm:</label>
+            <label for="announcement-upload-file" class="btn font-weight-bold"
+                   style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            </label>
+            <input type="file" hidden id="announcement-upload-file"
+                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                   (change)="addFile($event)">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn font-weight-bold btn-modal"
+                    style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thông báo
             </button>
           </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn font-weight-bold btn-modal"
-                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
-          Đóng
-        </button>
-        <button type="button" class="btn font-weight-bold btn-modal"
-                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thông báo
-        </button>
+        </form>
       </div>
     </div>
   </div>
