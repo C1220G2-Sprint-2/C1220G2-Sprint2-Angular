@@ -33,6 +33,10 @@
                         *ngIf="studentForm.controls.name.hasError('pattern')
          && studentForm.controls.name.dirty">
                     Tên không hợp lệ.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.name.hasError('maxlength')
+         && studentForm.controls.name.dirty">
+                    Tên không được quá 50 kí tự.</span>
                 </div>
               </div>
               <div class="col-6">
@@ -88,6 +92,10 @@
                         *ngIf="studentForm.controls.phone.hasError('required')
          && studentForm.controls.phone.dirty">
                     SĐT không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.phone.hasError('pattern')
+         && studentForm.controls.phone.dirty">
+                    SĐT không hợp lệ.</span>
                 </div>
               </div>
             </div>
@@ -128,6 +136,14 @@
                         *ngIf="studentForm.controls.email.hasError('required')
          && studentForm.controls.email.dirty">
                     Email không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.email.hasError('pattern')
+         && studentForm.controls.email.dirty">
+                    Email không hợp lệ.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.email.hasError('maxlength')
+         && studentForm.controls.email.dirty">
+                    Email không được quá 50 kí tự.</span>
                 </div>
               </div>
               <div class="col-6">
@@ -138,6 +154,10 @@
                         *ngIf="studentForm.controls.address.hasError('required')
          && studentForm.controls.address.dirty">
                     Địa chỉ không được để trống.</span>
+                  <span style="color: red"
+                        *ngIf="studentForm.controls.address.hasError('maxlength')
+         && studentForm.controls.address.dirty">
+                    Địa chỉ không được quá 50 kí tự.</span>
                 </div>
               </div>
             </div>
@@ -158,7 +178,7 @@
                         style="background-color: #616C8C; color: white; border-radius: 1.5rem" [routerLink]="['/hoc-sinh/danh-sach']">HỦY BỎ
                 </button>
                 <button class="btn font-weight-bold" type="submit"
-                        style="background-color: #4F9B65; color: white; border-radius: 1.5rem" [disabled]="!studentForm.valid">THÊM MỚI
+                        style="background-color: #4F9B65; color: white; border-radius: 1.5rem" [disabled]="!(studentForm.valid && checkUpload)">THÊM MỚI
                 </button>
               </div>
             </div>

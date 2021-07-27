@@ -17,6 +17,7 @@ const routes: Routes = [
     loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule)
   },
   // -----------------------------
+
   {
     path: '',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
@@ -46,10 +47,7 @@ const routes: Routes = [
     loadChildren: () => import('./report-progress/report-progress.module').then(module => module.ReportProgressModule)
   },
 
-  {
-    path: '',
-    loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
-  },
+
   //code by Tam
   {
     path: 'giang-vien',
