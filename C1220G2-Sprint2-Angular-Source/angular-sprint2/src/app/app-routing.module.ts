@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
   },
+  {
+    path: 'excel',
+    loadChildren: () => import('./manager-add-excel/manager-add-excel.module').then(module => module.ManagerAddExcelModule)
+  }
 ];
 
 

@@ -5,7 +5,7 @@ import {ProcessReportComponent} from './process-report/process-report.component'
 
 const routes: Routes = [
   {
-  path: 'bao-cao/:name',
+  path: 'bao-cao/:name/:stages',
   component: ProcessReportComponent
 }
 ];

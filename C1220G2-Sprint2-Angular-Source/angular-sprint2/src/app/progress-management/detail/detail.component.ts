@@ -12,6 +12,8 @@ import {Observable} from 'rxjs';
 import {Announcement} from '../../models/announcement';
 import {AnnouncementService} from '../announcement.service';
 import {ToastrService} from 'ngx-toastr';
+import {ReportServiceService} from '../../report-progress/report-service.service';
+import {ReportProgress} from '../../models/report-progress';
 
 @Component({
   selector: 'app-detail',
@@ -34,6 +36,13 @@ export class DetailComponent implements OnInit {
   isTeacherLogging = false;
   username: string;
   currentUsername: string;
+  studentName: string;
+  avatarStudent: string;
+  stages: number;
+  dateCreateReport:string;
+  @Input() backgroundColor: string = '#C2C2C2';
+  reportList: ReportProgress[] = [];
+
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -42,9 +51,18 @@ export class DetailComponent implements OnInit {
               private router: Router,
               private tokenStorageService: TokenStorageService,
               private storage: AngularFireStorage,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private reportServiceService: ReportServiceService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.name = paramMap.get('name');
+      this.stages = +paramMap.get('stages');
+      if (+this.stages < 26) {
+        this.backgroundColor = 'red';
+      } else if (+this.stages < 86) {
+        this.backgroundColor = 'blue';
+      } else {
+        this.backgroundColor = 'green';
+      }
     });
   }
 
@@ -56,12 +74,13 @@ export class DetailComponent implements OnInit {
     this.addNewAnnouncementForm();
     this.getAnnouncementList();
     this.getConcernList();
+    this.getAllReport();
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
 
-      if (this.username.substring(0,2) == "TC") {
+      if (this.username.substring(0, 2) == 'TC') {
         this.isTeacherLogging = true;
       }
     }
@@ -175,6 +194,16 @@ export class DetailComponent implements OnInit {
 
   showSuccess() {
     this.toastService.success('', 'Thành công !');
+  }
+
+  // code hau
+  getAllReport() {
+    this.studentName = this.tokenStorageService.getUser().name;
+    this.avatarStudent = this.tokenStorageService.getUser().avatar;
+    this.reportServiceService.getAll().subscribe(report => {
+      this.reportList = report;
+    });
+    console.log(this.reportList + ' list');
   }
 }
 

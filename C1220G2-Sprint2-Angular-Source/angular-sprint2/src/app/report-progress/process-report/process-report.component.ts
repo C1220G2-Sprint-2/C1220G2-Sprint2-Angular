@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
+import {ReportProgress} from '../../models/report-progress';
 
 @Component({
   selector: 'app-process-report',
@@ -18,6 +19,7 @@ export class ProcessReportComponent implements OnInit {
   fileReport: string;
   downloadURL: Observable<string>;
   @Input() backgroundColor: string = '#C2C2C2';
+  reportList: ReportProgress[] = [];
 
 
   constructor(private formBuilder: FormBuilder,
@@ -27,6 +29,7 @@ export class ProcessReportComponent implements OnInit {
               private storage: AngularFireStorage) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.name = paramMap.get('name');
+      this.stages= +paramMap.get('stages')
     });
 
   }
@@ -40,6 +43,7 @@ export class ProcessReportComponent implements OnInit {
       content: [''],
       enable: true
     });
+    this.getAll();
   }
 
   onSubmit() {
@@ -47,10 +51,10 @@ export class ProcessReportComponent implements OnInit {
     report.name = this.name;
     report.stage = this.stages;
     report.fileReport = this.fileReport;
-    console.log(report.fileReport + ' aaa');
+    console.log();
 
     this.reportService.saveReport(report).subscribe(() => {
-      this.router.navigateByUrl('/quan-ly-tien-do/chi-tiet-tien-do/');
+      this.router.navigate(['/quan-ly-tien-do/chi-tiet-tien-do',this.name,this.stages]);
     });
   }
 
@@ -85,8 +89,12 @@ export class ProcessReportComponent implements OnInit {
         })
       ).subscribe();
   }
-
+  getAll(){
+    this.reportService.getAll().subscribe(report =>{
+      this.reportList = report;
+    })
+  }
   onBack() {
-    this.router.navigateByUrl('/quan-ly-tien-do/chi-tiet-tien-do/');
+    this.router.navigateByUrl('/quan-ly-tien-do/chi-tiet-tien-do');
   }
 }
