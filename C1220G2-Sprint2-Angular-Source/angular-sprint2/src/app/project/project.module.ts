@@ -7,21 +7,27 @@ import { ProjectRegistrationComponent } from './project-registration/project-reg
 import {NgxPaginationModule} from "ngx-pagination";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {StudentGroupModule} from "../student-group/student-group.module";
+import {Validation} from "./project-registration/Validation";
+import {ProjectDetailComponent} from "./project-detail/project-detail.component";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 
 @NgModule({
     exports: [
         ProjectListComponent
-    ],   
-  declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent],
+    ],
+  declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent, ProjectDetailComponent],
   imports: [
     CommonModule,
     ProjectRoutingModule,
     NgxPaginationModule,
     ReactiveFormsModule,
     FormsModule,
-    StudentGroupModule
-  ]
+    StudentGroupModule,
+    NgbPaginationModule,
+
+  ],
+
 })
 export class ProjectModule { }

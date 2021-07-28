@@ -29,9 +29,9 @@ export class MessageFeedComponent implements OnInit {
       if (this.feed.length > 0) this.feed = [];
       messages.forEach(msg => {
         if (msg.groupName === this.groupName) {
-          this.feed.push(msg); 
+          this.feed.push(msg);
         }
-      })
+      });
     });
   }
 

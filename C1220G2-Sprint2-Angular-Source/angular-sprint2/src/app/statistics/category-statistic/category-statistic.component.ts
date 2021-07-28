@@ -45,9 +45,7 @@ export type ChartOptions = {
 })
 export class CategoryStatisticComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions> = {
-    series:[]
-  }
+  public chartOptions: Partial<ChartOptions>;
   // public chartOptions: Partial<ChartOptions>;
   categoryStatistics: CategoryStatistic[]
   categoryNames: string[] = [];
@@ -56,8 +54,6 @@ export class CategoryStatisticComponent implements OnInit {
   duplicatedCategories: number = 0;
 
   constructor( private statisticsService: StatisticsService ) {
-    
-
     this.statisticsService.getCategoryStatistic().subscribe(categoryStatistics => {
       this.categoryStatistics = categoryStatistics;
       this.numberOfRegisteredCategories = this.categoryStatistics.length;
@@ -72,7 +68,6 @@ export class CategoryStatisticComponent implements OnInit {
 
       // console.log("number of duplicated categories: " + this.duplicatedCategories);
       // console.log("Number of register: " + this.numberOfRegisters);
-      
       const randomColors = this.getColors();
       this.chartOptions = {
           series: [
@@ -126,10 +121,11 @@ export class CategoryStatisticComponent implements OnInit {
             }
           }
       };
-    })
+    });
   }
 
   ngOnInit(): void {
+    
   }
 
   getColors(): string[] {
