@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
     this.getAllGroupChats();
 
-    this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.allGroupChats)]);
+    this.chatGroupName = new FormControl('', [Validators.required ,this.duplicatedGroupNameValidator(this.allGroupChats)]);
     /* ---------------------------- ---------------------------- */
     /* --------------------- Cong code ---------------------------- */
 
@@ -131,7 +131,7 @@ export class HeaderComponent implements OnInit {
     this.chatService.getGroups().subscribe((groups: GroupChat[]) => {
       this.allGroupChats = groups;
       // console.log("All group chats: " + this.allGroupChats);
-      this.chatGroupName = new FormControl('', [this.duplicatedGroupNameValidator(this.allGroupChats)]);
+      this.chatGroupName = new FormControl('', [Validators.required, this.duplicatedGroupNameValidator(this.allGroupChats)]);
 
     })
   }

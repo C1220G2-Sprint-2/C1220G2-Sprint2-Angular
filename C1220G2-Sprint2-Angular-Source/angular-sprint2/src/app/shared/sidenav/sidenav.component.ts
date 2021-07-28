@@ -5,11 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenStorageService } from 'src/app/security/token-storage.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-
-
-
-
-
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
