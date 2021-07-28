@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
                 window.location.assign('/de-tai/danh-sach-de-tai');
                 this.showSuccess();
               })
-              .catch((error) => this.showLoginFailed());
+              .catch((error) => this.toastService.error("Đăng nhập vào firebase không thành công.", "Lỗi"));
           });
         // ------------------------------------------
 
