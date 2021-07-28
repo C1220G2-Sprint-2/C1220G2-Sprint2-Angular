@@ -6,5 +6,4 @@ export interface Announcement {
   attachFile?: string;
   avatar: string;
   name: string;
-  dateCreate?: string;
 }

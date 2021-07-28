@@ -8,8 +8,6 @@ import {StudentDto} from './student-dto';
 import {ReviewDto} from './review-dto';
 import {Project} from '../models/project';
 import {ProjectDto} from "./project-dto";
-import {CommentConcern} from '../models/comment-concern';
-import {CommentReview} from '../models/comment-review';
 
 const API_URL = `${environment.apiUrl}` + '/api';
 
@@ -49,20 +47,8 @@ export class ProgressService {
     return this.http.get<ProjectDto>(`${API_URL}/project/${idProject}`);
   }
 
-  getAllReview(noOfRecord: number): Observable<ReviewDto[]> {
-    return this.http.get<ReviewDto[]>(API_URL + '/review/review-list/' + noOfRecord).pipe(catchError(this.handleError));
-  }
-
-  getMaxSize(): Observable<number> {
-    return this.http.get<number>(API_URL + '/review/review-list-size').pipe(catchError(this.handleError));
-  }
-
-  getAllComment(): Observable<CommentReview[]> {
-    return this.http.get<CommentReview[]>(API_URL + '/comment/review/comment-list');
-  }
-
-  saveComment(comment): Observable<CommentReview> {
-    return this.http.post<CommentReview>(API_URL + '/comment/review/comment-save', comment);
+  getAllReview(): Observable<ReviewDto[]> {
+    return this.http.get<ReviewDto[]>(API_URL + '/review/review-list').pipe(catchError(this.handleError));
   }
 
   // ---------------------------------------------------------------------------------

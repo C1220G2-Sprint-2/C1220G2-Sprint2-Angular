@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteTeacherComponent implements OnInit {
 
-
   constructor() { }
 
   ngOnInit(): void {

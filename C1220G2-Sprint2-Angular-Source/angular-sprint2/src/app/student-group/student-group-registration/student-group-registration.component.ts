@@ -29,8 +29,8 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   checkSortClass = false;
    user ;
   isLoggedIn: boolean = false;
-  public loading = false;
-  page: number = 1;
+   loading = false;
+  // page: number = 1;
   collection: any[] = this.listStudent;
   pageCard: number = 1;
   studentTS: any = {};
@@ -100,7 +100,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
         }
       }
     }
-    this.page=1;
+    this.page2=1;
   }
 checkName:boolean = false;
   createTeam() {
@@ -190,6 +190,10 @@ checkName:boolean = false;
     }
   }
   errorMessage = '';
+  pageSize: number = 8;
+  page: number = 1;
+  pageSize2: number = 5;
+  page2: number = 1
   showSuccess() {
     Swal.fire({
       title: 'Bạn đã đăng ký nhóm thành công!',
