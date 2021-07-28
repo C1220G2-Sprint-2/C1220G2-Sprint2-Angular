@@ -1,3 +1,4 @@
+import { OnChanges } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { ChatMessage } from 'src/app/models/chat-message.model';
 import { ChatService } from '../services/chat.service';
@@ -7,7 +8,7 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './message-feed.component.html',
   styleUrls: ['./message-feed.component.css']
 })
-export class MessageFeedComponent implements OnInit {
+export class MessageFeedComponent implements OnInit, OnChanges {
 
   feed: ChatMessage[] = [];
   // feed: Observable<ChatMessage[]>;
@@ -15,9 +16,9 @@ export class MessageFeedComponent implements OnInit {
 
   constructor(private chatService: ChatService) { }
 
-  // ngOnChanges(): void {
-  //   // this.getAllMessagesInGroup();
-  // }
+  ngOnChanges(): void {
+    this.getAllMessagesInGroup();
+  }
 
   ngOnInit(): void {
     // this.feed = [];

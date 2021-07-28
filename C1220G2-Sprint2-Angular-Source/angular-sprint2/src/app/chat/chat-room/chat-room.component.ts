@@ -38,6 +38,7 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
   }
 
   getUsersNotInGroup() {
+    this.userEmail = new FormControl('');
     this.chatService.getGroupsUsers().subscribe(groupUsers => {
       if (this.usersInGroup.length > 0) this.usersInGroup = [];
       // console.log("Users in group: ")
