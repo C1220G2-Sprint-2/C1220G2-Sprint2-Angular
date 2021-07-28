@@ -4,7 +4,6 @@ import {Education} from '../../models/education';
 import {Faculty} from '../../models/faculty';
 import {Subscription} from 'rxjs';
 import {TeacherService} from '../teacher.service';
-import {ProjectDto} from '../../models/project-dto';
 
 @Component({
   selector: 'app-list-teacher',
@@ -22,7 +21,6 @@ export class ListTeacherComponent implements OnInit {
   collectionSize: number;
   deleteTeacher: Teacher;
   deleteTeacherName: string;
-  projectDto: ProjectDto[] = [];
   constructor(private teacherService: TeacherService) {
   }
 
@@ -73,7 +71,7 @@ export class ListTeacherComponent implements OnInit {
       value => {
         if (value == null) {
           this.teacherList = [];
-          this.collectionSize = 0;
+          this.collectionSize = 0
         } else {
           this.teacherList = value;
           this.collectionSize = this.teacherList.length;
@@ -88,19 +86,6 @@ export class ListTeacherComponent implements OnInit {
         this.deleteTeacher = value;
         this.deleteTeacherName = this.deleteTeacher.name;
       }
-   );
-    this.subscription = this.teacherService.checkDelete(code).subscribe(
-      value => {
-        if (value == null){
-          this.projectDto = [];
-        }else {
-          this.projectDto = value;
-        }
-      }
-    )
-  }
-
-  delete() {
-    this.subscription = this.teacherService.delete(this.deleteTeacher.code).subscribe()
+   )
   }
 }

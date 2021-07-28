@@ -8,7 +8,6 @@ import {Teacher} from '../../models/teacher';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-teacher',
@@ -39,8 +38,7 @@ export class EditTeacherComponent implements OnInit {
   constructor(private teacherService: TeacherService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private angularFireStorage: AngularFireStorage,
-              private toastService: ToastrService) { }
+              private angularFireStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
     this.loadListFaculty();
@@ -106,9 +104,7 @@ export class EditTeacherComponent implements OnInit {
     this.teacherDetail.code = this.codeTeacherDetail;
     this.teacherDetail.image = this.imageFirebase;
     this.subscription = this.teacherService.editTeacher(this.teacherDetail).subscribe(
-      value => {
-        this.showSuccess();
-      },
+      value => {},
       error => {
         console.log(error)
       },
@@ -137,10 +133,6 @@ export class EditTeacherComponent implements OnInit {
         })
       })
     ).subscribe();
-  }
-
-  showSuccess() {
-    this.toastService.success('Thành công !', 'Đã cập nhật thông tin giảng viên');
   }
 
   get name() {

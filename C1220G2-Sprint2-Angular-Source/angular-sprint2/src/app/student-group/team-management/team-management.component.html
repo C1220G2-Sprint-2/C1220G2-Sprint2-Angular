@@ -78,13 +78,21 @@
                      style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageCard2"></li>
 <!--          <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
 <!--          <li style="width: 20px"></li>-->
-          <pagination-controls (pageChange)="pageCard2 = $event"
-                               id="studentPage"
-                               previousLabel="<"
-                               nextLabel=">"
-                               screenReaderPaginationLabel="Pagination"
-                               screenReaderPageLabel="page"
-                               screenReaderCurrentLabel="You're on page"></pagination-controls>
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="listStudent.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
         </ul>
       </div>
     </div>

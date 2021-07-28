@@ -1,10 +1,9 @@
 export interface ReviewDto {
-  id?: number;
   title?: string;
   content?: string;
   progressReview?: string;
   teacherCode?: string;
+  avatar?: string;
   dateCreate?: string;
   teacherName?: string;
-  avatar?: string;
 }
