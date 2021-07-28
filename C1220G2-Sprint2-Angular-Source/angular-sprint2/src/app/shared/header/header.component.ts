@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import { ChatService } from 'src/app/chat/services/chat.service';
