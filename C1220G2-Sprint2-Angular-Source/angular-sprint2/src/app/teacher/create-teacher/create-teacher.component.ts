@@ -127,8 +127,8 @@ export class CreateTeacherComponent implements OnInit {
 
   showError() {
     Swal.fire({
-      title: 'Tên đăng nhập hoặc email đã tồn tại !',
-      text: 'Vui lòng nhập tên đăng nhập hoặc email khác.',
+      title: 'Số điện thoại hoặc email đã tồn tại !',
+      text: 'Vui lòng nhập số điện thoại hoặc email khác.',
       icon: 'error',
       confirmButtonText: 'Đóng'
     });
