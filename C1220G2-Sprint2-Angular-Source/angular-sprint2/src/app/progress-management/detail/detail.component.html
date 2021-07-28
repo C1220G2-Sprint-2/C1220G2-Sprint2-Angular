@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-<!--      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>-->
+      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>
     </p>
   </div>
 </div>
@@ -232,7 +232,7 @@
               <div class="col-md-12">
                 <div class="media my-5" *ngFor="let review of reviewList"><img class="mr-3 rounded-circle"
                                                                                alt="Bootstrap Media Preview"
-                                                                               src="https://i.imgur.com/xELPaag.jpg"/>
+                                                                               src="{{review.avatar}}"/>
                   <div class="media-body text-left">
                     <div class="row">
                       <div class="col-8 d-flex">
@@ -456,15 +456,16 @@
               <button class="btn font-weight-bold m-3"
                       style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                       data-bs-toggle="modal" data-bs-target="#concernModal"
-                      data-bs-whatever="@getbootstrap" *ngIf="isTeacherLogging == false"> Thêm thắc mắc
+                      data-bs-whatever="@getbootstrap" *ngIf="isStudentLoggedIn == true"> Thêm thắc mắc
               </button>
               <div class="container">
                 <div class="card p-3 my-3" *ngFor="let concern of concernList">
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center">
+                    <div class="user d-flex flex-row align-items-center" >
                       <img src="{{concern.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
                       <h5 style="color: #4F9B65">
                         {{concern.name}}
+                        <span style="font-size: 0.8rem">-  {{concern.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
                       </h5>
                     </div>
                   </div>
@@ -480,7 +481,9 @@
                     </p>
                   </div>
                   <div class="ml-2" style="text-align: left !important; font-size: 1.1rem;">
-                    <a href="{{concern.attachFile}}" target="_blank"><i class="fas fa-file-alt"> File đính kèm</i></a>
+                    <a href="{{concern.attachFile}}" target="_blank">
+                      <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
+                    </a>
                   </div>
                   <!--                                         BÌNH LUẬN TRONG THẮC MẮC                                                -->
                   <form [formGroup]="commentConcernForm" (ngSubmit)="submitConcernComment()" *ngIf="commentConcernForm">
@@ -565,8 +568,9 @@
                             </div>
                             <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
                                  *ngIf="!concernComment.attachFile == null">
-                              <a href="{{concernComment.attachFile}}" target="_blank"><i class="fas fa-file-alt"> File
-                                đính kèm</i></a>
+                              <a href="{{concernComment.attachFile}}" target="_blank">
+                                <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
+                              </a>
                             </div>
                           </div>
                         </div>
@@ -599,6 +603,7 @@
                       <img src="{{announcement.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
                       <h5 style="color: #4F9B65">
                         {{announcement.name}}
+                        <span style="font-size: 0.8rem">-  {{announcement.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
                       </h5>
                     </div>
                   </div>
@@ -615,7 +620,9 @@
                   </div>
                   <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
                        *ngIf="announcement.attachFile != null">
-                    <a href="{{announcement.attachFile}}" target="_blank"><i class="fas fa-file-alt"> File đính kèm</i></a>
+                    <a href="{{announcement.attachFile}}" target="_blank">
+                      <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i>
+                    </a>
                   </div>
                   <!--                  BÌNH LUẬN TRONG THÔNG BÁO-->
                   <div class="action d-flex justify-content-between mt-2 align-items-center">
@@ -700,8 +707,8 @@
                             </div>
                             <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
                                  *ngIf="announceComment.attachFile != null">
-                              <a href="{{announceComment.attachFile}}" target="_blank"><i class="fas fa-file-alt"> File
-                                đính kèm</i></a>
+                              <a href="{{announceComment.attachFile}}" target="_blank">
+                                <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i></a>
                             </div>
                           </div>
                         </div>
@@ -738,6 +745,9 @@
               <div [hidden]="!title.errors.minlength">
                 <span class="text-danger"> Tiêu đề phải lớn hơn 5 ký tự.</span>
               </div>
+              <div [hidden]="!title.errors.maxlength">
+                <span class="text-danger"> Nội dung phải nhỏ hơn 100 ký tự.</span>
+              </div>
             </div>
           </div>
           <div class="mb-3">
@@ -752,7 +762,7 @@
                 <span class="text-danger"> Nội dung phải lớn hơn 5 ký tự.</span>
               </div>
               <div [hidden]="!content.errors.maxlength">
-                <span class="text-danger"> Nội dung phải nhỏ hơn 250 ký tự.</span>
+                <span class="text-danger"> Nội dung phải nhỏ hơn 500 ký tự.</span>
               </div>
             </div>
           </div>
@@ -774,8 +784,7 @@
               Đóng
             </button>
             <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
-                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc
-              mắc
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem" [disabled]="reviewForm.invalid">Gửi đánh giá
             </button>
           </div>
         </form>
