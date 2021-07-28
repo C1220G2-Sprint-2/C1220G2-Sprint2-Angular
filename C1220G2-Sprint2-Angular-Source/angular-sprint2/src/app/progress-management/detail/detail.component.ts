@@ -17,6 +17,9 @@ import {CommentAnnouncement} from '../../models/comment-announcement';
 import {CommentConcernService} from '../comment-concern.service';
 import {CommentAnnouncementService} from '../comment-announcement.service';
 import {ReviewDto} from "../review-dto";
+import { ProjectDto } from '../project-dto';
+
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -402,7 +405,7 @@ export class DetailComponent implements OnInit {
         console.log('I was closed by the timer');
       }
     });
-
+  }
   showSuccessReview() {
     this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
   }
