@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>
+<!--      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>-->
     </p>
   </div>
 </div>
@@ -717,6 +717,75 @@
     </div>
   </div>
 </div>
+<!-- New Thread Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Tiêu đề:</label>
+            <input type="text" class="form-control" id="recipient-name" formControlName="title">
+            <div
+              *ngIf="!title?.valid && (title?.dirty ||title?.touched)">
+              <div [hidden]="!title.errors.required">
+                <span class="text-danger">Vui lòng nhập tiêu đề.</span>
+              </div>
+              <div [hidden]="!title.errors.minlength">
+                <span class="text-danger"> Tiêu đề phải lớn hơn 5 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
+            <textarea class="form-control" id="message-text" formControlName="content"></textarea>
+            <div
+              *ngIf="!content?.valid && (content?.dirty ||content?.touched)">
+              <div [hidden]="!content.errors.required">
+                <span class="text-danger">Vui lòng nhập nội dung.</span>
+              </div>
+              <div [hidden]="!content.errors.minlength">
+                <span class="text-danger"> Nội dung phải lớn hơn 5 ký tự.</span>
+              </div>
+              <div [hidden]="!content.errors.maxlength">
+                <span class="text-danger"> Nội dung phải nhỏ hơn 250 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 form-group">
+            <label>Đánh giá theo tỉ lệ:</label> <br>
+            <input type="range" class="form-range" id="customRange1"
+                   formControlName="progressReview">
+            <div
+              *ngIf="!progressReview?.valid && (progressReview?.dirty ||progressReview?.touched)">
+              <div [hidden]="!progressReview.errors.required">
+                <span class="text-danger">Vui lòng nhập đánh giá bằng tỷ lệ.</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn font-weight-bold btn-modal"
+                    style="background-color: #616C8C; color: white; border-radius: 1.5rem"
+                    data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc
+              mắc
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!----------------------------------------CODE FROM DONGTHG------------------------------------------------------------>
+
 <div class="modal fade" id="concernModal" tabindex="-1" aria-labelledby="concernModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -725,7 +794,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()" *ngIf="concernForm">
+        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()">
           <div class="mb-3">
             <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
@@ -771,7 +840,6 @@
                    (change)="addFile($event)">
             <ng-container *ngIf="fileName"><p style="color: #0498D6">File: "{{fileName}}" đã tải lên thành công</p></ng-container>
           </div>
-          {{fileName}} đã tải lên
           <div class="modal-footer">
             <button type="button" class="btn font-weight-bold btn-modal"
                     style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
@@ -795,7 +863,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()" *ngIf="announcementForm">
+        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()">
           <div class="mb-3">
             <label for="announcement-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
