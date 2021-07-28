@@ -101,6 +101,14 @@ export class ListTeacherComponent implements OnInit {
   }
 
   delete() {
-    this.subscription = this.teacherService.delete(this.deleteTeacher.code).subscribe()
+    this.subscription = this.teacherService.delete(this.deleteTeacher.code).subscribe(
+      value => {},
+      error => {},
+      ()=>{
+        this.loadListTeacher();
+      }
+    )
   }
+
+
 }
