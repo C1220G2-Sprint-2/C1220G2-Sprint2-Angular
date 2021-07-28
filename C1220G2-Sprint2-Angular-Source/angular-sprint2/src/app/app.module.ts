@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {StudentModule} from "./student/student.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+// @ts-ignore
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";

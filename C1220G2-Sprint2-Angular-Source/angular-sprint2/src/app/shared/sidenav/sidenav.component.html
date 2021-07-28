@@ -37,7 +37,11 @@
   </li>
 
   <!-- Divider -->
-  <hr class="sidebar-divider">
+    <hr class="sidebar-divider">
+
+   <!-- Nav Item - Charts -->
+    <li class="nav-item">
+      <div *ngIf="user.username.startsWith('SV')  then student; else teacher"></div>
 
   <!-- Nav Item - Charts -->
   <li class="nav-item">
