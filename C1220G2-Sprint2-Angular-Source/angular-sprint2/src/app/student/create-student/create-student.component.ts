@@ -34,14 +34,14 @@ export class CreateStudentComponent implements OnInit {
       this.listFaculty = value;
     });
     this.studentForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
+      name: new FormControl('', [Validators.maxLength(50),Validators.required, Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
       gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', [Validators.required, this.validateAge18 ]),
-      phone: new FormControl('', Validators.required),
+      phone: new FormControl('', [Validators.required,Validators.pattern('^(090|091)[0-9]{7}$')]),
       classStudent: new FormControl('', Validators.required),
       faculty: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.maxLength(50),Validators.required,Validators.pattern('^[A-Za-z0-9]+[@][a-z]+\\.[a-z]+$')]),
+      address: new FormControl('', [Validators.required,Validators.maxLength(50)]),
       facebook: new FormControl(),
     });
   }
@@ -77,7 +77,9 @@ export class CreateStudentComponent implements OnInit {
   this.chooseImage(this.selectedImage);
   }
 
+  checkUpload = true;
   chooseImage(selectedImage: any) {
+    this.checkUpload = false;
     const nameImg = selectedImage.name;
     const fileRef = this.angularFireStorage.ref(nameImg);
     this.angularFireStorage.upload(nameImg, selectedImage).snapshotChanges().pipe(
@@ -85,7 +87,7 @@ export class CreateStudentComponent implements OnInit {
         this.downloadURL = fileRef.getDownloadURL();
         this.downloadURL.subscribe(url => {
           this.image = url;
-          console.log(this.image);
+          this.checkUpload = true;
         })
       })
     ).subscribe();

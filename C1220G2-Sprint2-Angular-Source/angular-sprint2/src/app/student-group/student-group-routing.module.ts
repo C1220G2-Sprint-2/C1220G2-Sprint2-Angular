@@ -12,6 +12,7 @@ const routes: Routes = [
   {path: 'danh-sach', component: ListStudentGroupComponent},
   {path: 'dang-ky', component: StudentGroupRegistrationComponent},
   {path: 'quan-ly-nhom', component: TeamManagementComponent},
+
 ]
 
 

@@ -68,10 +68,14 @@
                    #userPhoto
                    (change)="onFileSelected($event)"
                    name="file"
+                   placeholder="Chọn tệp mô tả ... "
                    autocomplete="off"
                    class="form-control" aria-label="file example" required  formControlName="description" >
             <span style="color: red" *ngIf="createForm.controls.description.hasError('required') && createForm.controls.description.touched">
                             Vui lòng chọn tệp mô tả.
+                        </span>
+            <span style="color: red" *ngIf="checkFile && createForm.controls.description.touched">
+                            Kích thức tệp lớn hơn 10Mb hoặc là tệp ảnh.
                         </span>
           </div>
           <div class="col-1"></div>
@@ -92,6 +96,9 @@
             />
             <span style="color: red" *ngIf="createForm.controls.image.hasError('required') && createForm.controls.image.touched">
                             Vui lòng chọn tệp ảnh.
+                        </span>
+            <span style="color: red" *ngIf="checkImg && createForm.controls.image.touched">
+                            Kích thức ảnh lớn hơn 5Mb hoặc không phải file ảnh.
                         </span>
           </div>
           <div class="col-1"></div>
@@ -119,10 +126,10 @@
         </div>
         <div class="row">
           <div class="col-lg-5"col-sm-12></div>
-          <div class="col-lg-3 col-sm-12"><button class="btn font-weight-bold" data-toggle="tooltip" data-bs-toggle="modal"
-                                                  data-bs-target="#deleteModal" style="width: 150px;background-color: #616C8C; color: white; border-radius: 1.5rem">Hủy bỏ</button></div>
+          <div class="col-lg-3 col-sm-12"><button type="button" class="btn font-weight-bold" data-toggle="tooltip" data-bs-toggle="modal"
+                                                  data-bs-target="#abc" style="width: 150px;background-color: #616C8C; color: white; border-radius: 1.5rem">Hủy bỏ</button></div>
           <div class="col-lg-3 col-sm-12">
-            <input type="submit" class="btn font-weight-bold" [disabled]="(!createForm.valid) || project != null" value="Đăng ký " style="width: 150px;background-color: #4F9B65; color: white; border-radius: 1.5rem">
+            <input type="submit" class="btn font-weight-bold" [disabled]="(!createForm.valid) || project != null || checkFile==true || checkImg == true" value="Đăng ký " style="width: 150px;background-color: #4F9B65; color: white; border-radius: 1.5rem">
           </div>
         </div>
       </form>
@@ -148,10 +155,13 @@
             </tr>
             </thead>
             <tbody>
+            <tr>
+              <td colspan="3" *ngIf="listProject.length == 0">Không có đề tài nào tồn tại </td>
+            </tr>
             <tr *ngFor="let project of listProject | paginate: { id: 'projectPage',  itemsPerPage: 10, currentPage: pageProject }; index as i">
               <td class="font-weight-bold">{{i+1}}</td>
               <td style="text-align: left">{{project.name}}</td>
-              <td><a href="#"><i class="fa fa-eye text-success"></i></a></td>
+              <td><a  [routerLink]="['/de-tai/chi-tiet/',project.id]"><i class="fa fa-eye text-success"></i></a></td>
             </tr>
 
             </tbody>
@@ -160,8 +170,8 @@
             <!--            <div class="hint-text">Hiển thị <b>10</b> trên <b>25</b> dòng</div>-->
             <ul class="pagination">
               <li><input class="form-control" type="text" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageProject"></li>
-              <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>
-              <li style="width: 20px"></li>
+<!--              <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
+<!--              <li style="width: 20px"></li>-->
               <pagination-controls (pageChange)="pageProject = $event"
                                    id = "projectPage"
                                    previousLabel=" < "
@@ -180,7 +190,7 @@
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="abc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style=" background: #4F9B65; color: white">
@@ -191,8 +201,8 @@
         Bạn có muốn hủy đăng ký không?
       </div>
       <div class="modal-footer">
-        <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Ở lại</button>
-        <button class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" routerLink="/nhom/quan-ly-nhom">Hủy đăng ký</button>
+        <button type="button" class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Ở lại</button>
+        <input type="button" class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" value="Hủy đăng ký" (click)="chuyenHuong()">
       </div>
     </div>
   </div>

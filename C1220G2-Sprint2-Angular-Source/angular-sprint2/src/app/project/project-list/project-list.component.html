@@ -1,100 +1,70 @@
-<div class="container " style="margin-top:10px"    >
+<div class="container " style="margin-top:10px">
   <div class="row">
     <div style="height: 100px;padding-top: 20px;  text-align: center; border-radius: 20px">
       <h1> Danh sách đề tài</h1>
     </div>
-    <div class="row" style="margin-right: 0px;">
-      <div class="col-9"></div>
 
+    <div class="row" style="margin-right: 0px;">
+      <div class="col-9 mt-2">
+        <button class="btn font-weight-bold"
+                style="float: left; margin-top: 10px;height: 50px;;background-color: #4F9B65;
+                color: white;width: 180px; border-radius: 1.5rem;"
+                routerLink="/de-tai/kiem-duyet-de-tai">Kiểm duyệt đề tài
+        </button>
+      </div>
       <div class="col-3"
            style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
-        <input type="text" class="form-control" placeholder="Tìm kiếm..."
-               style="display: inline-block; width: 85%;margin-top: 6px;">
-        <!-- <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">
-          <i class="fa fa-search" style="color: white"></i></button> -->
+
+        <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..."
+               style="display: inline-block; width: 85%;margin-top: 6px;" (change)="getKeyword($event)">
+        <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;"
+                (click)="searchProject()">
+          <i class="fa fa-search" style="color: white"></i></button>
+
       </div>
     </div>
-    <div class="container mt-5" >
+    <div class="container mt-5">
+      <h3 *ngIf="projectList.length == 0" style="color: red; text-align: center">{{this.messageEmpty}}</h3>
       <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="our-team">
-            <div class="picture">
-              <img class="img-fluid" src="https://baoquocte.vn/stores/news_dataimages/tranlieu/022017/28/09/090633_virtual-reality.jpg">
-            </div>
-            <div class="team-content">
-              <h3 class="name">Tìm hiểu công nghệ thực tế ảo và ứng dụng</h3>
-              <h4 class="title"><span>Thực tế ảo (tiếng Anh: Virtual Reality) là một trải nghiệm mô phỏng có thể giống hoặc khác hoàn toàn với thế giới thực. Các ứng dụng của thực tế ảo bao gồm giải trí, giáo dục </span></h4>
-            </div>
-            <div class="social">
-              <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white">Chi tiết</button>
-              <button  class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-                       data-bs-target="#exampleModal">Xóa đề tài</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="our-team">
-            <div class="picture">
-              <img class="img-fluid" src="https://static.tuoitre.vn/tto/i/s626/2015/09/12/image1resize-1442048392.jpg">
-            </div>
-            <div class="team-content">
-              <h3 class="name">Thiết kế đồ án thi công cống thoát nước đô thị</h3>
-              <h4 class="title"><span>Cống là một công trình khá phổ biến trên các tuyến đường. Tác dụng chủ yếu của cống là dùng để thoát nước của các dòng chảy thường xuyên hay định kỳ </span></h4>
-            </div>
-            <div class="social">
-              <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white">Chi tiết</button>
-              <button  class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-                       data-bs-target="#exampleModal">Xóa đề tài</button>
+        <ng-container *ngFor="let project of projectList| slice: (page-1) * pageSize : page * pageSize">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="our-team">
+              <div class="picture">
+                <img class="img-fluid" src="{{project.image}}">
+              </div>
+              <div class="team-content">
+                <h3 class="name">{{project.name}}</h3>
+                <h4 class="title"><span> {{project.content}}</span></h4>
+              </div>
+              <div class="social">
+                <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white"
+                        [routerLink]="['/de-tai/chi-tiet/',project.id]">Chi tiết
+                </button>
+                <button class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white"
+                        title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" (click)="getData(project.id, project.name)">Xóa đề tài
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="our-team">
-            <div class="picture">
-              <img class="img-fluid" src="data:image/jpeg;base64,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">
-            </div>
-            <div class="team-content">
-              <h3 class="name">Quản lý kế toán tại công ty Bình Minh</h3>
-              <h4 class="title"><span>Việc hoạch toán đầy đủ chính xác chi phí sản xuất vào giá thành của sản phẩm là việc làm cấp thiết khách quan và có ý nghĩa qua trọng nhất là trong điều kiện kinh tế thị trường</span></h4>
-            </div>
-            <div class="social">
-              <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white">Chi tiết</button>
-              <button  class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-                       data-bs-target="#exampleModal">Xóa đề tài</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="our-team">
-            <div class="picture">
-              <img class="img-fluid" src="https://cdn1.img.vn.sputniknews.com/img/736/94/7369442_644:426:3641:2047_1000x541_80_0_0_98c9b982a9d4bf75e57d50bf0a311baf.jpg">
-            </div>
-            <div class="team-content">
-              <h3 class="name">Triển khai công nghệ 5G cho vùng 5</h3>
-              <h4 class="title"><span>5G (Thế hệ mạng di động thứ 5) là thế hệ tiếp theo của công nghệ truyền thông di động sau thế hệ 4G, hoạt động ở các băng tần 28, 38, 60 GHz. </span></h4>
-            </div>
-            <div class="social">
-              <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white">Chi tiết</button>
-              <button  class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-                       data-bs-target="#exampleModal">Xóa đề tài</button>
-            </div>
-          </div>
-        </div>
+        </ng-container>
       </div>
-      <div class="clearfix">
-        <div class="hint-text">Hiển thị <b>4</b> trên <b>20</b> dòng</div>
-        <ul class="pagination">
-          <!--                    <li class="page-item disabled"><a href="#">Trước</a></li>-->
-          <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item"><a href="#" class="page-link">...</a></li>
-          <li class="page-item"><a href="#" class="page-link">9</a></li>
-          <li class="page-item"><a href="#" class="page-link">10</a></li>
-          <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>
-            <!--                    <li class="page-item"><a href="#">Sau</a></li>-->
-          </li>
-        </ul>
+      <div class="clearfix" *ngIf="projectList.length != 0">
+        <ngb-pagination class="d-flex justify-content-end"
+                        [(page)]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="projectList.length"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [ellipses]="true"
+                        [boundaryLinks]="true">
+          <ng-template ngbPaginationFirst> <<</ng-template>
+          <ng-template ngbPaginationLast> >></ng-template>
+          <ng-template ngbPaginationPrevious> <</ng-template>
+          <ng-template ngbPaginationNext> ></ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
       </div>
     </div>
   </div>
@@ -108,7 +78,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có muốn xóa đề tài  <span style="color: red">Công nghệ thực tế ảo</span>  không?
+        Bạn có muốn xóa đề tài <span style="color: red">{{this.nameDelete}}</span> không?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold"
@@ -116,7 +86,7 @@
           Hủy
         </button>
         <button type="button" class="btn font-weight-bold" data-bs-dismiss="modal"
-                style="background-color: #d91a37;color: white; border-radius: 1.5rem">Xóa
+                style="background-color: #d91a37;color: white; border-radius: 1.5rem" (click)="deleteProject()">Xóa
         </button>
       </div>
     </div>
