@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import { TeacherRoutingModule } from './teacher-routing.module';
 import { CreateTeacherComponent } from './create-teacher/create-teacher.component';
@@ -9,15 +10,10 @@ import { CreateTeacherExcelComponent } from './create-teacher-excel/create-teach
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
-import {TeacherService} from './teacher.service';
-import {CommonModule} from '@angular/common';
 
 
 @NgModule({
   declarations: [CreateTeacherComponent, ListTeacherComponent, EditTeacherComponent, DeleteTeacherComponent, CreateTeacherExcelComponent],
-  providers: [
-    TeacherService
-  ],
   imports: [
     CommonModule,
     TeacherRoutingModule,

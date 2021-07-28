@@ -6,5 +6,4 @@ export interface StudentConcern {
   attachFile?: string;
   avatar: string;
   name: string;
-  dateCreate?: string;
 }

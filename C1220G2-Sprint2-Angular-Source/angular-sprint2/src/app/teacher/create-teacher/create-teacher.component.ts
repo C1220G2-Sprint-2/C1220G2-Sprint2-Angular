@@ -8,7 +8,6 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {Teacher} from '../../models/teacher';
 import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-teacher',
@@ -25,8 +24,7 @@ export class CreateTeacherComponent implements OnInit {
 
   constructor(private teacherService: TeacherService,
               private angularFireStorage: AngularFireStorage,
-              private router: Router,
-              private toastService: ToastrService) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -86,9 +84,7 @@ export class CreateTeacherComponent implements OnInit {
     this.newTeacher = this.createTeacherForm.value;
     this.newTeacher.image = this.imageFirebase;
     this.subscription = this.teacherService.createTeacher(this.newTeacher).subscribe(
-      value => {
-        this.showSuccess();
-      },
+      value => {},
       error => {
         console.log(error);
       },
@@ -117,10 +113,6 @@ export class CreateTeacherComponent implements OnInit {
         })
       })
     ).subscribe();
-  }
-
-  showSuccess() {
-    this.toastService.success('Thành công !', 'Đã tạo mới giảng viên');
   }
 
   get name() {

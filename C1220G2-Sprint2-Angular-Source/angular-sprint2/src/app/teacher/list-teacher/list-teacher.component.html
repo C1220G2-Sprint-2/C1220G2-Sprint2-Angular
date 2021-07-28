@@ -40,9 +40,9 @@
           </ng-container>
         </div>
         <ul class="social">
-          <li *ngIf="teacher.facebook != ''"><a target="_blank" href="{{teacher.facebook}}" aria-hidden="true"><i
+          <li><a [href]="teacher.facebook" aria-hidden="true"><i
             class="fab fa-facebook"></i></a></li>
-          <li *ngIf="teacher.twitter != ''"><a target="_blank" [href]="teacher.twitter" aria-hidden="true"><i
+          <li><a [href]="teacher.twitter" aria-hidden="true"><i
             class="fab fa-twitter-square"></i></a></li>
           <li><a [routerLink]="['/cap-nhat/',teacher.code]" aria-hidden="true"><i
             class="fas fa-eye"></i></a></li>
@@ -53,8 +53,8 @@
       </div>
     </div>
     <div class="clearfix">
-      <div class="hint-text" style="display: inline-block">Hiển thị <b *ngIf="collectionSize >= pageSize">{{pageSize}}</b> <b *ngIf="collectionSize < pageSize">{{collectionSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
-      <ngb-pagination style="display: inline-block" class="d-flex justify-content-end"
+      <div class="hint-text">Hiển thị <b>{{pageSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
+      <ngb-pagination class="d-flex justify-content-end"
                       [(page)]="page"
                       [pageSize]="pageSize"
                       [collectionSize]="collectionSize"
@@ -62,8 +62,8 @@
                       [rotate]="true"
                       [ellipses]="true"
                       [boundaryLinks]="true">
-        <ng-template ngbPaginationFirst>&laquo;&laquo;</ng-template>
-        <ng-template ngbPaginationLast>&raquo;&raquo;</ng-template>
+        <ng-template ngbPaginationFirst>Trước</ng-template>
+        <ng-template ngbPaginationLast>Sau</ng-template>
         <ng-template ngbPaginationEllipsis>...</ng-template>
         <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
       </ngb-pagination>
@@ -85,19 +85,15 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p *ngIf="projectDto.length != 0; else elseBlock">Bạn không thể xóa giảng viên <span style="color: red">{{deleteTeacherName}}</span> khỏi danh sách vì giảng viên này
-          vẫn đang trong quá trình quản lý đề tài của học viên.</p>
-        <ng-template #elseBlock>
-          <p>Bạn có muốn xóa giảng viên <span style="color: red">{{deleteTeacherName}}</span> khỏi danh sách không?</p>
-        </ng-template>
+        <p>Bạn có muốn xóa giảng viên <span style="color: red">{{deleteTeacherName}}</span> khỏi danh sách không?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold"
                 style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 20%" data-mdb-dismiss="modal">
           Hủy
         </button>
-        <button *ngIf="projectDto.length == 0" type="button" class="btn font-weight-bold" data-mdb-dismiss="modal"
-                style="background-color: #F22248; color: white; border-radius: 1.5rem; min-width: 20%" (click)="delete()">Xóa
+        <button type="button" class="btn font-weight-bold" data-mdb-dismiss="modal"
+                style="background-color: #F22248; color: white; border-radius: 1.5rem; min-width: 20%">Xóa
         </button>
       </div>
     </div>
