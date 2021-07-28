@@ -6,13 +6,16 @@ import { ProgressTeamComponent } from './progress-team/progress-team.component';
 import { ProgressDetailComponent } from './progress-detail/progress-detail.component';
 import { ReviewComponent } from './review/review.component';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {ReactiveFormsModule} from '@angular/forms';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
-  declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent],
+  declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent, DetailComponent],
   imports: [
     CommonModule,
     ProgressManagementRoutingModule,
     NgbPaginationModule,
+    ReactiveFormsModule,
   ]
 })
 export class ProgressManagementModule { }

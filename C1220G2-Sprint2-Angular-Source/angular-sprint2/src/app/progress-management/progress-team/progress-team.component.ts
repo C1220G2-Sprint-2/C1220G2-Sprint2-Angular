@@ -12,6 +12,8 @@ export class ProgressTeamComponent implements OnInit {
   progressDtoList: ProgressDto[];
   page = 1;
   pageSize = 5;
+  checkListSearchEmpty: number;
+  messageError = '';
 
   constructor(private progressService: ProgressService) {
   }
@@ -26,4 +28,16 @@ export class ProgressTeamComponent implements OnInit {
     });
   }
 
+  searchProgress(value: string) {
+    this.progressService.searchByName(value).subscribe(result => {
+      this.progressDtoList = result;
+      this.checkListSearchEmpty = this.progressDtoList.length;
+    }, e => {
+      console.log(e);
+    }, () => {
+      if (this.checkListSearchEmpty === 0) {
+        this.messageError = 'Không tìm thấy dữ liệu.';
+      }
+    });
+  }
 }

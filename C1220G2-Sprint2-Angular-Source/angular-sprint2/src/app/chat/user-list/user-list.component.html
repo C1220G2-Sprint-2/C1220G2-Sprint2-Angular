@@ -1,0 +1,6 @@
+<div class="userList">
+    <div class="groupName badge bg-success">{{ groupName }}</div>
+    <app-user-item [isCurrentUser]='user.email === currentUser.email'
+     [user]="user" *ngFor="let user of users"
+     [groupName]="groupName"></app-user-item>
+</div>

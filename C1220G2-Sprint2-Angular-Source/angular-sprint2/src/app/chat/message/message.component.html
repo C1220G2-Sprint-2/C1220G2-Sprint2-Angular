@@ -1,0 +1,19 @@
+
+<div class="row" >
+    <!-- style for the left side -->
+    <div class="messageData col-sm-1 mt-2"
+    data-toggle="tooltip" data-placement="top" title="{{ userEmail }}">
+        <!-- {{ userAvatar }} -->
+        <img class="img-profile rounded-circle" src="{{ userAvatar }}">
+    </div>
+    <!-- style for the right side -->
+    <div class="messageContent col-sm-11 p-1 my-1"
+     [ngClass]="{'isOwnMessageContent': isOwnMessage}">
+        <div class="row ml-1">
+            {{ userMessage }}
+        </div>
+        <div class="timestamp row ml-1 float-right mr-2" [ngClass]="{'isOwnTimestamp': isOwnMessage}">
+            {{ timeSent | date:'medium' }}
+        </div>
+    </div>
+</div>
