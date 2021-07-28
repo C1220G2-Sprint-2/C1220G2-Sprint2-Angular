@@ -1,5 +1,4 @@
-import { OnChanges } from '@angular/core';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ChatMessage } from 'src/app/models/chat-message.model';
 import { ChatService } from '../services/chat.service';
 
