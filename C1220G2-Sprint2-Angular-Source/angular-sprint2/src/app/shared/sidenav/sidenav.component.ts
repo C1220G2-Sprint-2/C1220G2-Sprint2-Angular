@@ -5,11 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenStorageService } from 'src/app/security/token-storage.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-
-
-
-
-
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -24,9 +19,9 @@ export class SidenavComponent implements OnInit {
   username: string;
   userId: number;
 
-  user= {};
+  user;
   name: string;
-  
+
 
   studentTS: any = {};
 
@@ -64,6 +59,6 @@ export class SidenavComponent implements OnInit {
       this.user = this.tokenStorageService.getUser();
       console.log(this.user)
     }
-    
+
   }
 }

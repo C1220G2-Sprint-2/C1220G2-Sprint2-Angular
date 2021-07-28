@@ -6,9 +6,6 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {StudentModule} from "./student/student.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {AngularFireModule} from "@angular/fire";
-// @ts-ignore
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
@@ -46,8 +43,6 @@ import {AngularFireModule} from "@angular/fire";
     NgxLoadingModule.forRoot({}),
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),  // Thống nhất dùng firebase này nha mn - kha
-    // AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage

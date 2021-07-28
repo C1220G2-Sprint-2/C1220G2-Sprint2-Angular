@@ -3,7 +3,7 @@ export interface ReviewDto {
   content?: string;
   progressReview?: string;
   teacherCode?: string;
-  avatar?: string;
   dateCreate?: string;
   teacherName?: string;
+  avatar?: string;
 }

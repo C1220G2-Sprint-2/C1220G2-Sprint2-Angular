@@ -44,6 +44,7 @@ export class DetailComponent implements OnInit {
   attachFile: string;
   isLoggedIn = false;
   isTeacherLogging = false;
+  isStudentLoggedIn = false;
   username: string;
   currentUsername: string;
   commentConcernForm: FormGroup;
@@ -106,6 +107,8 @@ export class DetailComponent implements OnInit {
       console.log(this.username);
       if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogin = true;
+      } else if (this.username.substring(0, 2) == "SV") {
+        this.isStudentLoggedIn = true;
       }
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
@@ -116,7 +119,6 @@ export class DetailComponent implements OnInit {
   getAllStudentDto() {
     this.progressService.getStudentOfGroup(this.projectId).subscribe(result => {
       this.studentList = result;
-      console.log('this' + result.length);
     });
   }
 
@@ -355,8 +357,8 @@ export class DetailComponent implements OnInit {
 
   addNewReviewForm() {
     this.reviewForm = new FormGroup({
-      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]),
+      title: new FormControl('', [Validators.required, Validators.minLength(5),Validators.maxLength(100)]),
+      content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]),
       progressReview: new FormControl(0, [Validators.required]),
       teacherCode: new FormControl('')
     });
