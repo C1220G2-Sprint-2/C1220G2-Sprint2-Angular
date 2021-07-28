@@ -21,7 +21,12 @@ export class StudentConcernService {
   getAllStudentConcern(noOfRecord: number): Observable<StudentConcern[]> {
     return this.http.get<StudentConcern[]>(API_URL + '/student-concern-list/' + noOfRecord)
   }
+
   getMaxSizeConcern(): Observable<number> {
     return this.http.get<number>(API_URL + '/list-size')
+  }
+
+  sendEmail(studentCode: string): Observable<void> {
+    return this.http.get<void>(API_URL + '/send-email/' + studentCode)
   }
 }

@@ -171,12 +171,21 @@ export class DetailComponent implements OnInit {
     };
     console.log(this.studentConcern);
     this.studentConcernService.saveStudentConcern(this.studentConcern).subscribe(() => {
+      this.sendConcernEmail(this.studentConcern.studentCode);
       console.log('Create concern successful !');
       this.showSuccess();
     }, e => {
       console.log('Create concern failed !');
     }, () => {
       window.location.reload();
+    });
+  }
+
+  sendConcernEmail(studentCode: string) {
+    this.studentConcernService.sendEmail(studentCode).subscribe(() => {
+      console.log('Email sent !');
+    }, e => {
+      console.log('Send email failed !');
     });
   }
 
@@ -342,6 +351,7 @@ export class DetailComponent implements OnInit {
     }
     console.log(this.commentOfConcern);
     this.commentConcernService.saveComment(this.commentOfConcern).subscribe(() => {
+      this.sendAnswerEmail(this.commentOfConcern.concernId);
       console.log('Create concern comment successful !');
       this.showSuccess();
     }, e => {
@@ -350,6 +360,15 @@ export class DetailComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  sendAnswerEmail(concernId: number) {
+    this.commentConcernService.sendEmail(concernId).subscribe(() => {
+      console.log('Email sent !');
+    }, e => {
+      console.log('Send email failed !');
+    });
+  }
+
   //------------------------------COMMENT REVIEW SANGLD----------------------------------------------------
   addNewReviewCommentForm() {
     this.commentReviewForm = new FormGroup({
