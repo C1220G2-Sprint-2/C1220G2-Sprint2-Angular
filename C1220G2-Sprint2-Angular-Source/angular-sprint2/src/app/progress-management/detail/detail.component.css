@@ -476,3 +476,13 @@ body {
 .reply a {
   text-decoration: none
 }
+
+.comment-concern-button {
+  width: 200px;
+  height: 50px;
+}
+
+.announcement-comment-button {
+  width: 200px;
+  height: 50px;
+}
