@@ -25,6 +25,7 @@ export class EditStudentComponent implements OnInit {
   studentForm: FormGroup;
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
+  emailOld: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private studentService: StudentService,
@@ -34,13 +35,16 @@ export class EditStudentComponent implements OnInit {
 
   ngOnInit(): void {
   this.codeStudent = this.activatedRoute.snapshot.params.code;
+  this.studentService.findAll().subscribe(value => {
+    this.listStudent = value;
+  });
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
       this.studentService.findAllFaculty().subscribe(value => {
         this.listFaculty = value;
         this.studentService.findById(this.codeStudent).subscribe(value => {
           this.student = value;
-          console.log(this.student);
+          this.emailOld = this.student.email;
           this.studentForm = new FormGroup({
             name: new FormControl(this.student.name, [Validators.maxLength(50),Validators.required,Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
             gender: new FormControl(this.student.gender, Validators.required),
@@ -69,16 +73,30 @@ export class EditStudentComponent implements OnInit {
     return check ? null : {'invalid18' : true};
   }
   submitForm() {
-    this.delay();
- let temp = this.studentForm.value;
- temp.code = this.codeStudent;
- temp.image = this.image;
- console.log(temp);
- this.studentService.edit(temp).subscribe(value => {
-   this.router.navigateByUrl("/hoc-sinh/danh-sach");
-   this.callToastr();
- })
-  }
+    let temp = this.studentForm.value;
+    temp.code = this.codeStudent;
+    temp.image = this.image;
+       if (this.checkEmail(temp.email)){
+       }else{
+         this.delay();
+         this.studentService.edit(temp).subscribe(value => {
+           this.router.navigateByUrl("/hoc-sinh/danh-sach");
+           this.callToastr();
+         })
+       }
+     }
+     listStudent: Student[];
+     messageEmail = "";
+     checkEmail(email: string): boolean{
+       this.messageEmail = "";
+       for (let i=0; i<this.listStudent.length; i++){
+         if (email == this.listStudent[i].email && email != this.emailOld){
+           this.messageEmail = "Email đã có người sử dụng";
+           return true;
+         }
+       }
+       return false;
+     }
 
 
   selectedImage: any;
