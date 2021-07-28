@@ -33,8 +33,6 @@ export class TeamManagementComponent implements OnInit {
    teamDB: any ={};
   pageCard2: number = 1;
    studentDelete: any= {};
-  page: any = 1;
-  pageSize: any = 8;
 
   constructor(  private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {
   }

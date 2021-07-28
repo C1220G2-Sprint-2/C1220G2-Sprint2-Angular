@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
     this.getAllGroupChats();
 
-    this.chatGroupName = new FormControl('', [Validators.required, this.duplicatedGroupNameValidator(this.allGroupChats)]);
+    this.chatGroupName = new FormControl('', [Validators.required ,this.duplicatedGroupNameValidator(this.allGroupChats)]);
     /* ---------------------------- ---------------------------- */
     /* --------------------- Cong code ---------------------------- */
 
@@ -131,7 +131,8 @@ export class HeaderComponent implements OnInit {
     this.chatService.getGroups().subscribe((groups: GroupChat[]) => {
       this.allGroupChats = groups;
       // console.log("All group chats: " + this.allGroupChats);
-      this.chatGroupName = new FormControl('', [Validators.required ,this.duplicatedGroupNameValidator(this.allGroupChats)]);
+      this.chatGroupName = new FormControl('', [Validators.required, this.duplicatedGroupNameValidator(this.allGroupChats)]);
+
     })
   }
 

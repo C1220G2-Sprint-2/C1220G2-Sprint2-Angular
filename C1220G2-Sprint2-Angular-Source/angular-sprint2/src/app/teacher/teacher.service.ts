@@ -4,9 +4,9 @@ import {Observable} from 'rxjs';
 import {Teacher} from '../models/teacher';
 import {Faculty} from '../models/faculty';
 import {Education} from '../models/education';
-@Injectable({
-  providedIn: 'root'
-})
+import {ProjectDto} from '../models/project-dto';
+
+@Injectable()
 export class TeacherService {
 
   API_URL: string = 'http://localhost:8080/api/teacher/';
@@ -33,5 +33,13 @@ export class TeacherService {
   }
   searchTeacher(keyWord: string): Observable<Teacher[]>{
     return this.http.get<Teacher[]>(this.API_URL+"search?keyWord="+keyWord);
+  }
+
+  checkDelete(code:string): Observable<ProjectDto[]>{
+    return this.http.get<ProjectDto[]>(this.API_URL+"checkDelete?code="+code)
+  }
+
+  delete(code: string): Observable<Teacher>{
+    return this.http.delete<Teacher>(this.API_URL+"delete/"+code)
   }
 }
