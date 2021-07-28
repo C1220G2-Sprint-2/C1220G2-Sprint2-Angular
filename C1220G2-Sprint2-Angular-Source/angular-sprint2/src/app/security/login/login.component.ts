@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../token-storage.service';
 import {AuthService} from '../auth.service';
 import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
+import { NotificationService } from 'src/app/chat/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +14,12 @@ import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service'
 export class LoginComponent implements OnInit {
   form: any = {};
   readonly = false;
-  test: any;
+  checkedRememberMe: boolean;
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
               private router: Router,
               private toastService: ToastrService,
-              private firebaseAuthService: FirebaseAuthService      
+              private firebaseAuthService: FirebaseAuthService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +34,11 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
+
+        if (this.checkedRememberMe == true) {
+          this.tokenStorage.saveTokenInLocalStorage(data.accessToken);
+          this.tokenStorage.saveUserInLocalStorage(data);
+        }
 
         // -------------------kha code---------------
         const authenUser = this.tokenStorage.getUser();
@@ -88,4 +94,9 @@ export class LoginComponent implements OnInit {
   //   this.test = (event.target as HTMLInputElement).value;
   //   console.log( this.test)
   // }
+
+  test(event) {
+    this.checkedRememberMe = event.target.checked;
+    console.log(this.checkedRememberMe);
+  }
 }

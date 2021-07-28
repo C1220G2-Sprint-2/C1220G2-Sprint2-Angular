@@ -40,9 +40,9 @@
           </ng-container>
         </div>
         <ul class="social">
-          <li *ngIf="teacher.facebook != ''"><a href="{{teacher.facebook}}" aria-hidden="true"><i
+          <li *ngIf="teacher.facebook != ''"><a target="_blank" href="{{teacher.facebook}}" aria-hidden="true"><i
             class="fab fa-facebook"></i></a></li>
-          <li *ngIf="teacher.twitter != ''"><a [href]="teacher.twitter" aria-hidden="true"><i
+          <li *ngIf="teacher.twitter != ''"><a target="_blank" [href]="teacher.twitter" aria-hidden="true"><i
             class="fab fa-twitter-square"></i></a></li>
           <li><a [routerLink]="['/cap-nhat/',teacher.code]" aria-hidden="true"><i
             class="fas fa-eye"></i></a></li>
