@@ -19,6 +19,7 @@ import {CommentAnnouncementService} from '../comment-announcement.service';
 import {ReviewDto} from "../review-dto";
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
+import {CommentReview} from '../../models/comment-review';
 
 
 @Component({
@@ -37,8 +38,10 @@ export class DetailComponent implements OnInit {
   announcementList: Announcement[];
   announcementCommentList: CommentAnnouncement[];
   concernCommentList: CommentConcern[];
+  reviewCommentList: CommentReview[];
   commentOfConcern: CommentConcern;
   commentOfAnnouncement: CommentAnnouncement;
+  commentOfReview: CommentReview;
   avatar: string;
   downloadURL: Observable<string>;
   attachFile: string;
@@ -49,8 +52,10 @@ export class DetailComponent implements OnInit {
   currentUsername: string;
   commentConcernForm: FormGroup;
   commentAnnouncementForm: FormGroup;
+  commentReviewForm: FormGroup;
   concernId: number;
   announcementId: number;
+  reviewId: number;
   fileName: string;
   accountName: string;
   projectId: number;
@@ -60,6 +65,9 @@ export class DetailComponent implements OnInit {
   reviewList: ReviewDto[];
   isTeacherLogin = false;
   userImage: string;
+  record = 4;
+  maxSize = 0;
+  checkLoadMore = true;
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -84,10 +92,12 @@ export class DetailComponent implements OnInit {
     this.addNewAnnouncementForm();
     this.addNewAnnouncementCommentForm();
     this.addNewConcernCommentForm();
+    this.addNewReviewCommentForm();
     this.getAnnouncementList();
     this.getConcernList();
     this.getAnnouncementComment();
     this.getConcernComment();
+    this.getReviewComment();
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
@@ -113,6 +123,9 @@ export class DetailComponent implements OnInit {
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
+    });
+    this.progressService.getMaxSize().subscribe(result => {
+      this.maxSize = result;
     });
   }
 
@@ -249,7 +262,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      this.getConcernList();
+      this.getAnnouncementList();
     });
   }
 
@@ -268,7 +281,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Get list concern failed !');
     }, () => {
-      this.getAnnouncementList();
+      this.getConcernList();
     });
   }
 
@@ -303,9 +316,51 @@ export class DetailComponent implements OnInit {
       window.location.reload();
     });
   }
+  //------------------------------COMMENT REVIEW SANGLD----------------------------------------------------
+  addNewReviewCommentForm() {
+    this.commentReviewForm = new FormGroup({
+      content: new FormControl('', [Validators.required, Validators.minLength(6),
+        Validators.maxLength(100)]),
+    });
+  }
+
+  getReviewComment() {
+    this.progressService.getAllComment().subscribe(comment => {
+      this.reviewCommentList = comment;
+      console.log('Get list concern success !');
+    }, e => {
+      console.log('Get list concern failed !');
+    }, () => {
+      this.getAllReview();
+    });
+  }
+
+  submitReviewComment() {
+    const reviewComment = this.commentReviewForm;
+      this.commentOfReview = {
+        content: reviewComment.value.content,
+        studentCode: this.tokenStorageService.getUser().username,
+        avatar: this.avatar,
+        name: this.currentUsername,
+        reviewId: this.reviewId
+    };
+    console.log(this.commentOfReview);
+    this.progressService.saveComment(this.commentOfReview).subscribe(() => {
+      console.log('Create review comment successful !');
+      this.showSuccess();
+    }, e => {
+      console.log('Create review comment failed !');
+    }, () => {
+      window.location.reload();
+    });
+  }
 
   sendConcernId(id) {
     this.concernId = id;
+  }
+
+  sendReviewId(id) {
+    this.reviewId = id;
   }
 
   sendAnnouncementId(id) {
@@ -365,13 +420,24 @@ export class DetailComponent implements OnInit {
   }
 
   getAllReview() {
-    this.progressService.getAllReview().subscribe(result => {
+    this.progressService.getAllReview(this.record).subscribe(result => {
       this.reviewList = result;
     });
   }
 
   showSuccess() {
     this.toastService.success('', 'Thành công !');
+  }
+
+  loadMore() {
+    this.record += 4;
+    if (this.record >= this.maxSize) {
+      this.checkLoadMore = false;
+    } else {
+      this.progressService.getAllReview(this.record).subscribe(result => {
+        this.reviewList = result;
+      });
+    }
   }
 
 
