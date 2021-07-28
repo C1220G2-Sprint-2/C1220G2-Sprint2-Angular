@@ -17,6 +17,8 @@ import {CommentAnnouncement} from '../../models/comment-announcement';
 import {CommentConcernService} from '../comment-concern.service';
 import {CommentAnnouncementService} from '../comment-announcement.service';
 import {ReviewDto} from "../review-dto";
+import Swal from 'sweetalert2';
+import {ProjectDto} from '../project-dto';
 
 
 @Component({
@@ -77,7 +79,6 @@ export class DetailComponent implements OnInit {
     this.avatar = this.tokenStorageService.getUser().avatar;
     this.currentUsername = this.tokenStorageService.getUser().name;
     this.getAllStudentDto();
-    console.log('all student ' + this.studentList.length);
     this.addNewConcernForm();
     this.addNewAnnouncementForm();
     this.addNewAnnouncementCommentForm();
@@ -90,9 +91,7 @@ export class DetailComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-
-
-      if (this.username.substring(0,2) == "GV") {
+      if (this.username.substring(0, 2) == "GV") {
         this.isTeacherLogging = true;
       }
     }
@@ -105,19 +104,17 @@ export class DetailComponent implements OnInit {
       this.userImage = user.avatar;
       this.accountName = user.name;
       console.log(this.username);
-      if (this.username.substring(0, 2) === 'TC') {
+      if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogin = true;
       }
-      console.log('hello teacher ' + this.isTeacherLogin);
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
     });
-    console.log('hello------------- ' + this.projectDto.id);
   }
 
   getAllStudentDto() {
-    this.progressService.getAllStudentDto().subscribe(result => {
+    this.progressService.getStudentOfGroup(this.projectId).subscribe(result => {
       this.studentList = result;
       console.log('this' + result.length);
     });
@@ -128,8 +125,8 @@ export class DetailComponent implements OnInit {
   addNewConcernForm() {
     this.concernForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(100),
-      Validators.minLength(6)]),
-      content: new FormControl('', [Validators.required,Validators.maxLength(500),
+        Validators.minLength(6)]),
+      content: new FormControl('', [Validators.required, Validators.maxLength(500),
         Validators.minLength(10)]),
       attachedFile: new FormControl('')
     });
@@ -169,7 +166,7 @@ export class DetailComponent implements OnInit {
     this.announcementForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(100),
         Validators.minLength(6)]),
-      content: new FormControl('', [Validators.required,Validators.maxLength(500),
+      content: new FormControl('', [Validators.required, Validators.maxLength(500),
         Validators.minLength(10)]),
       attachedFile: new FormControl('')
     });
@@ -268,6 +265,8 @@ export class DetailComponent implements OnInit {
       console.log('Get list concern success !');
     }, e => {
       console.log('Get list concern failed !');
+    }, () => {
+      this.getAnnouncementList();
     });
   }
 
@@ -299,7 +298,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern comment failed !');
     }, () => {
-      this.getConcernList();
+      window.location.reload();
     });
   }
 
@@ -402,21 +401,22 @@ export class DetailComponent implements OnInit {
         console.log('I was closed by the timer');
       }
     });
-
-  showSuccessReview() {
-    this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
   }
 
-  get title() {
-    return this.reviewForm.get('title');
-  }
+    showSuccessReview(){
+      this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
+    };
 
-  get content() {
-    return this.reviewForm.get('content');
-  }
+    get title() {
+      return this.reviewForm.get('title');
+    }
 
-  get progressReview() {
-    return this.reviewForm.get('progressReview');
-  }
+    get content() {
+      return this.reviewForm.get('content');
+    }
+
+    get progressReview() {
+      return this.reviewForm.get('progressReview');
+    }
 }
 
