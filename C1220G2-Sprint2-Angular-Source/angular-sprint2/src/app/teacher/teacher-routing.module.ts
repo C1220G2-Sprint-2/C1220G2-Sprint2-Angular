@@ -10,7 +10,8 @@ const routes: Routes = [
   {path: 'danh-sach', component: ListTeacherComponent},
   {path: 'them-moi', component: CreateTeacherComponent},
   {path: 'cap-nhat/:code', component: EditTeacherComponent},
-  {path: 'xoa/:code', component: DeleteTeacherComponent}
+  {path: 'xoa/:code', component: DeleteTeacherComponent},
+  { path: '',   redirectTo: '/danh-sach', pathMatch: 'full' }
 ];
 
 @NgModule({
