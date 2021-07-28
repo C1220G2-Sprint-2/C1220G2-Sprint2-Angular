@@ -1,4 +1,5 @@
 export interface ReviewDto {
+  id?: number;
   title?: string;
   content?: string;
   progressReview?: string;
