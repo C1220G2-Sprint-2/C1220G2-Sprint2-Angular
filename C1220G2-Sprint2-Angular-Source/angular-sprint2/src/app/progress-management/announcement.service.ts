@@ -14,11 +14,15 @@ export class AnnouncementService {
   constructor(private http: HttpClient) {
   }
 
-  getAllAnnouncement(): Observable<Announcement[]> {
-    return this.http.get<Announcement[]>(API_URL + '/announcement-list');
+  getAllAnnouncement(noOfRecord: number): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>(API_URL + '/announcement-list/' + noOfRecord);
   }
 
   saveAnnouncement(announcement): Observable<Announcement> {
     return this.http.post<Announcement>(API_URL + '/announcement-save', announcement);
+  }
+
+  getMaxSizeAnnouncement(): Observable<number> {
+    return this.http.get<number>(API_URL + '/list-size')
   }
 }

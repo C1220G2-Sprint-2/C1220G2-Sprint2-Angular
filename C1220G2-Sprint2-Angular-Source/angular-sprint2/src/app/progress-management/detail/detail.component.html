@@ -233,85 +233,89 @@
                     data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-bs-whatever="@getbootstrap"> Tạo đánh giá
             </button>
-            <div class="container w-100">
-              <div class="col-md-12">
-                <div class="media my-5" *ngFor="let review of reviewList"><img class="mr-3 rounded-circle"
-                                                                               alt="Bootstrap Media Preview"
-                                                                               src="{{review.avatar}}"/>
-                  <div class="media-body text-left">
-                    <div class="row">
-                      <div>
-                        <h5 class="text-info">{{review.teacherName}}
-                          <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b style="color: black">{{review.title}}</b></span>
-                        </h5>
-                      </div>
+            <div class="container">
+              <div class="card p-3 my-3" *ngFor="let review of reviewList">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="user d-flex flex-row align-items-center">
+                    <img src="{{review.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
+                    <h5 style="color: #4F9B65">
+                      {{review.teacherName}}
+                      <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b style="color: black">{{review.title}}</b></span>
+                    </h5>
+                  </div>
+                </div>
+                <div class="action d-flex justify-content-start mt-1 p-3"
+                     style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
+                  <div>
+                    <h3>
+                      <span class="font-weight-bold">Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét:</span> {{review.content}}
+                    </h3>
+                  </div>
+                </div>
+                <!--                                         BÌNH LUẬN TRONG ĐÁNH GIÁ                                               -->
+                <form [formGroup]="commentReviewForm" (ngSubmit)="submitReviewComment()"
+                      *ngIf="commentReviewForm">
+                  <div class="row">
+                    <div class="col-6 text-left">
+                      <a data-bs-toggle="collapse" href="#collapseReviewComment{{review.id}}"
+                         role="button" aria-expanded="false" aria-controls="collapseReviewComment"
+                         (click)="sendReviewId(review.id)">
+                        <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
+                      </a>
                     </div>
-                    Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét: {{review.content}}
-                    <form [formGroup]="commentReviewForm" (ngSubmit)="submitReviewComment()"
-                          *ngIf="commentReviewForm">
-                      <div class="row">
-                        <div class="col-6 text-left">
-                          <a data-bs-toggle="collapse" href="#collapseReviewComment{{review.id}}"
-                             role="button" aria-expanded="false" aria-controls="collapseReviewComment"
-                             (click)="sendReviewId(review.id)">
-                            <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
-                          </a>
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                          <span style="font-size: 0.8rem">-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
-                        </div>
-                      </div>
+                    <div class="col-6" style="text-align: right">
+                      <span style="font-size: 0.8rem">-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                    </div>
+                  </div>
 
-                      <div class="collapse" id="collapseReviewComment{{review.id}}">
-                        <div class="form-group">
+                  <div class="collapse" id="collapseReviewComment{{review.id}}">
+                    <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentReview" cols="200"
                                                    rows="5" name="comment" class="form-control"
                                                    formControlName="content">
                                          </textarea>
-                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('required')
+                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('required')
               && commentReviewForm.controls.content.touched">
-                            Vui lòng nhập nội dung trước khi gửi.
-                          </h6>
-                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('maxlength')
+                        Vui lòng nhập nội dung trước khi gửi.
+                      </h6>
+                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('maxlength')
               && commentReviewForm.controls.content.touched">
-                            Vui lòng nhập không quá 100 ký tự.
-                          </h6>
-                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('minlength')
+                        Vui lòng nhập không quá 100 ký tự.
+                      </h6>
+                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('minlength')
               && commentReviewForm.controls.content.touched">
-                            Vui lòng nhập nhiều hơn 5 ký tự.
-                          </h6>
-                        </div>
-                        <div class="form-group mt-1 text-center"
-                             style=" vertical-align: middle !important;">
-                          <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
-                                  [disabled]="!commentReviewForm.valid"
-                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                            Gửi
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                    <ng-container *ngFor="let commentReview of reviewCommentList">
-                      <div class="user d-flex flex-row align-items-center my-1 mx-1"
-                           *ngIf="review.id == commentReview.reviewId">
-                        <div class="container mb-2 mt-3">
-                          <div class="card">
-                            <div class="row">
-                              <div class="col-md-12 mt-0">
-                                <div class="media my-5">
-                                  <div class="media-body text-left">
-                                    <div class="media"><a class="pr-3" href="#">
-                                      <img class="rounded-circle" alt="Bootstrap Media Another Preview"
-                                           src="{{commentReview.avatar}}"/></a>
-                                      <div class="media-body">
-                                        <div class="row">
-                                          <div class="col-12 d-flex">
-                                            <h5 style="color: #4F9B65">{{commentReview.name}}</h5>
-                                          </div>
-                                        </div>
-                                        {{commentReview.content}}
+                        Vui lòng nhập nhiều hơn 5 ký tự.
+                      </h6>
+                    </div>
+                    <div class="form-group mt-1 text-center"
+                         style=" vertical-align: middle !important;">
+                      <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
+                              [disabled]="!commentReviewForm.valid"
+                              style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                        Gửi
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <ng-container *ngFor="let commentReview of reviewCommentList">
+                  <div class="user d-flex flex-row align-items-center my-1 mx-1"
+                       *ngIf="review.id == commentReview.reviewId">
+                    <div class="container mb-2 mt-3">
+                      <div class="card">
+                        <div class="row">
+                          <div class="col-md-12 mt-0">
+                            <div class="media my-5">
+                              <div class="media-body text-left">
+                                <div class="media"><a class="pr-3" href="#">
+                                  <img class="rounded-circle" alt="Bootstrap Media Another Preview"
+                                       src="{{commentReview.avatar}}"/></a>
+                                  <div class="media-body">
+                                    <div class="row">
+                                      <div class="col-12 d-flex">
+                                        <h5 style="color: #4F9B65">{{commentReview.name}}</h5>
                                       </div>
                                     </div>
+                                    {{commentReview.content}}
                                   </div>
                                 </div>
                               </div>
@@ -319,12 +323,12 @@
                           </div>
                         </div>
                       </div>
-                    </ng-container>
+                    </div>
                   </div>
-                </div>
-                <button class="btn btn-info" *ngIf="checkLoadMore" (click)="loadMore()">Xem thêm</button>
+                </ng-container>
               </div>
             </div>
+            <button class="btn btn-info" *ngIf="checkLoadMore" (click)="loadMore()">Xem thêm</button>
           </div>
         </div>
       </div>
@@ -498,7 +502,7 @@
               <button class="btn font-weight-bold m-3"
                       style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                       data-bs-toggle="modal" data-bs-target="#concernModal"
-                      data-bs-whatever="@getbootstrap" *ngIf="isStudentLoggedIn == true"> Thêm thắc mắc
+                      data-bs-whatever="@getbootstrap" *ngIf="isStudentLoggedIn == true"> Đăng bài viết
               </button>
               <div class="container">
                 <div class="card p-3 my-3" *ngFor="let concern of concernList">
@@ -624,6 +628,7 @@
                     </div>
                   </ng-container>
                 </div>
+                <button class="btn btn-success" *ngIf="checkLoadMoreConcern" (click)="loadMoreConcern()">Xem thêm</button>
               </div>
             </div>
           </div>
@@ -768,6 +773,7 @@
                     </div>
                   </ng-container>
                 </div>
+                <button class="btn btn-success" *ngIf="checkLoadMoreAnnouncement" (click)="loadMoreAnnouncement()">Xem thêm</button>
               </div>
             </div>
           </div>
