@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row note">
     <p style="font-size: 28px">
-      Chi tiết tiến độ Nhóm 1 - Đề tài: {{name}}
+      Chi tiết tiến độ Nhóm 1 - Đề tài: <span class="text-info">{{projectDto.name}}</span>
     </p>
   </div>
 </div>
@@ -21,7 +21,8 @@
                 </div>
                 <div class="team-content">
                   <h5 class="name">{{student.name}}</h5>
-                  <h4 class="title">Trưởng nhóm</h4>
+                  <h4 class="title">{{student.email| lowercase}}</h4>
+                  <h4 class="title text-info">{{student.phone}}</h4>
                 </div>
                 <ul class="social">
                   <li><a href="#" aria-hidden="true">Chi tiết</a>
@@ -233,294 +234,95 @@
                     data-bs-whatever="@getbootstrap"> Tạo đánh giá
             </button>
             <div class="container w-100">
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/hczKIze.jpg" width="30"
-                         class="user-img rounded-circle mx-2"/>
-                    <h6>
-                      <small class="font-weight-bold text-primary">Đặng Chí Trung</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Tiến độ 1</small>
-                  </h5>
-                </div>
+              <div class="col-md-12">
+                <div class="media my-5" *ngFor="let review of reviewList"><img class="mr-3 rounded-circle"
+                                                                               alt="Bootstrap Media Preview"
+                                                                               src="{{review.avatar}}"/>
+                  <div class="media-body text-left">
+                    <div class="row">
+                      <div>
+                        <h5 class="text-info">{{review.teacherName}}
+                          <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b style="color: black">{{review.title}}</b></span>
+                        </h5>
+                      </div>
+                    </div>
+                    Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét: {{review.content}}
+                    <form [formGroup]="commentReviewForm" (ngSubmit)="submitReviewComment()"
+                          *ngIf="commentReviewForm">
+                      <div class="row">
+                        <div class="col-6 text-left">
+                          <a data-bs-toggle="collapse" href="#collapseReviewComment{{review.id}}"
+                             role="button" aria-expanded="false" aria-controls="collapseReviewComment"
+                             (click)="sendReviewId(review.id)">
+                            <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
+                          </a>
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                          <span style="font-size: 0.8rem">-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                        </div>
+                      </div>
 
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small text-center align-self-center">
-                    <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
+                      <div class="collapse" id="collapseReviewComment{{review.id}}">
+                        <div class="form-group">
+                                         <textarea style="border-radius: 1.5rem" id="commentReview" cols="200"
+                                                   rows="5" name="comment" class="form-control"
+                                                   formControlName="content">
+                                         </textarea>
+                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('required')
+              && commentReviewForm.controls.content.touched">
+                            Vui lòng nhập nội dung trước khi gửi.
+                          </h6>
+                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('maxlength')
+              && commentReviewForm.controls.content.touched">
+                            Vui lòng nhập không quá 100 ký tự.
+                          </h6>
+                          <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('minlength')
+              && commentReviewForm.controls.content.touched">
+                            Vui lòng nhập nhiều hơn 5 ký tự.
+                          </h6>
+                        </div>
+                        <div class="form-group mt-1 text-center"
+                             style=" vertical-align: middle !important;">
+                          <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
+                                  [disabled]="!commentReviewForm.valid"
+                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                            Gửi
+                          </button>
+                        </div>
                       </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
+                    </form>
+                    <ng-container *ngFor="let commentReview of reviewCommentList">
+                      <div class="user d-flex flex-row align-items-center my-1 mx-1"
+                           *ngIf="review.id == commentReview.reviewId">
+                        <div class="container mb-2 mt-3">
+                          <div class="card">
+                            <div class="row">
+                              <div class="col-md-12 mt-0">
+                                <div class="media my-5">
+                                  <div class="media-body text-left">
+                                    <div class="media"><a class="pr-3" href="#">
+                                      <img class="rounded-circle" alt="Bootstrap Media Another Preview"
+                                           src="{{commentReview.avatar}}"/></a>
+                                      <div class="media-body">
+                                        <div class="row">
+                                          <div class="col-12 d-flex">
+                                            <h5 style="color: #4F9B65">{{commentReview.name}}</h5>
+                                          </div>
+                                        </div>
+                                        {{commentReview.content}}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </ng-container>
                   </div>
                 </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên A
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên B
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div class="card p-3 my-3">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="https://i.imgur.com/ZSkeqnd.jpg"
-                         width="30"
-                         class="user-img rounded-circle mx-2">
-                    <h6>
-                      <small class="font-weight-bold text-primary">Trần Thị Tố Tâm</small>
-                    </h6>
-                  </div>
-                </div>
-                <div>
-                  <h5>
-                    <small class="font-weight-bold">Hoàn thành sản phẩm
-                      Prototype: </small>
-                  </h5>
-                </div>
-                <div class="action d-flex justify-content-start mt-2">
-                  <div>
-                    <table>
-                      <tr>
-                        <td>1.</td>
-                        <td style="text-align: left!important;">Tiến độ create prototype bị
-                          chậm, kiểm tra lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td style="text-align: left!important;">Thiết kế và tạo CSDL bị lỗi phần
-                          user, check lại
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>3.</td>
-                        <td style="text-align: left!important;">Create detail design chưa rõ
-                          ràng
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>4.</td>
-                        <td>Mọi người tăng tốc độ làm việc, chạy deadline cho thứ 6 tuần tới
-                          nha
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                  <div class="text-muted small">
-                    <div class="row">
-                      <table>
-                        <tr>
-                          <td>
-                            <p>
-                              <a data-bs-toggle="collapse" href="#collapseExample1"
-                                 role="button" aria-expanded="false"
-                                 aria-controls="collapseExample1">
-                                <i class="far fa-comment mx-2"> Trả lời</i>
-                              </a>
-                            </p>
-                          </td>
-                          <td class="col-6" style="text-align: right">
-                            <p>
-                              12/07/2021
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="collapse" id="collapseExample1">
-                      <div class="form-group">
-                                                    <textarea style="border-radius: 1.5rem" id="comment1" cols="200"
-                                                              rows="5" name="comment" class="form-control"
-                                                              rows="3"></textarea>
-                      </div>
-                      <div class="form-group mt-2" style="text-align: right!important;">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                          Hủy
-                        </button>
-                        <input hidden type="file" id="test1">
-                        <button class="btn font-weight-bold"
-                                style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                onclick="myFunction1()">
-                          Chọn ảnh
-                        </button>
-                        <button type="button" class="btn font-weight-bold"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%"
-                        >Gửi
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên C
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                  <table>
-                    <tr>
-                      <td rowspan="2" style="vertical-align: top">
-                        <img src="https://i.imgur.com/C4egmYM.jpg"
-                             width="30"
-                             class="user-img rounded-circle mx-2">
-                      </td>
-                      <td style="text-align: left!important;">
-                                                <span class="font-weight-bold text-primary">
-                                                    Sinh viên D
-                                                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left">
-                        Cái này vẫn quá dễ với anh Công.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                        asperiores esse eum iste minus obcaecati quam repudiandae, veritatis
-                        voluptas! Architecto assumenda beatae dolor enim mollitia nesciunt
-                        provident quisquam quo repudiandae!
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                <button class="btn btn-info" *ngIf="checkLoadMore" (click)="loadMore()">Xem thêm</button>
               </div>
             </div>
           </div>
@@ -696,16 +498,17 @@
               <button class="btn font-weight-bold m-3"
                       style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                       data-bs-toggle="modal" data-bs-target="#concernModal"
-                      data-bs-whatever="@getbootstrap"> Tạo thắc mắc
+                      data-bs-whatever="@getbootstrap" *ngIf="isStudentLoggedIn == true"> Thêm thắc mắc
               </button>
               <div class="container">
                 <div class="card p-3 my-3" *ngFor="let concern of concernList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="{{avatar}}" width="30" class="user-img rounded-circle mx-2"/>
-                      <h6>
-                        <small class="font-weight-bold text-primary">{{currentUsername}}</small>
-                      </h6>
+                      <img src="{{concern.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
+                      <h5 style="color: #4F9B65">
+                        {{concern.name}}
+                        <span style="font-size: 0.8rem">-  {{concern.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                      </h5>
                     </div>
                   </div>
                   <div>
@@ -713,102 +516,120 @@
                       <span class="font-weight-bold">{{concern.title}}</span>
                     </h3>
                   </div>
-                  <div class="action d-flex justify-content-start mt-2">
+                  <div class="action d-flex justify-content-start mt-1 p-3"
+                       style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
                     <p class="text-secondary">
                       {{concern.content}}
                     </p>
                   </div>
-                  <div style="text-align: left !important;">
-                    <a href="{{concern.attachFile}}" target="_blank">File đính kèm</a>
+                  <div class="ml-2" style="text-align: left !important; font-size: 1.1rem;">
+                    <a href="{{concern.attachFile}}" target="_blank">
+                      <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
+                    </a>
                   </div>
-                  <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="text-muted small">
-                      <div class="row">
-                        <div class="col-6">
-                          <a data-bs-toggle="collapse" href="#collapseComment"
-                             role="button" aria-expanded="false" aria-controls="collapseComment">
-                            <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
-                          </a>
+                  <!--                                         BÌNH LUẬN TRONG THẮC MẮC                                                -->
+                  <form [formGroup]="commentConcernForm" (ngSubmit)="submitConcernComment()"
+                        *ngIf="commentConcernForm">
+                    <div class="action d-flex justify-content-between mt-1 align-items-center">
+                      <div class="text-muted small">
+                        <div class="row">
+                          <div class="col-6 text-left">
+                            <a data-bs-toggle="collapse" href="#collapseComment{{concern.id}}"
+                               role="button" aria-expanded="false" aria-controls="collapseComment"
+                               (click)="sendConcernId(concern.id)">
+                              <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
+                            </a>
+                          </div>
+                          <div class="col-6" style="text-align: right">
+                            <!--                            <p>-->
+                            <!--                              12/07/2021-->
+                            <!--                            </p>-->
+                          </div>
                         </div>
-                        <div class="col-6" style="text-align: right">
-                          <p>
-                            12/07/2021
-                          </p>
-                        </div>
-                      </div>
-                      <div class="collapse" id="collapseComment">
-                        <div class="form-group">
+                        <div class="collapse" id="collapseComment{{concern.id}}">
+                          <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentConcern" cols="200"
-                                                   rows="5" name="comment" class="form-control" rows="3">
+                                                   rows="5" name="comment" class="form-control"
+                                                   formControlName="content">
                                          </textarea>
-                        </div>
-                        <div class="form-group mt-2" style="text-align: right!important;">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                            Hủy
-                          </button>
-                          <input hidden type="file" id="test3">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                  (change)="addFile($event)">
-                            Chọn ảnh
-                          </button>
-                          <button type="button" class="btn font-weight-bold"
-                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                            Gửi
-                          </button>
+                            <h6 class="text-danger" *ngIf="commentConcernForm.controls.content.hasError('required')
+              && commentConcernForm.controls.content.touched">
+                              Vui lòng nhập nội dung trước khi gửi.
+                            </h6>
+                            <h6 class="text-danger" *ngIf="commentConcernForm.controls.content.hasError('maxlength')
+              && commentConcernForm.controls.content.touched">
+                              Vui lòng nhập không quá 100 ký tự.
+                            </h6>
+                            <h6 class="text-danger" *ngIf="commentConcernForm.controls.content.hasError('minlength')
+              && commentConcernForm.controls.content.touched">
+                              Vui lòng nhập nhiều hơn 6 ký tự.
+                            </h6>
+                          </div>
+                          <div class="form-group mt-1 text-center"
+                               style=" vertical-align: middle !important;">
+                            <label for="concern-comment-upload-file"
+                                   class="btn font-weight-bold comment-concern-button mt-1"
+                                   style="background-color: #0498D6; color: white; border-radius: 1.5rem; text-align: center !important; line-height: 38px">
+                              Thêm file
+                            </label>
+                            <input type="file" hidden id="concern-comment-upload-file"
+                                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                                   [(ngModel)]="fileName" name="fileName"
+                                   (change)="addFile($event)">
+                            <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
+                                    [disabled]="!commentConcernForm.valid"
+                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                              Gửi
+                            </button>
+                            <ng-container *ngIf="fileName"><h6 style="color: #0498D6">File: "{{fileName}}" đã tải lên
+                              thành công</h6></ng-container>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                    <table>
-                      <tr>
-                        <td rowspan="3" style="vertical-align: top">
-                          <img src="https://i.imgur.com/C4egmYM.jpg"
-                               width="30"
-                               class="user-img rounded-circle mx-2">
-                        </td>
-                        <td style="text-align: left!important;">
-                                    <span class="font-weight-bold text-primary">
-                                        Sinh viên A
-                                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          Cái này quá dễ với anh Công.
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
-                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
-                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          <img src="assets/img/concern-2.png"
-                               width="200" height="75">
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5"><img
-                    src="https://i.imgur.com/ZSkeqnd.jpg"
-                    width="30"
-                    class="user-img rounded-circle mx-2">
-                    <span>
-                            <span><small class="font-weight-bold text-primary">Nguyễn Thị C</small>
-                                <small class="font-weight-bold"> Giữa các component anh em hay còn gọi là sibling component thì có thể truyền dữ liệu thông qua
-                            parent component hoặc Rxjs Object. Các component không có liên quan trực tiếp thì có thể dùng service để truyền dữ liệu. </small>
-                            </span>
-                        </span>
-                  </div>
+                  </form>
+                  <ng-container *ngFor="let concernComment of concernCommentList">
+                    <div class="user d-flex flex-row align-items-center my-1 mx-1"
+                         *ngIf="concern.id == concernComment.concernId">
+                      <div class="container mb-2 mt-3">
+                        <div class="card">
+                          <div class="row">
+                            <div class="col-md-12 mt-0">
+                              <div class="media my-5">
+                                <div class="media-body text-left">
+                                  <div class="media"><a class="pr-3" href="#">
+                                    <img class="rounded-circle" alt="Bootstrap Media Another Preview"
+                                         src="{{concernComment.avatar}}"/></a>
+                                    <div class="media-body">
+                                      <div class="row">
+                                        <div class="col-12 d-flex">
+                                          <h5 style="color: #4F9B65">{{concernComment.name}}</h5>
+                                        </div>
+                                      </div>
+                                      {{concernComment.content}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
+                                 *ngIf="!concernComment.attachFile == null">
+                              <a href="{{concernComment.attachFile}}" target="_blank">
+                                <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                            -->
+      <!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                      -->
       <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">
         <div class="container">
           <div class="card" style="min-height: 1000px">
@@ -825,10 +646,12 @@
                 <div class="card p-3 my-3" *ngFor="let announcement of announcementList">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                      <img src="{{avatar}}" width="30" class="user-img rounded-circle mx-2"/>
-                      <h6>
-                        <small class="font-weight-bold text-primary">{{currentUsername}}</small>
-                      </h6>
+                      <img src="{{announcement.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
+                      <h5 style="color: #4F9B65">
+                        {{announcement.name}}
+                        <span
+                          style="font-size: 0.8rem">-  {{announcement.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                      </h5>
                     </div>
                   </div>
                   <div>
@@ -836,115 +659,114 @@
                       <span class="font-weight-bold">{{announcement.title}}</span>
                     </h3>
                   </div>
-                  <div class="action d-flex justify-content-start mt-2">
+                  <div class="action d-flex justify-content-start mt-1 p-3"
+                       style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
                     <p class="text-secondary">
                       {{announcement.content}}
                     </p>
                   </div>
-                  <div style="text-align: left !important;">
-                    <a href="{{announcement.attachFile}}" target="_blank">File đính kèm</a>
+                  <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
+                       *ngIf="announcement.attachFile != null">
+                    <a href="{{announcement.attachFile}}" target="_blank">
+                      <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i>
+                    </a>
                   </div>
-                  <div class="action d-flex justify-content-between mt-2 align-items-center">
+                  <!--                  BÌNH LUẬN TRONG THÔNG BÁO-->
+                  <div class="action d-flex justify-content-between mt-1 align-items-center">
                     <div class="text-muted small">
                       <div class="row">
-                        <div class="col-6">
-                          <a data-bs-toggle="collapse" href="#collapseExample"
-                             role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="far fa-comment mx-2" style="width: 100px"> Bình luận</i>
+                        <div class="col-6 text-left">
+                          <a data-bs-toggle="collapse" href="#collapseAnnouncement{{announcement.id}}"
+                             role="button" aria-expanded="false" aria-controls="collapseAnnouncement"
+                             (click)="sendAnnouncementId(announcement.id)">
+                            <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
                           </a>
                         </div>
                         <div class="col-6" style="text-align: right">
-                          <p>
-                            12/07/2021
-                          </p>
+                          <!--                          <p>-->
+                          <!--                            12/07/2021-->
+                          <!--                          </p>-->
                         </div>
                       </div>
-                      <div class="collapse" id="collapseAnnouncement">
-                        <div class="form-group">
-                                         <textarea style="border-radius: 1.5rem" id="comment-announcement" cols="200"
-                                                   rows="5" name="comment" class="form-control" rows="3">
-                                         </textarea>
+                      <form [formGroup]="commentAnnouncementForm" (ngSubmit)="submitAnnouncementComment()"
+                            *ngIf="commentAnnouncementForm">
+                        <div class="collapse" id="collapseAnnouncement{{announcement.id}}">
+                          <div class="form-group">
+                            <textarea style="border-radius: 1.5rem" id="commentAnnouncement" cols="200"
+                                      rows="5" name="comment" class="form-control"
+                                      formControlName="content"></textarea>
+                            <h6 class="text-danger" *ngIf="commentAnnouncementForm.controls.content.hasError('required')
+              && commentAnnouncementForm.controls.content.touched">
+                              Vui lòng nhập nội dung.
+                            </h6>
+                            <h6 class="text-danger" *ngIf="commentAnnouncementForm.controls.content.hasError('maxlength')
+              && commentAnnouncementForm.controls.content.touched">
+                              Vui lòng nhập không quá 100 ký tự.
+                            </h6>
+                            <h6 class="text-danger" *ngIf="commentAnnouncementForm.controls.content.hasError('minlength')
+              && commentAnnouncementForm.controls.content.touched">
+                              Vui lòng nhập nhiều hơn 6 ký tự.
+                            </h6>
+                          </div>
+                          <div class="form-group mt-1 text-center"
+                               style=" vertical-align: middle !important;">
+                            <label for="announcement-comment-upload-file"
+                                   class="btn font-weight-bold announcement-comment-button mt-1"
+                                   style="background-color: #0498D6; color: white; border-radius: 1.5rem; text-align: center !important; line-height: 38px">
+                              Thêm file
+                            </label>
+                            <input type="file" hidden id="announcement-comment-upload-file"
+                                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                                   [(ngModel)]="fileName" name="fileName"
+                                   (change)="addFile($event)">
+                            <button type="submit" class="btn font-weight-bold ml-2 announcement-comment-button"
+                                    [disabled]="!commentAnnouncementForm.valid"
+                                    style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                              Gửi
+                            </button>
+                            <ng-container *ngIf="fileName"><h6 style="color: #0498D6">File: "{{fileName}}" đã tải lên
+                              thành công</h6></ng-container>
+                          </div>
                         </div>
-                        <div class="form-group mt-2" style="text-align: right!important;">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #616C8C; color: white; border-radius: 1.5rem; min-width: 7.5%">
-                            Hủy
-                          </button>
-                          <input hidden type="file" id="test5">
-                          <button class="btn font-weight-bold"
-                                  style="background-color: #0498D6; color: white; border-radius: 1.5rem; min-width: 10%"
-                                  onclick="myFunction()"
-                                  (change)="addFile($event)">
-                            Chọn ảnh
-                          </button>
-                          <button type="button" class="btn font-weight-bold"
-                                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                            Gửi
-                          </button>
+                      </form>
+                    </div>
+                  </div>
+                  <!--                                                  BÌNH LUẬN CỦA THÔNG BÁO                                        -->
+                  <ng-container *ngFor="let announceComment of announcementCommentList">
+                    <div class="user d-flex flex-row align-items-center my-1 mx-1"
+                         *ngIf="announcement.id == announceComment.announcementId">
+                      <div class="container mb-5 mt-5">
+                        <div class="card">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="media my-5">
+                                <div class="media-body text-left">
+                                  <div class="media mt-4"><a class="pr-3" href="#">
+                                    <img class="rounded-circle" alt="Bootstrap Media Another Preview"
+                                         src="{{announceComment.avatar}}"/></a>
+                                    <div class="media-body">
+                                      <div class="row">
+                                        <div class="col-12 d-flex">
+                                          <h5 style="color: #4F9B65">{{announceComment.name}}</h5>
+                                          <span>- 5 hours ago</span>
+                                        </div>
+                                      </div>
+                                      {{announceComment.content}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
+                                 *ngIf="announceComment.attachFile != null">
+                              <a href="{{announceComment.attachFile}}" target="_blank">
+                                <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i></a>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                    <table>
-                      <tr>
-                        <td rowspan="3" style="vertical-align: top">
-                          <img src="https://i.imgur.com/C4egmYM.jpg"
-                               width="30"
-                               class="user-img rounded-circle mx-2">
-                        </td>
-                        <td style="text-align: left!important;">
-                                    <span class="font-weight-bold text-primary">
-                                        Sinh viên A
-                                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          Cái này quá dễ với anh Công.
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
-                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
-                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          <img src="image/toptal-blog-image-1518523133236-d2bc894552c77f954f1e5ce48da6604d.png"
-                               width="200" height="75">
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                  <div class="user d-flex flex-row align-items-center my-2 mx-5">
-                    <table>
-                      <tr>
-                        <td rowspan="3" style="vertical-align: top">
-                          <img src="https://i.imgur.com/ZSkeqnd.jpg"
-                               width="30"
-                               class="user-img rounded-circle mx-2">
-                        </td>
-                        <td style="text-align: left!important;">
-                                    <span class="font-weight-bold text-primary">
-                                        Sinh viên C
-                                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          Cái này quá dễ với anh Công.
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet asperiores esse eum
-                          iste minus obcaecati quam repudiandae, veritatis voluptas! Architecto assumenda
-                          beatae dolor enim mollitia nesciunt provident quisquam quo repudiandae!
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left">
-                          <img src="assets/img/concern-2.png"
-                               width="200" height="75">
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
+                  </ng-container>
                 </div>
               </div>
             </div>
@@ -952,77 +774,80 @@
         </div>
       </div>
     </div>
-    <!--------------------------------------------END CODE FROM DONGTHG---------------------------------------------------->
   </div>
 </div>
 <!-- New Thread Modal -->
-<!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--  <div class="modal-dialog modal-lg">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>-->
-<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <form>-->
-<!--          <div class="mb-3">-->
-<!--            <label for="recipient-name" class="col-form-label">Tiêu đề:</label>-->
-<!--            <input type="text" class="form-control" id="recipient-name">-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>-->
-<!--            <textarea class="form-control" id="message-text"></textarea>-->
-<!--          </div>-->
-<!--          <div class="mb-3 form-group">-->
-<!--            <label>Đánh giá theo tỉ lệ:</label> <br>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio1"-->
-<!--                     value="option1">-->
-<!--              <label class="form-check-label" for="inlineRadio1">0%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio2"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">25%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio3"-->
-<!--                     value="option1">-->
-<!--              <label class="form-check-label" for="inlineRadio1">50%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio4"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">75%</label>-->
-<!--            </div>-->
-<!--            <div class="form-check form-check-inline">-->
-<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions"-->
-<!--                     id="inlineRadio5"-->
-<!--                     value="option2">-->
-<!--              <label class="form-check-label" for="inlineRadio2">100%</label>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn font-weight-bold btn-modal"-->
-<!--                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">-->
-<!--          Đóng-->
-<!--        </button>-->
-<!--        <button type="button" class="btn font-weight-bold btn-modal"-->
-<!--                style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi đánh giá-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Đánh giá của giáo viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Tiêu đề:</label>
+            <input type="text" class="form-control" id="recipient-name" formControlName="title">
+            <div
+              *ngIf="!title?.valid && (title?.dirty ||title?.touched)">
+              <div [hidden]="!title.errors.required">
+                <span class="text-danger">Vui lòng nhập tiêu đề.</span>
+              </div>
+              <div [hidden]="!title.errors.minlength">
+                <span class="text-danger"> Tiêu đề phải lớn hơn 5 ký tự.</span>
+              </div>
+              <div [hidden]="!title.errors.maxlength">
+                <span class="text-danger"> Nội dung phải nhỏ hơn 100 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
+            <textarea class="form-control" id="message-text" formControlName="content"></textarea>
+            <div
+              *ngIf="!content?.valid && (content?.dirty ||content?.touched)">
+              <div [hidden]="!content.errors.required">
+                <span class="text-danger">Vui lòng nhập nội dung.</span>
+              </div>
+              <div [hidden]="!content.errors.minlength">
+                <span class="text-danger"> Nội dung phải lớn hơn 5 ký tự.</span>
+              </div>
+              <div [hidden]="!content.errors.maxlength">
+                <span class="text-danger"> Nội dung phải nhỏ hơn 500 ký tự.</span>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 form-group">
+            <label>Đánh giá theo tỉ lệ:</label> <br>
+            <input type="range" class="form-range" id="customRange1"
+                   formControlName="progressReview">
+            <div
+              *ngIf="!progressReview?.valid && (progressReview?.dirty ||progressReview?.touched)">
+              <div [hidden]="!progressReview.errors.required">
+                <span class="text-danger">Vui lòng nhập đánh giá bằng tỷ lệ.</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn font-weight-bold btn-modal"
+                    style="background-color: #616C8C; color: white; border-radius: 1.5rem"
+                    data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                    [disabled]="reviewForm.invalid">Gửi đánh giá
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!--------------------------------------------------------------------------------------------------------------------->
-<!--                             CODE FROM DONGTHG                                                                   -->
+<!----------------------------------------CODE FROM DONGTHG------------------------------------------------------------>
+
 <div class="modal fade" id="concernModal" tabindex="-1" aria-labelledby="concernModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -1031,44 +856,60 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()" *ngIf="concernForm">
+        <form [formGroup]="concernForm" (ngSubmit)="submitConcern()">
           <div class="mb-3">
             <label for="concern-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
             <input type="text" class="form-control" id="concern-title" formControlName="title">
-            <small class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
+            <h6 class="text-danger" *ngIf="concernForm.controls.title.hasError('required')
               && concernForm.controls.title.touched">
               Vui lòng nhập tiêu đề.
-            </small>
-            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
-              && concernForm.controls.content.touched">
+            </h6>
+            <h6 class="text-danger" *ngIf="concernForm.controls.title.hasError('maxlength')
+              && concernForm.controls.title.touched">
               Tiêu đề không được quá 100 ký tự.
-            </small>
+            </h6>
+            <h6 class="text-danger" *ngIf="concernForm.controls.title.hasError('minlength')
+              && concernForm.controls.title.touched">
+              Tiêu đề phải nhiều hơn 6 ký tự.
+            </h6>
           </div>
           <div class="mb-3">
             <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content" formControlName="content"></textarea>
-            <small class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
+            <textarea class="form-control" id="concern-content" formControlName="content" rows="7"></textarea>
+            <h6 class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
               && concernForm.controls.content.touched">
               Vui lòng nhập nội dung.
-            </small>
+            </h6>
+            <h6 class="text-danger" *ngIf="concernForm.controls.content.hasError('maxlength')
+              && concernForm.controls.content.touched">
+              Nội dung không được quá 500 ký tự.
+            </h6>
+            <h6 class="text-danger" *ngIf="concernForm.controls.content.hasError('minlength')
+              && concernForm.controls.content.touched">
+              Nội dung phải nhiều hơn 10 ký tự.
+            </h6>
           </div>
           <div class="mb-3">
             <label class="col-form-label"> File đính kèm:</label>
-            <label for="concern-upload-file" class="btn font-weight-bold"
-                   style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            <label for="concern-upload-file" class="btn font-weight-bold ml-2"
+                   style="background-color: #0498D6; color: white; border-radius: 1.5rem;font-size: 0.9rem"> Thêm file
             </label>
             <input type="file" hidden id="concern-upload-file"
-                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg" [(ngModel)]="fileName"
+                   name="fileName"
                    (change)="addFile($event)">
+            <ng-container *ngIf="fileName"><p style="color: #0498D6">File: "{{fileName}}" đã tải lên thành công</p>
+            </ng-container>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn font-weight-bold btn-modal"
                     style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
               Đóng
             </button>
-            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
+            <button type="submit" class="btn font-weight-bold btn-modal ml-2" data-bs-dismiss="modal"
+                    [disabled]="!concernForm.valid"
                     style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thắc mắc
             </button>
           </div>
@@ -1085,45 +926,62 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()" *ngIf="announcementForm">
+        <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()">
           <div class="mb-3">
             <label for="announcement-title" class="col-form-label">Tiêu đề <span style="color: red">*</span>
               :</label>
             <input type="text" class="form-control" id="announcement-title" formControlName="title">
-            <small class="text-danger" *ngIf="announcementForm.controls.title.hasError('required')
+            <h6 class="text-danger" *ngIf="announcementForm.controls.title.hasError('required')
               && announcementForm.controls.title.touched">
               Vui lòng nhập tiêu đề.
-            </small>
-            <small class="text-danger" *ngIf="announcementForm.controls.content.hasError('maxlength')
-              && announcementForm.controls.content.touched">
+            </h6>
+            <h6 class="text-danger" *ngIf="announcementForm.controls.title.hasError('maxlength')
+              && announcementForm.controls.title.touched">
               Tiêu đề không được quá 100 ký tự.
-            </small>
+            </h6>
+            <h6 class="text-danger" *ngIf="announcementForm.controls.title.hasError('minlength')
+              && announcementForm.controls.title.touched">
+              Tiêu đề phải nhiều hơn 6 ký tự.
+            </h6>
           </div>
           <div class="mb-3">
             <label for="announcement-content" class="col-form-label">Nội dung thông báo <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="announcement-content" formControlName="content"></textarea>
-            <small class="text-danger" *ngIf="announcementForm.controls.content.hasError('required')
+            <textarea class="form-control" id="announcement-content" formControlName="content" rows="7"></textarea>
+            <h6 class="text-danger" *ngIf="announcementForm.controls.content.hasError('required')
               && announcementForm.controls.content.touched">
               Vui lòng nhập nội dung.
-            </small>
+            </h6>
+            <h6 class="text-danger" *ngIf="announcementForm.controls.content.hasError('maxlength')
+              && announcementForm.controls.content.touched">
+              Nội dung không được quá 500 ký tự.
+            </h6>
+            <h6 class="text-danger" *ngIf="announcementForm.controls.content.hasError('minlength')
+              && announcementForm.controls.content.touched">
+              Nội dung phải nhiều hơn 10 ký tự.
+            </h6>
           </div>
           <div class="mb-3">
             <label class="col-form-label"> File đính kèm:</label>
-            <label for="announcement-upload-file" class="btn font-weight-bold"
-                   style="background-color: #0498D6; color: white; border-radius: 1.5rem"> Thêm file
+            <label for="announcement-upload-file" class="btn font-weight-bold ml-2"
+                   style="background-color: #0498D6; color: white; border-radius: 1.5rem;font-size: 0.9rem"> Thêm file
             </label>
             <input type="file" hidden id="announcement-upload-file"
-                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg"
+                   formControlName="attachedFile" accept=".xlsx, .pdf, .jpg, .jpeg" [(ngModel)]="fileName"
+                   name="fileName"
                    (change)="addFile($event)">
+            <ng-container *ngIf="fileName"><p style="color: #0498D6">File: "{{fileName}}" đã tải lên thành công</p>
+            </ng-container>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn font-weight-bold btn-modal"
                     style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
               Đóng
             </button>
-            <button type="submit" class="btn font-weight-bold btn-modal" data-bs-dismiss="modal"
-                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">Gửi thông báo
+            <button type="submit" class="btn font-weight-bold btn-modal ml-2" data-bs-dismiss="modal"
+                    [disabled]="!announcementForm.valid"
+                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem">
+              Gửi thông báo
             </button>
           </div>
         </form>
@@ -1132,4 +990,5 @@
   </div>
 </div>
 <!--------------------------------------------------------------------------------------------------------------------->
+<!--                                         CODE FROM DONGTHG                                                       -->
 

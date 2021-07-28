@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Student} from "../model/student";
+import {Class} from "../model/class";
+import {Faculty} from "../model/faculty";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class StudentService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.URL);
+    return this.http.get<Student[]>(this.URL+'/student');
   }
   findSearch(keyword: string): Observable<Student[]> {
 
@@ -32,6 +34,15 @@ export class StudentService {
   }
   delete(code: string): Observable<void>{
     return this.http.delete<void>(this.URL +'/'+ code);
+  }
+  block(code: string, name:string, team: string): Observable<void>{
+    return this.http.delete<void>(this.URL +'/block/'+ code +'/' + name + '/'+ team);
+  }
+  findAllClass(): Observable<Class[]> {
+    return this.http.get<Class[]>(this.URL + '/class');
+  }
+  findAllFaculty(): Observable<Faculty[]> {
+    return this.http.get<Faculty[]>(this.URL + '/faculty');
   }
 }
 

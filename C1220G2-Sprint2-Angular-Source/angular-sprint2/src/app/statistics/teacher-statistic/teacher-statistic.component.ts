@@ -121,6 +121,7 @@ export class TeacherStatisticComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
   }
 
   getColors(): string[] {

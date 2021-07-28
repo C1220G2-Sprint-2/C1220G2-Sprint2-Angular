@@ -23,7 +23,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   pageProject: number = 1;
   public createForm!: FormGroup;
 
-  private user;
+   user;
 
   title = "cloudsSorage";
   selectedFile: File = null;
@@ -99,6 +99,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
     console.log(check);
     if (check) {
+      this.delay(4000);
       this.teamService.postProject(project).subscribe(() => {
         this.showSuccess();
         this.route.navigateByUrl('nhom/quan-ly-nhom');
@@ -126,66 +127,82 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
 
 
   }
-
+  checkImg: boolean = false;
+  checkFile: boolean = false;
   onImgSelected(event) {
     var n = Date.now();
     const file = event.target.files[0];
-    const filePath = `RoomsImages/${n}`;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(`RoomsImages/${n}`, file);
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            if (url) {
-              this.image = url
-            }
-            console.log(this.image)
-          });
-        })
-      )
-      .subscribe(url => {
-        if (url) {
-          console.log(url);
 
-        }
-      });
+    if (file.size - (1048576 *5) >0 || ((file.type+"").indexOf("image") == -1)) {
+      this.checkImg= true;
+    } else {
+      this.checkImg= false;
+      console.log('size', file.size);
+      console.log('type', file.type);
+      const filePath = `RoomsImages/${n}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(`RoomsImages/${n}`, file);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              if (url) {
+                this.image = url
+              }
+              console.log(this.image)
+            });
+          })
+        )
+        .subscribe(url => {
+          if (url) {
+            console.log(url);
+            this.delay(1500);
+          }
+        });
+    }
+
   }
 
   onFileSelected(event) {
     var n = Date.now();
     const file = event.target.files[0];
-    const filePath = `RoomsFiles/${n}`;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(`RoomsFiles/${n}`, file);
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            if (url) {
-              this.description = url
-            }
-            console.log("this.description")
-            console.log(this.description)
-          });
-        })
-      )
-      .subscribe(url => {
-        if (url) {
-          console.log(url);
-
-        }
-      });
+    if (file.size - (1048576 *10) >0 || ((file.type+"").indexOf("image") != -1)) {
+      this.checkFile= true;
+    } else {
+      this.checkFile= false;
+      const filePath = `RoomsFiles/${n}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(`RoomsFiles/${n}`, file);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              if (url) {
+                this.description = url
+              }
+              console.log("this.description")
+              console.log(this.description)
+            });
+          })
+        )
+        .subscribe(url => {
+          if (url) {
+            console.log(url);
+          }
+          this.delay(1500);
+        });
+    }
   }
 
   ngDoCheck(): void {
     // console.log(this.createForm.value);
   }
   errorMessage = '';
+
   showSuccess() {
     Swal.fire({
       title: 'Bạn đã đăng ký đề tài thành công, chờ giáo viên phê duyệt!',
@@ -203,4 +220,42 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
       confirmButtonText: 'Đóng'
     })
   }
+
+  chuyenHuong() {
+    this.route.navigateByUrl('nhom/quan-ly-nhom');
+  }
+
+
+  delay(number: number) {
+    let timerInterval
+    Swal.fire({
+      title: 'Đang tải dữ liệu!',
+      html: 'I will close in <b></b> milliseconds.',
+      timer: number,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+        timerInterval = setInterval(() => {
+          const content = Swal.getHtmlContainer()
+          if (content) {
+            const b = content.querySelector('b')
+            if (b) {
+              b.textContent = String(Swal.getTimerLeft())
+            }
+          }
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer')
+      }
+    })
+  }
+
+
+
 }

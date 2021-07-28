@@ -8,7 +8,7 @@ import { TeacherStatistic } from 'src/app/models/teacher-statistic.model';
   providedIn: 'root'
 })
 export class StatisticsService {
-  apiUrl: string = "http://localhost:8080";
+  apiUrl: string = "http://localhost:8080/api";
 
   constructor( private httpClient: HttpClient ) { }
 
