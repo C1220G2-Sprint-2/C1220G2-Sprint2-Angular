@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseUser } from 'src/app/models/firebase-user.model';
 import { GroupUser } from 'src/app/models/group-user.model';
@@ -27,17 +27,19 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.doUpdateUsersInGroup = false;
-    this.userEmail = new FormControl('');
+    this.userEmail = new FormControl('', [Validators.required]);
 
     this.route.paramMap.subscribe(params => {
       this.groupName = params.get('groupName');
     });
 
-    this.getUsersNotInGroup();
+    // this.getUsersNotInGroup();
     
   }
 
   getUsersNotInGroup() {
+    // this.userEmail = new FormControl('');
+    this.usersNotInGroup = [];
     this.chatService.getGroupsUsers().subscribe(groupUsers => {
       if (this.usersInGroup.length > 0) this.usersInGroup = [];
       // console.log("Users in group: ")
@@ -50,7 +52,8 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
       this.chatService.getUsers().subscribe((userList: FirebaseUser[]) => {
         if (this.usersNotInGroup.length > 0) this.usersNotInGroup = [];
         userList.forEach(user => {
-          if (!this.usersInGroup.includes(user.email)) {
+          if (!this.usersInGroup.includes(user.email)
+            && user.email.toLowerCase().includes(this.userEmail.value)) {
             this.usersNotInGroup.push(user.email);
           }
         })
@@ -69,6 +72,7 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
 
   addNewMember() {
     const email: string = this.userEmail.value;
+    this.userEmail = new FormControl('', [Validators.required]);
     const promise = this.chatService.createGroupUser(this.groupName, email);
     promise
       .then(() => {
@@ -77,5 +81,9 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
       }).catch(() => {
         this.toastr.error("Thêm mới " + email + " thất bại.", "Thông Báo")
       });
+  }
+
+  getNewMember(newMember: string) {
+    this.userEmail = new FormControl(newMember);
   }
 }
