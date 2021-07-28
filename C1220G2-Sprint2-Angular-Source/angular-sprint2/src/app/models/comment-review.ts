@@ -1,10 +1,9 @@
-export interface StudentConcern {
+export interface CommentReview {
   id?: number;
-  title?: string;
-  content?: string;
+  content: string;
   studentCode?: string;
-  attachFile?: string;
   avatar: string;
   name: string;
+  reviewId: number;
   dateCreate?: string;
 }

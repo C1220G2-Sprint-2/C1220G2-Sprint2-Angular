@@ -9,30 +9,49 @@
                     <button type="button" class="btn font-weight-bold dropdown-toggle px-2"
                      data-bs-toggle="dropdown" aria-expanded="false"
                      style="background-color: #0498D6;color: white; border-radius: 1.5rem; max-width: 70%"
-                     (click)="getUsersNotInGroup()">
+                     >
                      Thêm thành viên
                     </button>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">
                             <h6 class="dropdown-header">Thêm bằng email</h6>
-                            <div class="dropdown-item d-flex align-items-center">
-                                <!-- <input type="text" class="form-control" [formControl]="userEmail"> -->
-                                <select class="form-select form-select-sm"
+                            <div class="dropdown-item">
+                                <input type="text" class="form-control"
+                                    (input)="getUsersNotInGroup()" [formControl]="userEmail">
+                                <small class="text-danger" *ngIf="userEmail.errors?.required">
+                                    Vui lòng nhập email thành viên mới.
+                                </small>
+                            </div>
+                            <div class="dropdown-item">
+                                <button class="btn float-right" (click)="addNewMember()" [disabled]="userEmail.invalid"
+                                    style="background-color: #4F9B65;color: white;
+                                     border-radius: 1.5rem; min-width: 20%; font-size: 12px;">Xác nhận</button>
+                            </div>
+                            
+                            <div class="dropdown-item d-flex flex-column newMemberList">
+                                <!-- <div class="p-2">
+                                    <div class="dropdown-item d-flex align-items-center flex-column">
+                                </div> -->
+                                <div class="p-2" *ngFor="let user of usersNotInGroup">
+                                    <input class="form-control new-member" (click)="getNewMember($event.target.value)"
+                                     type="text" [value]="user" readonly>
+                                </div>
+                                <!-- <select class="form-select form-select-sm"
                                 aria-label=".form-select-sm example" [formControl]="userEmail">
                                     <option value='' disabled>Chọn email thành viên</option>
                                     <option *ngFor="let user of usersNotInGroup" [value]="user">
                                         {{ user }}
                                     </option>
-                                  </select>
+                                </select> -->
+
                             </div>
             
-                            <div class="dropdown-item d-flex align-items-center justify-content-end">
-                                <button class="btn"
-                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+                            <!-- <div class="dropdown-item d-flex align-items-center justify-content-end">
+                                <button class="btn" style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
                                 (click)="addNewMember()">
                                     Xác nhận
                                 </button>
-                            </div>
+                            </div> -->
                         </li>
                     </ul>
                   </div>

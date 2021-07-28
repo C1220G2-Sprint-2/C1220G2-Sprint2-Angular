@@ -19,6 +19,7 @@ import {CommentAnnouncementService} from '../comment-announcement.service';
 import {ReviewDto} from "../review-dto";
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
+import {CommentReview} from '../../models/comment-review';
 
 
 @Component({
@@ -37,19 +38,24 @@ export class DetailComponent implements OnInit {
   announcementList: Announcement[];
   announcementCommentList: CommentAnnouncement[];
   concernCommentList: CommentConcern[];
+  reviewCommentList: CommentReview[];
   commentOfConcern: CommentConcern;
   commentOfAnnouncement: CommentAnnouncement;
+  commentOfReview: CommentReview;
   avatar: string;
   downloadURL: Observable<string>;
   attachFile: string;
   isLoggedIn = false;
   isTeacherLogging = false;
+  isStudentLoggedIn = false;
   username: string;
   currentUsername: string;
   commentConcernForm: FormGroup;
   commentAnnouncementForm: FormGroup;
+  commentReviewForm: FormGroup;
   concernId: number;
   announcementId: number;
+  reviewId: number;
   fileName: string;
   accountName: string;
   projectId: number;
@@ -59,6 +65,15 @@ export class DetailComponent implements OnInit {
   reviewList: ReviewDto[];
   isTeacherLogin = false;
   userImage: string;
+  record = 4;
+  maxSize = 0;
+  checkLoadMore = true;
+  concernRecord = 2;
+  concernMaxSize = 0;
+  checkLoadMoreConcern = true;
+  announcementRecord = 2;
+  announcementMaxSize = 0;
+  checkLoadMoreAnnouncement = true;
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -83,10 +98,12 @@ export class DetailComponent implements OnInit {
     this.addNewAnnouncementForm();
     this.addNewAnnouncementCommentForm();
     this.addNewConcernCommentForm();
+    this.addNewReviewCommentForm();
     this.getAnnouncementList();
     this.getConcernList();
     this.getAnnouncementComment();
     this.getConcernComment();
+    this.getReviewComment();
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
@@ -106,17 +123,27 @@ export class DetailComponent implements OnInit {
       console.log(this.username);
       if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogin = true;
+      } else if (this.username.substring(0, 2) == "SV") {
+        this.isStudentLoggedIn = true;
       }
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
+    });
+    this.progressService.getMaxSize().subscribe(result => {
+      this.maxSize = result;
+    });
+    this.studentConcernService.getMaxSizeConcern().subscribe(result => {
+      this.concernMaxSize = result;
+    });
+    this.announcementService.getMaxSizeAnnouncement().subscribe(result => {
+      this.announcementMaxSize = result;
     });
   }
 
   getAllStudentDto() {
     this.progressService.getStudentOfGroup(this.projectId).subscribe(result => {
       this.studentList = result;
-      console.log('this' + result.length);
     });
   }
 
@@ -149,17 +176,28 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern failed !');
     }, () => {
-      this.getConcernList();
+      window.location.reload();
     });
   }
 
   getConcernList() {
-    this.studentConcernService.getAllStudentConcern().subscribe(concern => {
+    this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(concern => {
       this.concernList = concern;
       console.log('Get list concern success !');
     }, e => {
       console.log('Get list concern failed !');
     });
+  }
+
+  loadMoreConcern() {
+    this.concernRecord += 1;
+    if (this.concernRecord > this.concernMaxSize) {
+      this.checkLoadMoreConcern = false;
+    } else {
+      this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(result => {
+        this.concernList = result;
+      });
+    }
   }
 
   addNewAnnouncementForm() {
@@ -173,12 +211,23 @@ export class DetailComponent implements OnInit {
   }
 
   getAnnouncementList() {
-    this.announcementService.getAllAnnouncement().subscribe(announcement => {
+    this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(announcement => {
       this.announcementList = announcement;
       console.log('Get list announcement success !');
     }, e => {
       console.log('Get list announcement failed !');
     });
+  }
+
+  loadMoreAnnouncement() {
+    this.announcementRecord += 1;
+    if (this.announcementRecord > this.announcementMaxSize) {
+      this.checkLoadMoreAnnouncement = false;
+    } else {
+      this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(result => {
+        this.announcementList = result;
+      });
+    }
   }
 
   submitAnnouncement() {
@@ -247,7 +296,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      this.getConcernList();
+      this.getAnnouncementList();
     });
   }
 
@@ -266,7 +315,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Get list concern failed !');
     }, () => {
-      this.getAnnouncementList();
+      this.getConcernList();
     });
   }
 
@@ -301,9 +350,51 @@ export class DetailComponent implements OnInit {
       window.location.reload();
     });
   }
+  //------------------------------COMMENT REVIEW SANGLD----------------------------------------------------
+  addNewReviewCommentForm() {
+    this.commentReviewForm = new FormGroup({
+      content: new FormControl('', [Validators.required, Validators.minLength(6),
+        Validators.maxLength(100)]),
+    });
+  }
+
+  getReviewComment() {
+    this.progressService.getAllComment().subscribe(comment => {
+      this.reviewCommentList = comment;
+      console.log('Get list concern success !');
+    }, e => {
+      console.log('Get list concern failed !');
+    }, () => {
+      this.getAllReview();
+    });
+  }
+
+  submitReviewComment() {
+    const reviewComment = this.commentReviewForm;
+      this.commentOfReview = {
+        content: reviewComment.value.content,
+        studentCode: this.tokenStorageService.getUser().username,
+        avatar: this.avatar,
+        name: this.currentUsername,
+        reviewId: this.reviewId
+    };
+    console.log(this.commentOfReview);
+    this.progressService.saveComment(this.commentOfReview).subscribe(() => {
+      console.log('Create review comment successful !');
+      this.showSuccess();
+    }, e => {
+      console.log('Create review comment failed !');
+    }, () => {
+      window.location.reload();
+    });
+  }
 
   sendConcernId(id) {
     this.concernId = id;
+  }
+
+  sendReviewId(id) {
+    this.reviewId = id;
   }
 
   sendAnnouncementId(id) {
@@ -355,15 +446,15 @@ export class DetailComponent implements OnInit {
 
   addNewReviewForm() {
     this.reviewForm = new FormGroup({
-      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]),
+      title: new FormControl('', [Validators.required, Validators.minLength(5),Validators.maxLength(100)]),
+      content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]),
       progressReview: new FormControl(0, [Validators.required]),
       teacherCode: new FormControl('')
     });
   }
 
   getAllReview() {
-    this.progressService.getAllReview().subscribe(result => {
+    this.progressService.getAllReview(this.record).subscribe(result => {
       this.reviewList = result;
     });
   }
@@ -372,6 +463,16 @@ export class DetailComponent implements OnInit {
     this.toastService.success('', 'Thành công !');
   }
 
+  loadMore() {
+    this.record += 4;
+    if (this.record >= this.maxSize) {
+      this.checkLoadMore = false;
+    } else {
+      this.progressService.getAllReview(this.record).subscribe(result => {
+        this.reviewList = result;
+      });
+    }
+  }
 
   uploading() {
     let timerInterval;
