@@ -68,6 +68,12 @@ export class DetailComponent implements OnInit {
   record = 4;
   maxSize = 0;
   checkLoadMore = true;
+  concernRecord = 2;
+  concernMaxSize = 0;
+  checkLoadMoreConcern = true;
+  announcementRecord = 2;
+  announcementMaxSize = 0;
+  checkLoadMoreAnnouncement = true;
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -127,6 +133,12 @@ export class DetailComponent implements OnInit {
     this.progressService.getMaxSize().subscribe(result => {
       this.maxSize = result;
     });
+    this.studentConcernService.getMaxSizeConcern().subscribe(result => {
+      this.concernMaxSize = result;
+    });
+    this.announcementService.getMaxSizeAnnouncement().subscribe(result => {
+      this.announcementMaxSize = result;
+    });
   }
 
   getAllStudentDto() {
@@ -164,17 +176,28 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern failed !');
     }, () => {
-      this.getConcernList();
+      window.location.reload();
     });
   }
 
   getConcernList() {
-    this.studentConcernService.getAllStudentConcern().subscribe(concern => {
+    this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(concern => {
       this.concernList = concern;
       console.log('Get list concern success !');
     }, e => {
       console.log('Get list concern failed !');
     });
+  }
+
+  loadMoreConcern() {
+    this.concernRecord += 1;
+    if (this.concernRecord > this.concernMaxSize) {
+      this.checkLoadMoreConcern = false;
+    } else {
+      this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(result => {
+        this.concernList = result;
+      });
+    }
   }
 
   addNewAnnouncementForm() {
@@ -188,12 +211,23 @@ export class DetailComponent implements OnInit {
   }
 
   getAnnouncementList() {
-    this.announcementService.getAllAnnouncement().subscribe(announcement => {
+    this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(announcement => {
       this.announcementList = announcement;
       console.log('Get list announcement success !');
     }, e => {
       console.log('Get list announcement failed !');
     });
+  }
+
+  loadMoreAnnouncement() {
+    this.announcementRecord += 1;
+    if (this.announcementRecord > this.announcementMaxSize) {
+      this.checkLoadMoreAnnouncement = false;
+    } else {
+      this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(result => {
+        this.announcementList = result;
+      });
+    }
   }
 
   submitAnnouncement() {
@@ -439,7 +473,6 @@ export class DetailComponent implements OnInit {
       });
     }
   }
-
 
   uploading() {
     let timerInterval;
