@@ -135,6 +135,9 @@
                 <div class="dropdown-item d-flex flex-column align-items-center">
                     <input type="text" class="form-control p-2"
                     [formControl]="chatGroupName">
+                    <small class="text-danger p-2" *ngIf="chatGroupName.errors?.required">
+                        Vui lòng nhập tên phòng.
+                    </small>
                     <small class="text-danger p-2" *ngIf="chatGroupName.errors?.duplicatedGroupName">
                         Tên phòng đã tồn tại. Vui lòng chọn tên khác.
                     </small>
