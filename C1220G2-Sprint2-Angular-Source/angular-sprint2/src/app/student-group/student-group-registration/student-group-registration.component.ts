@@ -4,12 +4,15 @@ import {TeamService} from "../team.service";
 import {TokenStorageService} from "../../security/token-storage.service";
 import Swal from "sweetalert2";
 import {StudentGroupService} from "../student-group.service";
+
 @Component({
   selector: 'app-student-group-registration',
   templateUrl: './student-group-registration.component.html',
   styleUrls: ['./student-group-registration.component.css']
 })
+
 export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
+
   listStudent: any = [];
   listTeam: any[] = [];
   studentDelete: any= {};
@@ -32,10 +35,13 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
   pageCard: number = 1;
   studentTS: any = {};
   searchStudent: string = '';
+
    allTeam: any[]= [];
   constructor(private tokenStorageService: TokenStorageService, private teamService: TeamService, private route: Router) {
   }
+
   ngOnInit(): void {
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       this.user = this.tokenStorageService.getUser();
@@ -47,6 +53,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
     }
     this.teamService.listTeam().subscribe(data=> {
       this.allTeam = data;
+
     });
     console.log("this.checkName")
     console.log(this.checkName)
@@ -54,16 +61,25 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
       this.listStudent = data.filter(function (student) {
         return student.team.id == 1 && student.enable == true;
       })
+
       this.listTeam.push(this.studentTS);
+
+
+
     });
+
   }
+
   addStudent(s: any) {
     if (this.listTeam.includes(s)) {
       this.showErrorAdd();
     } else {
       this.listTeam.push(s);
     }
+
+
   }
+
   ngDoCheck(): void {
     this.checkName= false;
     for (let i=0; i< this.allTeam.length;i++) {
@@ -73,6 +89,7 @@ export class StudentGroupRegistrationComponent implements OnInit, DoCheck {
     }
     console.log(  this.checkName);
   }
+
   delete(code: any) {
     if(code == this.studentTS.code) {
         this.showErrorDelete();
@@ -111,6 +128,7 @@ checkName:boolean = false;
       this.loading=false;
     });
   }
+
   searchTeamRegistration() {
     this.teamService.searchTeamRegistration(this.searchStudent).subscribe(data => {
       this.listStudent = data.filter(function (student) {
@@ -118,6 +136,7 @@ checkName:boolean = false;
       })
     })
   }
+
   sortCode() {
     this.checkSortCode = !this.checkSortCode;
     console.log("da vao");
@@ -135,6 +154,7 @@ checkName:boolean = false;
       })
     }
   }
+
   sortName() {
     console.log("vao")
     this.checkSortName = !this.checkSortName;
@@ -152,6 +172,7 @@ checkName:boolean = false;
       })
     }
   }
+
   sortClass() {
     this.checkSortClass = !this.checkSortClass;
     if (this.checkSortClass) {
@@ -181,6 +202,9 @@ checkName:boolean = false;
       confirmButtonText: 'Đóng'
     })
   }
+
+
+
   showError() {
     Swal.fire({
       title: 'Không thể đăng ký đề tài vì Giáo viên hướng dẫn hoặc Danh mục không đúng!',
@@ -189,6 +213,7 @@ checkName:boolean = false;
       confirmButtonText: 'Đóng'
     })
   }
+
   showErrorAdd() {
     Swal.fire({
       title: 'Đã thêm vào danh sách trước đó!',
@@ -197,6 +222,7 @@ checkName:boolean = false;
       confirmButtonText: 'Đóng'
     })
   }
+
     showErrorDelete() {
       Swal.fire({
         title: 'Không thể xóa thành viên này!',
@@ -205,6 +231,9 @@ checkName:boolean = false;
         confirmButtonText: 'Đóng'
       })
   }
+
+
+
 delay() {
   let timerInterval
   Swal.fire({
