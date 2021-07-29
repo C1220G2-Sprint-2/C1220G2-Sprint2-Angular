@@ -65,7 +65,7 @@ export class DetailComponent implements OnInit {
   reviewList: ReviewDto[];
   isTeacherLogin = false;
   userImage: string;
-  record = 4;
+  record = 2;
   maxSize = 0;
   checkLoadMore = true;
   concernRecord = 2;
@@ -256,7 +256,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement failed !');
     }, () => {
-      this.getAnnouncementList();
+      window.location.reload();
     });
   }
 
@@ -305,7 +305,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      this.getAnnouncementList();
+      window.location.reload();
     });
   }
 
@@ -483,12 +483,14 @@ export class DetailComponent implements OnInit {
   }
 
   loadMore() {
-    this.record += 4;
+    console.log("load more ok" + this.maxSize + ", " + this.record);
+    this.record += 1;
     if (this.record >= this.maxSize) {
       this.checkLoadMore = false;
     } else {
       this.progressService.getAllReview(this.record).subscribe(result => {
         this.reviewList = result;
+        console.log("load more ok 2");
       });
     }
   }
