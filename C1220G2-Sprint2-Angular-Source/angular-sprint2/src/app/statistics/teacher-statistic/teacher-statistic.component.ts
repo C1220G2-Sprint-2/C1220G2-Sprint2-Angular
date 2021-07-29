@@ -103,7 +103,7 @@ export class TeacherStatisticComponent implements OnInit {
           labels: {
             style: {
               colors: randomColors,
-              fontSize: "10px"
+              fontSize: "12px"
             }
           }
         },
