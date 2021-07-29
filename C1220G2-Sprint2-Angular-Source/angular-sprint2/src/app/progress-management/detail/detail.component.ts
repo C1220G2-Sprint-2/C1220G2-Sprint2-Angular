@@ -200,7 +200,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreConcern() {
     this.concernRecord += 1;
-    if (this.concernRecord > this.concernMaxSize) {
+    if (this.concernRecord > this.concernMaxSize + 1) {
       this.checkLoadMoreConcern = false;
     } else {
       this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(result => {
@@ -230,7 +230,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreAnnouncement() {
     this.announcementRecord += 1;
-    if (this.announcementRecord > this.announcementMaxSize) {
+    if (this.announcementRecord > this.announcementMaxSize + 1) {
       this.checkLoadMoreAnnouncement = false;
     } else {
       this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(result => {
@@ -485,7 +485,7 @@ export class DetailComponent implements OnInit {
   loadMore() {
     console.log("load more ok" + this.maxSize + ", " + this.record);
     this.record += 1;
-    if (this.record >= this.maxSize) {
+    if (this.record >= this.maxSize + 1) {
       this.checkLoadMore = false;
     } else {
       this.progressService.getAllReview(this.record).subscribe(result => {
