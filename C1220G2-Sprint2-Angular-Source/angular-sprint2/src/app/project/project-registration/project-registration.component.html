@@ -113,7 +113,7 @@
             <input class="form-control" list="datalistGiaoVien" id="giaoVien" required formControlName="teacher"
                    placeholder="Chọn giáo viên hướng dẫn">
             <datalist id="datalistGiaoVien">
-              <option *ngFor="let t of listTeacher" >{{t.name}}</option>
+              <option *ngFor="let t of listTeacher">{{t.name}}</option>
             </datalist>
             <span style="color: red" *ngIf="createForm.controls.teacher.hasError('required') && createForm.controls.teacher.touched">
                             Vui lòng chọn giáo viên hướng dẫn.
