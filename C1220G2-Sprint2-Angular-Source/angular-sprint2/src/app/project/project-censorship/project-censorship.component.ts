@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
   styleUrls: ['./project-censorship.component.css']
 })
 export class ProjectCensorshipComponent implements OnInit {
+  loading = false;
   projectList: Project[] = [];
   projectListApprove: Project[] = [];
   project: Project;
@@ -64,6 +65,7 @@ export class ProjectCensorshipComponent implements OnInit {
   }
 
   approveProject() {
+    this.loading=true;
     this.projectService.findById(this.idApprove).subscribe(data => {
       this.project = data;
       this.projectService.approveProject(this.project).subscribe(data => {
@@ -71,18 +73,25 @@ export class ProjectCensorshipComponent implements OnInit {
         this.loadList();
         this.router.navigateByUrl("/de-tai/kiem-duyet-de-tai");
         // this.approveToastr();
+        this.loading=false;
         this.showSuccess();
+      },error => {
+        this.loading=false;
       })
     })
   }
 
   notApproveProject() {
+    this.loading=true;
     this.projectService.findById(this.idApprove).subscribe(data => {
       this.project = data;
       this.projectService.notApproveProject(this.project).subscribe(data => {
         this.loadListApprove();
         this.router.navigateByUrl("/de-tai/kiem-duyet-de-tai");
+        this.loading= false;
         this.showError();
+      }, error => {
+        this.loading= false;
       })
     })
   }
