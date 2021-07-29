@@ -1,17 +1,19 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseUser } from 'src/app/models/firebase-user.model';
 import { GroupUser } from 'src/app/models/group-user.model';
+import { User } from 'src/app/models/user.model';
 import { ChatService } from '../services/chat.service';
+import { FirebaseAuthService } from '../services/firebaseAuth.service';
 
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.css']
 })
-export class ChatroomComponent implements OnInit, AfterViewChecked {
+export class ChatroomComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('scroller') private feedContainer: ElementRef;
   userEmail: FormControl;
   groupName: string;
@@ -20,12 +22,28 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
   usersInGroup: string[] = [];
   doUpdateUsersInGroup: boolean;
 
+  currentUser: User;
+
 
   constructor( private route: ActivatedRoute,
      private toastr: ToastrService,
-     private chatService: ChatService) { }
+     private chatService: ChatService,
+     private firebaseAuthService: FirebaseAuthService) { }
+
+  ngOnDestroy(): void {
+    const userEmail = this.currentUser.email;
+    // use createGroupUser() to update a group-user
+    this.chatService.createGroupUser(this.groupName, userEmail);
+  }
 
   ngOnInit(): void {
+
+    this.firebaseAuthService.authUser().subscribe(user => {
+      if (user !== null && user !== undefined) {
+        this.currentUser = user;
+      }
+    });
+
     this.doUpdateUsersInGroup = false;
     this.userEmail = new FormControl('', [Validators.required]);
 
