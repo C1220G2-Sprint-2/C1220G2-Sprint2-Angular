@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { Routes, RouterModule } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import {NgModule} from '@angular/core';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {Routes, RouterModule} from '@angular/router';
+import {environment} from 'src/environments/environment';
 
 
 const routes: Routes = [
@@ -37,7 +37,10 @@ const routes: Routes = [
   },
 
   // code by sang
-  {path: 'quan-ly-tien-do', loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)},
+  {
+    path: 'quan-ly-tien-do',
+    loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)
+  },
 
   // end code by sang
   // code by hau
@@ -52,8 +55,13 @@ const routes: Routes = [
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
+
+  },
+  {
+    path: 'excel',
+    loadChildren: () => import('./manager-add-excel/manager-add-excel.module').then(module => module.ManagerAddExcelModule)
   }
-  ];
+];
 
 
 @NgModule({

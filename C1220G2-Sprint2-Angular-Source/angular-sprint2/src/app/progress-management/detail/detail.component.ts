@@ -20,6 +20,8 @@ import {ReviewDto} from "../review-dto";
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
 import {CommentReview} from '../../models/comment-review';
+import {ReportServiceService} from '../../report-progress/report-service.service';
+import {ReportProgress} from '../../models/report-progress';
 
 
 @Component({
@@ -65,7 +67,7 @@ export class DetailComponent implements OnInit {
   reviewList: ReviewDto[];
   isTeacherLogin = false;
   userImage: string;
-  record = 4;
+  record = 2;
   maxSize = 0;
   checkLoadMore = true;
   concernRecord = 2;
@@ -74,6 +76,8 @@ export class DetailComponent implements OnInit {
   announcementRecord = 2;
   announcementMaxSize = 0;
   checkLoadMoreAnnouncement = true;
+  reportList: ReportProgress[];
+  @Input() backgroundColor: string = '#C2C2C2';
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -84,7 +88,8 @@ export class DetailComponent implements OnInit {
               private router: Router,
               private tokenStorageService: TokenStorageService,
               private storage: AngularFireStorage,
-              private toastService: ToastrService,) {
+              private toastService: ToastrService,
+              private reportServiceService: ReportServiceService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.projectId = +paramMap.get('id');
     });
@@ -126,6 +131,7 @@ export class DetailComponent implements OnInit {
       } else if (this.username.substring(0, 2) == "SV") {
         this.isStudentLoggedIn = true;
       }
+      this.getAllReport();
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
@@ -171,12 +177,21 @@ export class DetailComponent implements OnInit {
     };
     console.log(this.studentConcern);
     this.studentConcernService.saveStudentConcern(this.studentConcern).subscribe(() => {
+      this.sendConcernEmail(this.studentConcern.studentCode);
       console.log('Create concern successful !');
       this.showSuccess();
     }, e => {
       console.log('Create concern failed !');
     }, () => {
       window.location.reload();
+    });
+  }
+
+  sendConcernEmail(studentCode: string) {
+    this.studentConcernService.sendEmail(studentCode).subscribe(() => {
+      console.log('Email sent !');
+    }, e => {
+      console.log('Send email failed !');
     });
   }
 
@@ -191,7 +206,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreConcern() {
     this.concernRecord += 1;
-    if (this.concernRecord > this.concernMaxSize) {
+    if (this.concernRecord > this.concernMaxSize + 1) {
       this.checkLoadMoreConcern = false;
     } else {
       this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(result => {
@@ -221,7 +236,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreAnnouncement() {
     this.announcementRecord += 1;
-    if (this.announcementRecord > this.announcementMaxSize) {
+    if (this.announcementRecord > this.announcementMaxSize + 1) {
       this.checkLoadMoreAnnouncement = false;
     } else {
       this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(result => {
@@ -247,7 +262,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement failed !');
     }, () => {
-      this.getAnnouncementList();
+      window.location.reload();
     });
   }
 
@@ -296,7 +311,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      this.getAnnouncementList();
+      window.location.reload();
     });
   }
 
@@ -342,6 +357,7 @@ export class DetailComponent implements OnInit {
     }
     console.log(this.commentOfConcern);
     this.commentConcernService.saveComment(this.commentOfConcern).subscribe(() => {
+      this.sendAnswerEmail(this.commentOfConcern.concernId);
       console.log('Create concern comment successful !');
       this.showSuccess();
     }, e => {
@@ -350,6 +366,15 @@ export class DetailComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  sendAnswerEmail(concernId: number) {
+    this.commentConcernService.sendEmail(concernId).subscribe(() => {
+      console.log('Email sent !');
+    }, e => {
+      console.log('Send email failed !');
+    });
+  }
+
   //------------------------------COMMENT REVIEW SANGLD----------------------------------------------------
   addNewReviewCommentForm() {
     this.commentReviewForm = new FormGroup({
@@ -371,12 +396,12 @@ export class DetailComponent implements OnInit {
 
   submitReviewComment() {
     const reviewComment = this.commentReviewForm;
-      this.commentOfReview = {
-        content: reviewComment.value.content,
-        studentCode: this.tokenStorageService.getUser().username,
-        avatar: this.avatar,
-        name: this.currentUsername,
-        reviewId: this.reviewId
+    this.commentOfReview = {
+      content: reviewComment.value.content,
+      studentCode: this.tokenStorageService.getUser().username,
+      avatar: this.avatar,
+      name: this.currentUsername,
+      reviewId: this.reviewId
     };
     console.log(this.commentOfReview);
     this.progressService.saveComment(this.commentOfReview).subscribe(() => {
@@ -464,12 +489,14 @@ export class DetailComponent implements OnInit {
   }
 
   loadMore() {
-    this.record += 4;
-    if (this.record >= this.maxSize) {
+    console.log("load more ok" + this.maxSize + ", " + this.record);
+    this.record += 1;
+    if (this.record >= this.maxSize + 1) {
       this.checkLoadMore = false;
     } else {
       this.progressService.getAllReview(this.record).subscribe(result => {
         this.reviewList = result;
+        console.log("load more ok 2");
       });
     }
   }
@@ -504,20 +531,25 @@ export class DetailComponent implements OnInit {
     });
   }
 
-    showSuccessReview(){
-      this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
-    };
+  showSuccessReview(){
+    this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
+  };
 
-    get title() {
-      return this.reviewForm.get('title');
-    }
+  get title() {
+    return this.reviewForm.get('title');
+  }
 
-    get content() {
-      return this.reviewForm.get('content');
-    }
+  get content() {
+    return this.reviewForm.get('content');
+  }
 
-    get progressReview() {
-      return this.reviewForm.get('progressReview');
-    }
+  get progressReview() {
+    return this.reviewForm.get('progressReview');
+  }
+
+  getAllReport(){
+    this.reportServiceService.getAll().subscribe(report=>{
+      this.reportList=report;
+    })
+  }
 }
-

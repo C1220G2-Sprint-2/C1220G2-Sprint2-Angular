@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {ProgressTeamComponent} from './progress-team/progress-team.component';
 import {ReviewComponent} from './review/review.component';
 import {DetailComponent} from './detail/detail.component';
@@ -24,4 +24,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProgressManagementRoutingModule { }
+export class ProgressManagementRoutingModule {
+}

@@ -18,10 +18,10 @@
             <tbody>
             <tr>
               <td>
-                <b><p>Thể loại:</p></b>
+                <b><p>Danh mục đề tài:</p></b>
               </td>
               <td>
-<!--                <p >{{project.category.name}}</p>-->
+                <p >{{project.category.name}}</p>
               </td>
             </tr>
             <tr >
@@ -37,7 +37,7 @@
                 <b><p>Nhóm thực hiện:</p></b>
               </td>
               <td>
-<!--                <p>{{project.team.name}}</p>-->
+                <p>{{project.team.name}}</p>
               </td>
             </tr>
             <tr>
@@ -45,9 +45,18 @@
                 <b><p>Thời hạn hoàn thành:</p></b>
               </td>
               <td>
+                <p *ngIf="project.deadline == null"> Chưa có thời hạn</p>
                 <p>{{project.deadline}}</p>
               </td>
             </tr>
+            <tr>
+              <td>
+                <b><p>Giáo viên hướng dẫn:</p></b>
+              </td>
+              <td>
+                <p>{{project.teacher.name}}</p>
+              </td>
+
           </table>
         </div>
         <div class="col text-center">
@@ -56,8 +65,10 @@
                   style="background-color: #616C8C; color: white; border-radius: 1.5rem" [routerLink]="['/de-tai/danh-sach-de-tai']">Quay lại
           </button>
         </div>
+        <div style="height: 50px"></div>
       </div>
     </div>
     <div class="col-1"></div>
+
   </div>
 </div>

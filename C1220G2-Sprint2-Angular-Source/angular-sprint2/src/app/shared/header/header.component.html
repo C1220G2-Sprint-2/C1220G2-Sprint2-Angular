@@ -167,10 +167,12 @@
 
          <!-- group chat list of user -->
          <a class="dropdown-item d-flex align-items-center" (click)="goToGroupChat(group.groupName)"
-            *ngFor="let group of groups">
+            *ngFor="let group of groups; let i = index">
             <div class="font-weight-bold">
                 <div class="text-truncate">{{ group.groupName }}</div>
                 <div class="small text-gray-500">{{ group.owner }} · chủ phòng</div>
+                <!-- <div *ngIf="hasNewMessages[i]" class="small text-gray-600">Có tin nhắn mới.</div> -->
+                <div *ngIf="group.hasNewMsg" class="small text-gray-600">Có tin nhắn mới.</div>
             </div>
         </a>
 

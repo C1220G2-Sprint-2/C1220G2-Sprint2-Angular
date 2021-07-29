@@ -38,7 +38,7 @@ export class SidenavComponent implements OnInit {
   }
 
 
-     loadData() {
+  loadData() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
@@ -52,6 +52,7 @@ export class SidenavComponent implements OnInit {
         this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
         this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
         this.username = user.username;
+        this.name = user.name;
         console.log(this.username)
         this.userId = user.id;
         console.log(this.userId)
