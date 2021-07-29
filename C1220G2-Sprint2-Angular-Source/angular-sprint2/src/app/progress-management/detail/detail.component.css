@@ -519,3 +519,8 @@ body {
   background: #04AA6D;
   cursor: pointer;
 }
+
+.create-button {
+  width: 200px !important;
+  height: 50px !important;
+}

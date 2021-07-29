@@ -24,6 +24,7 @@ import {NgxLoadingModule} from "ngx-loading";
 import {TeacherModule} from './teacher/teacher.module';
 import {AngularFireDatabaseModule } from '@angular/fire/database';
 import {AngularFireModule} from "@angular/fire";
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {AngularFireModule} from "@angular/fire";
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    NgxSpinnerModule
 
   ],
 
