@@ -32,6 +32,7 @@ export class CreateStudentComponent implements OnInit {
     this.studentService.findAll().subscribe(value => {
       this.listStudent = value;
     });
+
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
     });
@@ -60,7 +61,7 @@ export class CreateStudentComponent implements OnInit {
   }
 
 
-  listStudent: Student[];
+  listStudent: Student[] = [];
   messageEmail = "";
   checkEmail(email: string): boolean {
     this.messageEmail = "";
@@ -72,7 +73,10 @@ export class CreateStudentComponent implements OnInit {
     }
     return false;
   }
+
+
   submitForm() {
+    console.log("student list: " + this.listStudent);
     let student = this.studentForm.value;
     student.image = this.image;
     if (this.checkEmail(student.email)) {

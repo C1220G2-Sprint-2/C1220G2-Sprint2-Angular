@@ -40,7 +40,7 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
   getUsersNotInGroup() {
 
     this.usersNotInGroup = [];
-    this.userEmail = new FormControl('');
+    this.userEmail = new FormControl(this.userEmail.value, [Validators.required]);
 
     this.chatService.getGroupsUsers().subscribe(groupUsers => {
       if (this.usersInGroup.length > 0) this.usersInGroup = [];
@@ -86,6 +86,6 @@ export class ChatroomComponent implements OnInit, AfterViewChecked {
   }
 
   getNewMember(newMember: string) {
-    this.userEmail = new FormControl(newMember);
+    this.userEmail = new FormControl(newMember, [Validators.required]);
   }
 }

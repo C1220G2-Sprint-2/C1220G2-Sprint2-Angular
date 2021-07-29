@@ -63,7 +63,9 @@
           <ng-template #other>
             <td *ngIf="st.status == null;  else tem2">
             Chưa có đề tài
+
             </td>
+
            <ng-template #tem2>
              <td>
              <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
@@ -71,6 +73,7 @@
              </button>
              </td>
            </ng-template>
+
           </ng-template>
           <td>
             <button class="btn font-weight-bold" style=" color: white;

@@ -4,6 +4,7 @@
 />
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
       integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 <div class="login-form" style="margin: 20px">
   <div class="container-fluid p-0">
     <h1 class="text-center p-5">Nhóm sinh viên</h1>
@@ -19,6 +20,7 @@
 <!--        </div>-->
 <!--      </div>-->
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+
       </div>
       <div class="col-md-4 col-lg-5"></div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
@@ -62,12 +64,15 @@
                       data-bs-target="#deleteModal"  [disabled]="studentTS.code != teamDB.teamLeader" (click)="guiThongtin(s)">
                 Xóa khỏi nhóm
               </button>
+
             </li>
           </ul>
         </div>
       </div>
+
       <div class="clearfix">
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
+
         <ul class="pagination">
           <li><input class="form-control" type="number" placeholder="Tìm"
                      style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageCard2"></li>
@@ -107,6 +112,7 @@
           <textarea class="form-control" formControlName="name" readonly [value]="project.content"  required></textarea></div>
         <div class="col-3"></div>
       </div>
+
       <p>Hình ảnh:</p>
       <div> <img style="width: 700px;  border-radius: 1%;
   box-shadow: 0 2px 12px 0 rgba(73,78,70,0.68);" [src]="project.image" alt="Lỗi hiển thị"></div>
@@ -121,6 +127,7 @@
     <div style="height: 30px"></div>
   </div>
 </div>
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -38,7 +38,7 @@ export class SidenavComponent implements OnInit {
   }
 
 
-     loadData() {
+  loadData() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
