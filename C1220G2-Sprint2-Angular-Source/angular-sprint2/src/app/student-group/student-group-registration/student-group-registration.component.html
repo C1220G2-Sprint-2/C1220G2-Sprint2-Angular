@@ -4,9 +4,11 @@
 />
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
       integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 <div class="login-form" style="margin: 20px">
   <div class="container-fluid p-0">
     <h1 class="text-center p-5">Đăng ký nhóm sinh viên</h1>
+
     <div class="row w-75 m-auto p-0">
       <div class="row" style="margin-right: 0px;">
         <div class="col-9"></div>
@@ -19,6 +21,7 @@
         </div>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+
       </div>
       <div class="col-md-4 col-lg-5"></div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
@@ -58,8 +61,10 @@
           </ul>
         </div>
       </div>
+
       <div class="clearfix">
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
+
         <ul class="pagination">
           <li><input class="form-control" type="number" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page"></li>
 <!--          <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
@@ -83,6 +88,7 @@
       </div>
     </div>
   </div>
+
   <div style="height: 50px"></div>
   <div class="container-xl w-75">
     <div >
@@ -124,7 +130,9 @@
                  data-bs-target="#deleteModal" (click)="guiThongtin(student)"><i style="color: red"
                                                   class="fas fa-trash-alt"></i></a>
             </td>
+
           </tr>
+
           </tbody>
         </table>
         <div class="clearfix">
@@ -151,6 +159,7 @@
           </ul>
         </div>
       </div>
+
     </div>
     <div style="height: 30px"></div>
   </div>
@@ -185,6 +194,8 @@
     </div>
   </div>
 </div>
+
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -195,6 +206,7 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa thành viên <span style="color:red;" > {{studentDelete.name}} </span> này ra khỏi danh sách đăng ký không?
       </div>
+
       <div class="modal-footer">
         <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Hủy bỏ</button>
         <button class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" (click)="delete(studentDelete.code)">Xóa</button>
