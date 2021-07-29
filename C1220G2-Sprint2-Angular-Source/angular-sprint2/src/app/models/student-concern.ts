@@ -7,4 +7,5 @@ export interface StudentConcern {
   avatar: string;
   name: string;
   dateCreate?: string;
+  projectId: number;
 }
