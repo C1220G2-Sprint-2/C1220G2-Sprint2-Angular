@@ -32,8 +32,8 @@ export class TeamManagementComponent implements OnInit {
   collection: any[] = this.listStudent;
   studentTS?: any = {};
   project: any = {};
-   teamDB: any ={};
-   studentDelete: any= {};
+  teamDB: any ={};
+  studentDelete: any= {};
 
 
   constructor(  private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {

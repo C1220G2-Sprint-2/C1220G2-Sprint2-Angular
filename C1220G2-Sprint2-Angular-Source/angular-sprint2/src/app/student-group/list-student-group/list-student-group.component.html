@@ -62,17 +62,17 @@
           </td>
           <ng-template #other>
             <td *ngIf="st.status == null;  else tem2">
-            Chưa có đề tài
+              Chưa có đề tài
 
             </td>
 
-           <ng-template #tem2>
-             <td>
-             <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
+            <ng-template #tem2>
+              <td>
+                <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
                                  border-radius: 1.5rem"  (click)="toProject()" > Duyệt
-             </button>
-             </td>
-           </ng-template>
+                </button>
+              </td>
+            </ng-template>
 
           </ng-template>
           <td>
@@ -81,7 +81,7 @@
             </button>
             <span style="width: 5px"></span>
             <button  class="delete btn font-weight-bold" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="border-radius: 40px;vertical-align: middle;font-size: 1.5rem;"
-               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem; color: red">&#xE872;</i>
+                     data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem; color: red">&#xE872;</i>
             </button>
           </td>
           <td>

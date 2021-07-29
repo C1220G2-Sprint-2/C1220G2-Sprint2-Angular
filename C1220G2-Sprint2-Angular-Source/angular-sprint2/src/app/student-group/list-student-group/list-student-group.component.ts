@@ -93,7 +93,7 @@ export class ListStudentGroupComponent implements OnInit {
         this.loading= false;
         this.showSuccessDelete()
       }, error => {
-      this.loading= false;
+        this.loading= false;
       }
     )
   }
