@@ -85,7 +85,7 @@ export class ListStudentComponent implements OnInit {
     let timerInterval;
     Swal.fire({
       title: '',
-      html: 'Vui lòng chờ trong <b></b> giây.',
+      html: 'Vui lòng chờ...',
       timer: 15000,
       timerProgressBar: true,
       didOpen: () => {
