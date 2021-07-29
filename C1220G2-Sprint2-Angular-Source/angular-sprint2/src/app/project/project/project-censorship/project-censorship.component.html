@@ -1,0 +1,155 @@
+<div class="container " >
+  <div class="row">
+    <div style="height: 100px;padding-top: 20px;  text-align: center; border-radius: 20px">
+      <h1> Kiểm duyệt đề tài</h1>
+    </div>
+    <div class="row" style="margin-right: 0px;">
+      <div class="col-9"></div>
+
+      <div class="col-3"
+           style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
+<!--        <input type="text" class="form-control" placeholder="Tìm kiếm..."-->
+<!--               style="display: inline-block; width: 85%;margin-top: 6px;">-->
+<!--        <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">-->
+<!--          <i class="fa fa-search" style="color: white"></i></button>-->
+      </div>
+    </div>
+    <div class="container mt-5" >
+      <div class="row" *ngIf="projectList.length != 0 ">
+        <ng-container *ngFor="let project of projectList| slice: (page-1) * pageSize : page * pageSize">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="our-team" >
+              <div class="picture">
+                <img class="img-fluid" src="{{project.image}}">
+              </div>
+              <div class="team-content">
+                <h3 class="name">{{project.name}}</h3>
+                <h4 class="title"><span> {{project.content}}</span></h4>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="clearfix" *ngIf="projectList.length != 0">
+        <ngb-pagination class="d-flex justify-content-end"
+                        [(page)]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="projectList.length"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [ellipses]="true"
+                        [boundaryLinks]="true">
+          <ng-template ngbPaginationFirst> << </ng-template>
+          <ng-template ngbPaginationLast> >> </ng-template>
+          <ng-template ngbPaginationPrevious> < </ng-template>
+          <ng-template ngbPaginationNext> > </ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title" style="text-align: center">
+        <h2>Danh sách đề tài cần phê duyệt </h2>
+      </div>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr style="text-align: center">
+          <th scope="col">STT</th>
+          <th scope="col">Tên nhóm<i class="fa fa-sort" (click)="sortName()"></i></th>
+          <th scope="col">Tên đề tài</th>
+          <th scope="col">Mô tả</th>
+          <th scope="col">Duyệt đề tài</th>
+          <th scope="col">Hủy đề tài</th>
+        </tr>
+        </thead>
+        <tbody style="text-align: center;">
+        <tr *ngFor="let project of projectListApprove | slice: (page1-1) * pageSize1 : page1 * pageSize1; index as i ">
+          <th scope="row">{{i+1}}</th>
+          <td>{{project.team.name}}</td>
+          <td>{{project.name}}</td>
+          <td>{{project.describe}}</td>
+          <td>
+            <button class="btn font-weight-bold" style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                    title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                    data-bs-target="#duyetModal" (click)="getData(project.id, project.name, project.team)"
+            >Duyệt</button>
+          </td>
+          <td>
+            <button class="btn font-weight-bold" style="background-color: #F22248; color: white; border-radius: 1.5rem"
+                    title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" (click)="getData(project.id, project.name, project.team_id)"
+            >Hủy</button>
+      </table>
+      <h3 *ngIf="projectListApprove.length == 0 " style="color: red; text-align: center">{{messageEmpty}}</h3>
+      <div class="clearfix" *ngIf="projectListApprove.length != 0">
+        <!--        <div class="hint-text">Hiển thị <b>4</b> trên <b>20</b> dòng</div>-->
+        <ngb-pagination class="d-flex justify-content-end"
+                        [(page)]="page1"
+                        [pageSize]="pageSize1"
+                        [collectionSize]="projectListApprove.length"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [ellipses]="true"
+                        [boundaryLinks]="true">
+          <ng-template ngbPaginationFirst> << </ng-template>
+          <ng-template ngbPaginationLast> >> </ng-template>
+          <ng-template ngbPaginationPrevious> < </ng-template>
+          <ng-template ngbPaginationNext> > </ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #d91a37">
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel">Hủy đề tài</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa đề tài  <span style="color: red">{{this.nameApprove}}</span> của <span style="color: red">{{teamName}}</span>  không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn font-weight-bold" data-bs-dismiss="modal"
+                style="background-color: #d91a37;color: white; border-radius: 1.5rem" (click)="notApproveProject()">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="duyetModal" tabindex="-1" aria-labelledby="duyetModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #4F9B65">
+        <h5 class="modal-title w-100 text-center text-white" id="duyetModalLabel">Phê duyệt đề tài</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn phê duyệt đề tài  <span style="color: red">{{this.nameApprove}}</span> của <span style="color: red">{{teamName}}</span>  không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn font-weight-bold" data-bs-dismiss="modal"
+                style="background-color: #4F9B65;color: white; border-radius: 1.5rem" (click)="approveProject()">Duyệt
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

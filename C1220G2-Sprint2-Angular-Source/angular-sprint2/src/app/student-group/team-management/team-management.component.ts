@@ -3,7 +3,7 @@ import {TeamService} from "../team.service";
 import {Router} from "@angular/router";
 
 import {TokenStorageService} from "../../security/token-storage.service";
-import {StudentGroupService} from "../student-group.service";
+import {StudentGroupService} from '../student-group.service';
 
 @Component({
   selector: 'app-team-management',
@@ -11,6 +11,9 @@ import {StudentGroupService} from "../student-group.service";
   styleUrls: ['./team-management.component.css']
 })
 export class TeamManagementComponent implements OnInit {
+  page: any = 1;
+  pageSize: any = 8;
+
   listStudent: any = [];
   listTeam: any[] = [];
 
@@ -27,12 +30,11 @@ export class TeamManagementComponent implements OnInit {
   check:boolean = true;
 
   collection: any[] = this.listStudent;
-  pageCard: number = 1;
   studentTS?: any = {};
   project: any = {};
    teamDB: any ={};
-  pageCard2: number = 1;
    studentDelete: any= {};
+
 
   constructor(  private tokenStorageService: TokenStorageService,private teamService: TeamService, private route: Router) {
   }

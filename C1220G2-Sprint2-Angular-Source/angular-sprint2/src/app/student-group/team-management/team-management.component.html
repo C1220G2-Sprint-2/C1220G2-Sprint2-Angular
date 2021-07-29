@@ -31,7 +31,7 @@
         <h4> Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
       </div>
       <div class="col-12 col-sm-6 col-md-3 col-lg-3"
-           *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard2 }">
+           *ngFor="let s of listStudent | slice : (page-1) * pageSize : page * pageSize">
         <div class="our-team" [ngStyle]="{'opacity': s.groupStatus}"  >
           <div class="picture">
             <img class="img-fluid" [src]="s.image">
@@ -74,17 +74,25 @@
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
 
         <ul class="pagination">
-          <li><input class="form-control" type="text" placeholder="Tìm"
-                     style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageCard2"></li>
+          <li><input class="form-control" type="number" placeholder="Tìm"
+                     style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page"></li>
 <!--          <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
 <!--          <li style="width: 20px"></li>-->
-          <pagination-controls (pageChange)="pageCard2 = $event"
-                               id="studentPage"
-                               previousLabel="<"
-                               nextLabel=">"
-                               screenReaderPaginationLabel="Pagination"
-                               screenReaderPageLabel="page"
-                               screenReaderCurrentLabel="You're on page"></pagination-controls>
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="listStudent.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
         </ul>
       </div>
     </div>
@@ -92,22 +100,24 @@
       <h4> Nhóm của bạn chưa đăng ký đề tài.</h4>
     </div>
     <div *ngIf="project!= null" style="text-align: center;margin: 30px 0">
-     <div class="row">
+     <div class="row" style="margin-top: 50px">
        <div class="col-3"></div>
        <div class="col-6"> <p><b> Tên đề tài: </b></p>
          <input type="text" class="form-control" style="text-align: center" formControlName="name" readonly  [value]="project.name"  required></div>
        <div class="col-3"></div>
      </div>
-      <div class="row">
+      <div class="row" style="margin-top: 50px">
         <div class="col-3"></div>
         <div class="col-6"> <p> <b>Nội dung đề tài:  </b></p>
           <textarea class="form-control" formControlName="name" readonly [value]="project.content"  required></textarea></div>
         <div class="col-3"></div>
       </div>
-
-      <p>Hình ảnh:</p>
-      <div> <img style="width: 700px;  border-radius: 1%;
+      <p style="margin-top: 50px"> <b> Hình ảnh: </b></p>
+      <div> <img style="width: 800px;  border-radius: 1%;
   box-shadow: 0 2px 12px 0 rgba(73,78,70,0.68);" [src]="project.image" alt="Lỗi hiển thị"></div>
+
+      <div style="height: 30px"></div>
+    </div>
     </div>
     <div>
       <button class="btn font-weight-bold"
@@ -116,8 +126,7 @@
               data-bs-toggle="modal" data-bs-target="#taoNhom" routerLink="/de-tai/dang-ky">Đăng ký đề tài
       </button>
     </div>
-    <div style="height: 30px"></div>
-  </div>
+<div style="height: 50px"></div>
 </div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

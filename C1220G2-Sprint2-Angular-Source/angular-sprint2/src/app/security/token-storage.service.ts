@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-
-
+import {Injectable} from '@angular/core';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 @Injectable({
@@ -9,26 +7,38 @@ const USER_KEY = 'auth-user';
 export class TokenStorageService {
   constructor() {
   }
-
   signOut(): void {
-    window.localStorage.clear();
+    sessionStorage.clear();
+    localStorage.clear();
   }
-
   public saveToken(token: string): void {
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.setItem(TOKEN_KEY, token);
+  }
+  public saveTokenInLocalStorage(token: string): void {
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
   }
-
   public getToken(): string {
-    return localStorage.getItem(TOKEN_KEY);
+    if (sessionStorage.getItem(TOKEN_KEY) != null) {
+      return sessionStorage.getItem(TOKEN_KEY);
+    } else {
+      return localStorage.getItem(TOKEN_KEY);
+    }
   }
-
   public saveUser(user): void {
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+  public saveUserInLocalStorage(user){
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-
   public getUser(): any {
-    return JSON.parse(localStorage.getItem(USER_KEY));
+    if (sessionStorage.getItem(USER_KEY) != null) {
+      return JSON.parse(sessionStorage.getItem(USER_KEY));
+    } else {
+      return JSON.parse(localStorage.getItem(USER_KEY));
+    }
   }
 }

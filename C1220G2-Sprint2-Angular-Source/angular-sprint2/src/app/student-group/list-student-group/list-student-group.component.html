@@ -11,24 +11,22 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 </head>
 <body>
 <div class="container">
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
-
         <div class="row" style="margin-right: 0px;">
           <div class="col-9">
-            <h1 style="margin-top: 20px" >Quản lý nhóm <span>Sinh viên</span></h1>
+            <h1 style="margin-top: 20px">Quản lý nhóm <span>Sinh viên</span></h1>
           </div>
           <div class="col-3"
                style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
-            <input type="text" class="form-control" placeholder="Tìm kiếm..."
+            <input type="text" class="form-control" placeholder="Tìm kiếm..." [(ngModel)]="search"
                    style="display: inline-block; width: 85%;margin-top: 6px;">
-            <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">
-              <i class="fa fa-search" style="color: white"></i></button>
+            <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;" (click)="searchAll()">
+              <i class="fa fa-search" style="color: white" ></i></button>
           </div>
         </div>
       </div>
@@ -37,7 +35,7 @@
         <tr>
           <th scope="col">STT</th>
           <th scope="col">Tên nhóm</th>
-          <th scope="col">Số sinh viên</th>
+          <th scope="col">Mã sinh viên</th>
           <th scope="col">Thời hạn chót nộp đề tài</th>
           <th scope="col">Đã kiểm duyệt</th>
           <th scope="col">Chức năng</th>
@@ -45,54 +43,83 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let student of studentGroupList ; index as i ">
-        <td>{{i+1}}</td>
-        <td>{{student.name}}</td>
-        <td>{{student.teamLeader}}</td>
-        <td>22-02-2021</td>
-        <td>Duyệt</td>
-        <td>
-          <button class="btn font-weight-bold" style=" color: white;
-                                 border-radius: 1.5rem"><i  class="fa fa-eye text-success"></i>
-          </button>
-          <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
-             data-bs-target="#exampleModal" (click)="getIdStudentgroup(student.id)"><i class="material-icons fa-5x" style="width: 1.5rem">&#xE872;</i>
-          </a>
-        </td>
+        <tr *ngFor="let st of teamList  | slice: (page-1) * pageSize : page * pageSize; index as i ">
+          <td>{{i + 1}}</td>
+          <td>{{st.name}}</td>
+          <td>{{st.teamLeader}}</td>
+          <td *ngIf="st.deadline;else de">
+            {{st.deadline}}
+          </td>
+          <ng-template #de >
+            <td style="vertical-align: middle">
+              <span >Chưa có thời hạn</span>
+            </td>
+          </ng-template>
+          <td *ngIf="st.status; else other" >
+            <button class="btn font-weight-bold btn-primary" style="min-width: 55%;
+                                 border-radius: 1.5rem" disabled>Đã Duyệt
+            </button>
+          </td>
+          <ng-template #other>
+            <td *ngIf="st.status == null;  else tem2">
+            Chưa có đề tài
+
+            </td>
+
+           <ng-template #tem2>
+             <td>
+             <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
+                                 border-radius: 1.5rem"  (click)="toProject()" > Duyệt
+             </button>
+             </td>
+           </ng-template>
+
+          </ng-template>
           <td>
-            <button class="btn font-weight-bold "  data-toggle="tooltip" data-bs-toggle="modal"
+            <button class="btn font-weight-bold" style=" color: white;padding: 11px 12px;margin-right: 3px;
+                                 border-radius: 1.5rem" (click)="toDetail(st.id)" ><i class="fa fa-eye text-success"></i>
+            </button>
+            <span style="width: 5px"></span>
+            <button  class="delete btn font-weight-bold" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="border-radius: 40px;vertical-align: middle;font-size: 1.5rem;"
+               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem; color: red">&#xE872;</i>
+            </button>
+          </td>
+          <td>
+            <button class="btn font-weight-bold " data-toggle="tooltip" data-bs-toggle="modal"
                     data-bs-target="#exampleModal1" style="
-                                border-radius: 1.5rem"><i class="far fa-clock"></i>
+                                border-radius: 1.5rem" (click)="getIdStudentGroup(st.id)"><i class="far fa-clock"></i>
             </button>
           </td>
         </tr>
+        <tr *ngIf="teamList.length ==0" style="text-align: center">
+          <td colspan="7" ><span style="color: red">Chưa có Nhóm nào được đăng ký</span></td>
+        </tr>
         </tbody>
       </table>
-
-
-
       <div class="clearfix">
+        <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
         <ul class="pagination">
-          <li class="page-item disabled"><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
-          <li class="page-item disabled"><a href="#"><i class="fas fa-angle-left"></i></a></li>
-          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item"><a href="#" class="page-link">...</a></li>
-          <li class="page-item"><a href="#" class="page-link">9</a></li>
-          <li class="page-item"><a href="#" class="page-link">10</a></li>
-          <li class="page-item"><a href="#"><i class="fas fa-angle-right"></i></a></li>
-          <li class="page-item"><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+          <li><input class="form-control" type="number" placeholder="Tìm" [(ngModel)]="page" style="height: 30px;width: 55px; border-radius: 20px"></li>
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="teamList.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
         </ul>
       </div>
-
-
-
-
     </div>
   </div>
 </div>
-
-
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -121,33 +148,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
-
-
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #4F9B65">
-        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót tạo dự án</h5>
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót nộp dự án</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Chọn ngày: <input type="datetime-local">
+        Nhập ngày hạn chót: <input type="date" [(ngModel)]="date">
       </div>
       <div class="modal-footer">
-
         <button type="button" class="btn font-weight-bold"
                 style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
           Hủy
         </button>
         <button class="btn font-weight-bold" style="background-color: #4F9B65;color: white;
-                border-radius: 1.5rem ; min-width: 20%" data-bs-dismiss="modal">Đồng ý</button>
+                border-radius: 1.5rem ; min-width: 20%" data-bs-dismiss="modal" (click)="getStudentGroup()">Đồng ý
+        </button>
       </div>
     </div>
   </div>
 </div>
-
-
-
 </body>
 </html>
-
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }" ></ngx-loading>

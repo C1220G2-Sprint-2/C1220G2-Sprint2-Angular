@@ -25,7 +25,6 @@ export class EditStudentComponent implements OnInit {
   studentForm: FormGroup;
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
-  emailOld: string = "";
 
   constructor(private activatedRoute: ActivatedRoute,
               private studentService: StudentService,
@@ -38,24 +37,15 @@ export class EditStudentComponent implements OnInit {
       this.listStudent = value;
     });
   this.codeStudent = this.activatedRoute.snapshot.params.code;
+  this.studentService.findAll().subscribe(value => {
+    this.listStudent = value;
+  });
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
       this.studentService.findAllFaculty().subscribe(value => {
         this.listFaculty = value;
         this.studentService.findById(this.codeStudent).subscribe(value => {
           this.student = value;
-          for(let i =0; i<this.listClass.length; i++){
-            if (this.student.classStudent == String(this.listClass[i].id)){
-              this.student.classStudent = this.listClass[i].name;
-            }
-          }
-          for(let i =0; i<this.listFaculty.length; i++){
-            if (this.student.faculty == String(this.listFaculty[i].id)){
-              this.student.faculty = this.listFaculty[i].name;
-            }
-          }
-          this.emailOld = this.student.email;
-          console.log(this.student);
           this.studentForm = new FormGroup({
             name: new FormControl(this.student.name, [Validators.maxLength(50),Validators.required,Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
             gender: new FormControl(this.student.gender, Validators.required),
@@ -109,6 +99,28 @@ export class EditStudentComponent implements OnInit {
   }
   listStudent: Student[];
   messageEmail = "";
+
+       if (this.checkEmail(temp.email)){
+       }else{
+         this.delay();
+         this.studentService.edit(temp).subscribe(value => {
+           this.router.navigateByUrl("/hoc-sinh/danh-sach");
+           this.callToastr();
+         })
+       }
+     }
+     listStudent: Student[];
+     messageEmail = "";
+     checkEmail(email: string): boolean{
+       this.messageEmail = "";
+       for (let i=0; i<this.listStudent.length; i++){
+         if (email == this.listStudent[i].email && email != this.emailOld){
+           this.messageEmail = "Email đã có người sử dụng";
+           return true;
+         }
+       }
+       return false;
+     }
 
   checkEmail(email: string): boolean{
     this.messageEmail = "";

@@ -5,11 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenStorageService } from 'src/app/security/token-storage.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-
-
-
-
-
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -23,8 +18,11 @@ export class SidenavComponent implements OnInit {
   showStudentBoard = false;
   username: string;
   userId: number;
-  name: string;
+
   user;
+  name: string;
+
+
   studentTS: any = {};
 
 
@@ -40,18 +38,11 @@ export class SidenavComponent implements OnInit {
   }
 
 
-   loadData() {
+  loadData() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-      this.roles = user.roles;
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
-      this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
-      this.username = user.username;
-      this.userId = user.id;
-      this.name = user.name;
-      if (user.username.charAt("SV") != -1) {
+      if (user.username.startsWith('SV')) {
         this.teamService.getStudent(user.username).subscribe(data => {
           this.studentTS = data;
           console.log(this.studentTS);
@@ -61,6 +52,7 @@ export class SidenavComponent implements OnInit {
         this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
         this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
         this.username = user.username;
+        this.name = user.name;
         console.log(this.username)
         this.userId = user.id;
         console.log(this.userId)
@@ -68,7 +60,6 @@ export class SidenavComponent implements OnInit {
       this.user = this.tokenStorageService.getUser();
       console.log(this.user)
     }
-
 
   }
 }
