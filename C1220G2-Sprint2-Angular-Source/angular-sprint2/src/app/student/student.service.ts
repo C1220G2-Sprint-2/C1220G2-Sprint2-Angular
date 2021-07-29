@@ -14,7 +14,7 @@ export class StudentService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.URL);
+    return this.http.get<Student[]>(this.URL+'/student');
   }
   findSearch(keyword: string): Observable<Student[]> {
 
@@ -30,7 +30,6 @@ export class StudentService {
 
   edit(student: Student): Observable<void>{
     return this.http.put<void>(this.URL + '/' + student.code, student);
-
   }
   delete(code: string): Observable<void>{
     return this.http.delete<void>(this.URL +'/'+ code);

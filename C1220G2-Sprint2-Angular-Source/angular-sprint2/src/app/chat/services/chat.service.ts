@@ -110,7 +110,8 @@ export class ChatService {
   }
 
   getMessages(): Observable<ChatMessage[]> {
-    return this.db.list('/messages', ref => ref.orderByChild('timeSend').limitToLast(10)).valueChanges();
+    // return this.db.list('/messages', ref => ref.orderByChild('timeSend').limitToLast(10)).valueChanges();
+    return this.db.list('/messages', ref => ref.orderByChild('timeSend')).valueChanges();
   }
 
 

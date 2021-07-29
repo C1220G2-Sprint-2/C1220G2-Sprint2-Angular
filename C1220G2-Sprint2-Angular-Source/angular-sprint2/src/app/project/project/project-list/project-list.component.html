@@ -1,0 +1,94 @@
+<div class="container " style="margin-top:10px">
+  <div class="row">
+    <div style="height: 100px;padding-top: 20px;  text-align: center; border-radius: 20px">
+      <h1> Danh sách đề tài</h1>
+    </div>
+
+    <div class="row" style="margin-right: 0px;">
+      <div class="col-9 mt-2">
+        <button class="btn font-weight-bold"
+                style="float: left; margin-top: 10px;height: 50px;;background-color: #4F9B65;
+                color: white;width: 180px; border-radius: 1.5rem;"
+                routerLink="/de-tai/kiem-duyet-de-tai">Kiểm duyệt đề tài
+        </button>
+      </div>
+      <div class="col-3"
+           style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">
+
+        <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..."
+               style="display: inline-block; width: 85%;margin-top: 6px;" (change)="getKeyword($event)">
+        <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;"
+                (click)="searchProject()">
+          <i class="fa fa-search" style="color: white"></i></button>
+
+      </div>
+    </div>
+    <div class="container mt-5">
+      <h3 *ngIf="projectList.length == 0" style="color: red; text-align: center">{{this.messageEmpty}}</h3>
+      <div class="row">
+        <ng-container *ngFor="let project of projectList| slice: (page-1) * pageSize : page * pageSize">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="our-team">
+              <div class="picture">
+                <img class="img-fluid" src="{{project.image}}">
+              </div>
+              <div class="team-content">
+                <h3 class="name">{{project.name}}</h3>
+                <h4 class="title"><span> {{project.content}}</span></h4>
+              </div>
+              <div class="social">
+                <button class="btn font-weight-bold" style="float:left; background-color: #0498D6; color: white"
+                        [routerLink]="['/de-tai/chi-tiet/',project.id]">Chi tiết
+                </button>
+                <button class="btn font-weight-bold" style="float: right; background-color: #F22248; color: white"
+                        title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" (click)="getData(project.id, project.name)">Xóa đề tài
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="clearfix" *ngIf="projectList.length != 0">
+        <ngb-pagination class="d-flex justify-content-end"
+                        [(page)]="page"
+                        [pageSize]="pageSize"
+                        [collectionSize]="projectList.length"
+                        [maxSize]="5"
+                        [rotate]="true"
+                        [ellipses]="true"
+                        [boundaryLinks]="true">
+          <ng-template ngbPaginationFirst> <<</ng-template>
+          <ng-template ngbPaginationLast> >></ng-template>
+          <ng-template ngbPaginationPrevious> <</ng-template>
+          <ng-template ngbPaginationNext> ></ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #d91a37">
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel">Xóa đề tài</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa đề tài <span style="color: red">{{this.nameDelete}}</span> không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold"
+                style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button type="button" class="btn font-weight-bold" data-bs-dismiss="modal"
+                style="background-color: #d91a37;color: white; border-radius: 1.5rem" (click)="deleteProject()">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,11 +4,9 @@
 />
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
       integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
 <div class="login-form" style="margin: 20px">
   <div class="container-fluid p-0">
     <h1 class="text-center p-5">Đăng ký nhóm sinh viên</h1>
-
     <div class="row w-75 m-auto p-0">
       <div class="row" style="margin-right: 0px;">
         <div class="col-9"></div>
@@ -21,7 +19,6 @@
         </div>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-
       </div>
       <div class="col-md-4 col-lg-5"></div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
@@ -31,7 +28,7 @@
       <div *ngIf="listStudent.length==0" style="text-align: center;margin: 100px 0" >
         <h4 > Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
       </div>
-      <div class="col-12 col-sm-6 col-md-3 col-lg-3" *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard }">
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3" *ngFor="let s of listStudent | slice: (page-1) * pageSize : page * pageSize">
         <div class="our-team">
           <div class="picture">
             <img class="img-fluid" [src]="s.image">
@@ -61,26 +58,31 @@
           </ul>
         </div>
       </div>
-
       <div class="clearfix">
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
-
         <ul class="pagination">
-          <li><input class="form-control" type="number" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageCard"></li>
+          <li><input class="form-control" type="number" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page"></li>
 <!--          <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
 <!--          <li style="width: 20px"></li>-->
-          <pagination-controls (pageChange)="pageCard = $event"
-                               id="studentPage"
-                               previousLabel="<"
-                               nextLabel=">"
-                               screenReaderPaginationLabel="Pagination"
-                               screenReaderPageLabel="page"
-                               screenReaderCurrentLabel="You're on page"></pagination-controls>
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="listStudent.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
         </ul>
       </div>
     </div>
   </div>
-
   <div style="height: 50px"></div>
   <div class="container-xl w-75">
     <div >
@@ -109,7 +111,7 @@
           <tr *ngIf="listTeam.length==0" style="text-align: center;" >
             <td colspan="6" > Bạn chưa thêm học sinh vào kho dữ liệu</td>
           </tr>
-          <tr *ngFor="let student of listTeam | paginate: {id: 'teamPage', itemsPerPage: 5, currentPage: page }; index as i">
+          <tr *ngFor="let student of listTeam | slice : (page2-1) * pageSize2 : page2 * pageSize2; index as i">
             <td class="font-weight-bold">{{i+1}}</td>
             <td>{{student.name}}
               <i class="fas fa-star" *ngIf="student.code == studentTS.code"></i>
@@ -122,33 +124,38 @@
                  data-bs-target="#deleteModal" (click)="guiThongtin(student)"><i style="color: red"
                                                   class="fas fa-trash-alt"></i></a>
             </td>
-
           </tr>
-
           </tbody>
         </table>
         <div class="clearfix">
           <span style="color: red" *ngIf="listTeam.length<5 || listTeam.length > 10 ">Nhóm phải có ít nhất 5 thành viên và nhiều nhất 10 thành viên.</span>
           <ul class="pagination">
-            <li><input class="form-control" type="number" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page"></li>
+            <li><input class="form-control" type="number" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="page2"></li>
 <!--            <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
 <!--            <li style="width: 20px"></li>-->
-            <pagination-controls (pageChange)="page = $event"
-                                 id="teamPage"
-                                 previousLabel="<"
-                                 nextLabel=">"
-                                 screenReaderPaginationLabel="Pagination"
-                                 screenReaderPageLabel="page"
-                                 screenReaderCurrentLabel="You're on page"></pagination-controls>
+            <ngb-pagination class="d-flex justify-content-end"
+                            [(page)]="page2"
+                            [pageSize]="pageSize2"
+                            [collectionSize]="listTeam.length"
+                            [maxSize]="5"
+                            [rotate]="true"
+                            [ellipses]="true"
+                            [boundaryLinks]="true">
+              <ng-template ngbPaginationFirst> << </ng-template>
+              <ng-template ngbPaginationLast> >> </ng-template>
+              <ng-template ngbPaginationPrevious> < </ng-template>
+              <ng-template ngbPaginationNext> > </ng-template>
+              <ng-template ngbPaginationEllipsis>...</ng-template>
+              <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+            </ngb-pagination>
           </ul>
         </div>
       </div>
-
     </div>
     <div style="height: 30px"></div>
   </div>
   <div class="row" style="margin-bottom: 10px; ">
-    <button class="btn font-weight-bold"
+    <button href="#" class="btn font-weight-bold"
             style="background-color: #4F9B65; color: white;width: 180px; border-radius: 1.5rem; margin-left: 45%" [disabled]="listTeam.length==0 || studentTS.team.id != 1 || listTeam.length<5 || listTeam.length > 10 "
             data-bs-toggle="modal" data-bs-target="#taoNhom">Tạo nhóm
     </button>
@@ -171,7 +178,6 @@
                             Tên nhóm phải lớn hơn 5 ký tự!
                         </span>
       </div>
-
       <div class="modal-footer">
         <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Hủy bỏ</button>
         <button (click)="createTeam()"  [disabled]="checkName ||  nameTeam.length<5" class="btn font-weight-bold" style="background-color: #4F9B65; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Thêm mới</button>
@@ -179,8 +185,6 @@
     </div>
   </div>
 </div>
-
-
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -191,7 +195,6 @@
       <div class="modal-body">
         Bạn có chắc chắn muốn xóa thành viên <span style="color:red;" > {{studentDelete.name}} </span> này ra khỏi danh sách đăng ký không?
       </div>
-
       <div class="modal-footer">
         <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Hủy bỏ</button>
         <button class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" (click)="delete(studentDelete.code)">Xóa</button>
@@ -199,4 +202,4 @@
     </div>
   </div>
 </div>
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }" ></ngx-loading>

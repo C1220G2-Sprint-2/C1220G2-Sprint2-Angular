@@ -10,6 +10,7 @@ import {Class} from "../../model/class";
 import {Faculty} from "../../model/faculty";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
+import { Student } from 'src/app/model/student';
 
 @Component({
   selector: 'app-create-student',
@@ -26,7 +27,12 @@ export class CreateStudentComponent implements OnInit {
   studentForm: FormGroup;
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
+
   ngOnInit(): void {
+    this.studentService.findAll().subscribe(value => {
+      this.listStudent = value;
+    });
+
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
     });
@@ -55,18 +61,34 @@ export class CreateStudentComponent implements OnInit {
   }
 
 
+  listStudent: Student[] = [];
+  messageEmail = "";
+  checkEmail(email: string): boolean {
+    this.messageEmail = "";
+    for (let i = 0; i < this.listStudent.length; i++) {
+      if (email == this.listStudent[i].email) {
+        this.messageEmail = "Email đã có người sử dụng";
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   submitForm() {
-    this.delay();
+    console.log("student list: " + this.listStudent);
     let student = this.studentForm.value;
     student.image = this.image;
-    console.log(student);
-    this.studentService.create(student).subscribe(() => {
-      this.callToastr();
-    }, e => {
-
-    }, () =>{
-      this.router.navigateByUrl('/hoc-sinh/danh-sach');
-    });
+    if (this.checkEmail(student.email)) {
+    } else {
+      this.delay();
+      this.studentService.create(student).subscribe(() => {
+        this.callToastr();
+      }, e => {
+      }, () => {
+        this.router.navigateByUrl('/hoc-sinh/danh-sach');
+      });
+    }
   }
 
   selectedImage: any;

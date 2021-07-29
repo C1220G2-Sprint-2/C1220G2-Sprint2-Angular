@@ -1,0 +1,147 @@
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+<div class="login-form" style="margin: 20px">
+  <div class="container-fluid p-0">
+    <h1 class="text-center p-5">Nhóm sinh viên</h1>
+    <div class="row w-75 m-auto p-0">
+<!--      <div class="row" style="margin-right: 0px;">-->
+<!--        <div class="col-9"></div>-->
+<!--        <div class="col-3"-->
+<!--             style="margin-top: 20px;height: 52px; ; background:  #4F9B65; border-radius: 20px">-->
+<!--          <input type="text" class="form-control" placeholder="Tìm kiếm..."-->
+<!--                 style="display: inline-block; width: 82%;margin-top: 6px;">-->
+<!--          <button class="btn btn-default" title="Reload" style="display: inline-block; float: right;margin-top: 6px;">-->
+<!--            <i class="fa fa-search" style="color: white"></i></button>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+
+      </div>
+      <div class="col-md-4 col-lg-5"></div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-3">
+      </div>
+    </div>
+    <div class="row w-75 m-auto p-0">
+      <div *ngIf="listStudent.length==0" style="text-align: center;margin: 100px 0">
+        <h4> Học sinh bạn tìm kiếm chưa có trong kho dữ liệu</h4>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3"
+           *ngFor="let s of listStudent | paginate: { id: 'studentPage',itemsPerPage: 8, currentPage: pageCard2 }">
+        <div class="our-team" [ngStyle]="{'opacity': s.groupStatus}"  >
+          <div class="picture">
+            <img class="img-fluid" [src]="s.image">
+          </div>
+          <div class="team-content">
+            <h4 class="name">{{s.name}}</h4>
+            <hr>
+            <p>
+<!--              <i class="fas fa-file-code margin_right" ></i> -->
+              <b>Mã sinh viên: </b>{{s.code}}</p>
+            <p>
+<!--              <i class="fas fa-envelope margin_right"></i>-->
+              <b>Email: </b>{{s.email}}</p>
+            <p>
+<!--              <i class="fas fa-phone-alt margin_right"></i>-->
+              <b>ĐT: </b>{{s.phone}}</p>
+            <p>
+<!--              <i class="fa fa-birthday-cake margin_right" aria-hidden="true"></i>-->
+              <b>Ngày
+              sinh: </b>{{s.dateOfBirth | date:"dd/MM/y"}}</p>
+            <p>
+<!--              <i class="fas fa-sitemap margin_right"></i> -->
+              <b>Lớp: </b>{{s.aClass.name}}</p>
+            <p style="text-align: center;background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(79,155,101,1) 70%, rgba(0,255,64,1) 100%)">   <i class="fas fa-star"  *ngIf="s.code == teamDB.teamLeader"></i></p>
+          </div>
+          <ul class="social">
+            <li>
+              <button class="btn font-weight-bold delete"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"  title="Delete" data-toggle="tooltip" data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"  [disabled]="studentTS.code != teamDB.teamLeader" (click)="guiThongtin(s)">
+                Xóa khỏi nhóm
+              </button>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
+
+        <ul class="pagination">
+          <li><input class="form-control" type="number" placeholder="Tìm"
+                     style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageCard2"></li>
+<!--          <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
+<!--          <li style="width: 20px"></li>-->
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="listStudent.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="project== null" style="text-align: center;margin: 50px 0">
+      <h4> Nhóm của bạn chưa đăng ký đề tài.</h4>
+    </div>
+    <div *ngIf="project!= null" style="text-align: center;margin: 30px 0">
+     <div class="row">
+       <div class="col-3"></div>
+       <div class="col-6"> <p><b> Tên đề tài: </b></p>
+         <input type="text" class="form-control" style="text-align: center" formControlName="name" readonly  [value]="project.name"  required></div>
+       <div class="col-3"></div>
+     </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6"> <p> <b>Nội dung đề tài:  </b></p>
+          <textarea class="form-control" formControlName="name" readonly [value]="project.content"  required></textarea></div>
+        <div class="col-3"></div>
+      </div>
+
+      <p>Hình ảnh:</p>
+      <div> <img style="width: 700px;  border-radius: 1%;
+  box-shadow: 0 2px 12px 0 rgba(73,78,70,0.68);" [src]="project.image" alt="Lỗi hiển thị"></div>
+    </div>
+    <div>
+      <button class="btn font-weight-bold"
+              style="background-color: #4F9B65; color: white;width: 180px; border-radius: 1.5rem; margin-left: 45%"
+              [disabled]="check== false || project != null"
+              data-bs-toggle="modal" data-bs-target="#taoNhom" routerLink="/de-tai/dang-ky">Đăng ký đề tài
+      </button>
+    </div>
+    <div style="height: 30px"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style=" background: #4F9B65; color: white">
+        <h5 class="modal-title" id="">Xóa thành viên khỏi danh sách</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa thành viên <span style="color:red;" > {{studentDelete.name}} </span> này ra khỏi danh sách nhóm không?
+      </div>
+      <div class="modal-footer">
+        <button class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Hủy bỏ</button>
+        <button class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" (click)="deleteStudent(studentDelete)">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>

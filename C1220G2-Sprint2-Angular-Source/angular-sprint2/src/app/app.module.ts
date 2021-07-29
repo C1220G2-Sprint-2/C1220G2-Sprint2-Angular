@@ -28,7 +28,7 @@ import {AngularFireModule} from "@angular/fire";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
 
   imports: [
@@ -46,8 +46,6 @@ import {AngularFireModule} from "@angular/fire";
     NgxLoadingModule.forRoot({}),
     StudentModule,
     AngularFireModule.initializeApp(environment.firebase),  // Thống nhất dùng firebase này nha mn - kha
-    // AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
