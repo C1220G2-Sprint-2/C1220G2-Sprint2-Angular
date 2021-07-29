@@ -9,6 +9,7 @@ import {Class} from "../../model/class";
 import {Faculty} from "../../model/faculty";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
+import {Student} from "../../model/student";
 
 @Component({
   selector: 'app-create-student',
@@ -26,6 +27,9 @@ export class CreateStudentComponent implements OnInit {
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
   ngOnInit(): void {
+    this.studentService.findAll().subscribe(value => {
+      this.listStudent = value;
+    });
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
     });
@@ -53,19 +57,47 @@ export class CreateStudentComponent implements OnInit {
     return check ? null : {'invalid18' : true};
   }
 
+  listStudent: Student[];
+  messageEmail = "";
+
+  checkEmail(email: string): boolean{
+    this.messageEmail = "";
+      for (let i=0; i<this.listStudent.length; i++){
+        if (email == this.listStudent[i].email){
+          this.messageEmail = "Email đã có người sử dụng";
+          return true;
+        }
+      }
+    return false;
+  }
+
 
   submitForm() {
-    this.delay();
     let student = this.studentForm.value;
-    student.image = this.image;
-    console.log(student);
-    this.studentService.create(student).subscribe(() => {
-      this.callToastr();
-    }, e => {
 
-    }, () =>{
-      this.router.navigateByUrl('/hoc-sinh/danh-sach');
-    });
+    for(let i =0; i<this.listClass.length; i++){
+      if (student.classStudent == this.listClass[i].name){
+        student.classStudent = Number(this.listClass[i].id);
+      }
+        }
+    for(let i =0; i<this.listFaculty.length; i++){
+      if (student.faculty == this.listFaculty[i].name){
+        student.faculty = Number(this.listFaculty[i].id);
+      }
+    }
+    student.image = this.image;
+    if (this.checkEmail(student.email)){
+
+    }else{
+      this.delay();
+      this.studentService.create(student).subscribe(() => {
+        this.callToastr();
+      }, e => {
+
+      }, () =>{
+        this.router.navigateByUrl('/hoc-sinh/danh-sach');
+      });
+    }
   }
 
   selectedImage: any;
@@ -104,7 +136,7 @@ export class CreateStudentComponent implements OnInit {
     let timerInterval;
     Swal.fire({
       title: '',
-      html: 'Vui lòng chờ trong <b></b> giây.',
+      html: 'Vui lòng chờ...',
       timer: 5000,
       timerProgressBar: true,
       didOpen: () => {
