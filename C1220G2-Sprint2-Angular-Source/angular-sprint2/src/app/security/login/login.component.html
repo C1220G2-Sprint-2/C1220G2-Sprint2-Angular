@@ -29,8 +29,8 @@
                       <div class="form-group">
                         <div class="custom-control custom-checkbox">
                           <input type="checkbox" class=" custom-control-input"
-                                 id="customCheck">
-                          <label class="custom-control-label" for="customCheck">Nhớ
+                                 id="customCheck" (change)="test($event)">
+                          <label class="custom-control-label" for="customCheck" >Nhớ
                             mật khẩu</label>
                           <a  style="float: right"
                               routerLink="/tai-khoan/quen-mat-khau">Quên mật khẩu?</a>
@@ -55,4 +55,5 @@
     </div>
   </div>
 </div>
+
 

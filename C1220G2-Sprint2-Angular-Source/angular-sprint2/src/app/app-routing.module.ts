@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { Routes, RouterModule } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import {NgModule} from '@angular/core';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {Routes, RouterModule} from '@angular/router';
+import {environment} from 'src/environments/environment';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {ForbiddenPageComponent} from './error-page/forbidden-page/forbidden-page.component';
 
 
 const routes: Routes = [
@@ -36,7 +38,10 @@ const routes: Routes = [
   },
 
   // code by sang
-  {path: 'quan-ly-tien-do', loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)},
+  {
+    path: 'quan-ly-tien-do',
+    loadChildren: () => import('./progress-management/progress-management.module').then(module => module.ProgressManagementModule)
+  },
 
   // end code by sang
   // code by hau
@@ -49,7 +54,14 @@ const routes: Routes = [
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
-  }
+  },
+  {
+    path: 'page',
+    loadChildren: () => import('./error-page/error-page.module').then(module => module.ErrorPageModule)
+  },
+  {path: '404', component: PageNotFoundComponent},
+  {path: '**', redirectTo: '/404'}
+
 ];
 
 

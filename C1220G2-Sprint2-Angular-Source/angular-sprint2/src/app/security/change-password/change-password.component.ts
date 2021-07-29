@@ -17,17 +17,20 @@ export class ChangePasswordComponent implements OnInit {
   public changePasswordForm: FormGroup;
   passworDto: PasswordDto;
   code: string;
+  isLoggedIn : boolean;
 
 
   constructor(private activatedRoute: ActivatedRoute,
               private securityService: SecurityServiceService,
               private tokenStorage: TokenStorageService,
               private toastService: ToastrService,
+
               private router: Router,private _location: Location
   ) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.code = paramMap.get('code');
     });
+
   }
 
   ngOnInit(): void {

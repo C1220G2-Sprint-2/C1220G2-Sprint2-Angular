@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../token-storage.service';
@@ -12,17 +12,16 @@ import {AuthService} from '../auth.service';
 export class LoginComponent implements OnInit {
   form: any = {};
   readonly = false;
-  test: any;
+  checkedRememberMe: boolean;
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
               private router: Router,
               private toastService: ToastrService) {
-
   }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken() != null) {
-      this.router.navigateByUrl("/de-tai/danh-sach-de-tai")
+      this.router.navigateByUrl('/de-tai/danh-sach-de-tai');
     }
   }
 
@@ -32,6 +31,10 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
+        if (this.checkedRememberMe == true) {
+          this.tokenStorage.saveTokenInLocalStorage(data.accessToken);
+          this.tokenStorage.saveUserInLocalStorage(data);
+        }
         this.showSuccess();
         window.location.assign('/de-tai/danh-sach-de-tai');
       },
@@ -49,7 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastService.success('Thành công !', 'Đăng nhập',{
+    this.toastService.success('Thành công !', 'Đăng nhập', {
       timeOut: 10000
     });
   }
@@ -58,13 +61,7 @@ export class LoginComponent implements OnInit {
     this.toastService.error('Sai tên đăng nhập hoặc mật khẩu.', 'Đăng nhập thất bại.');
   }
 
-  // login() {
-  //   this.authService.login(this.email, this.password)
-  //   .catch(error => this.errorMsg = error.message);
-  // }
-
-  // value(event: Event) {
-  //   this.test = (event.target as HTMLInputElement).value;
-  //   console.log( this.test)
-  // }
+  test(event) {
+    this.checkedRememberMe = event.target.checked;
+  }
 }

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
@@ -19,10 +19,16 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {ToastrModule} from "ngx-toastr";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ForbiddenPageComponent } from './error-page/forbidden-page/forbidden-page.component';
+import {NgxSpinner} from 'ngx-spinner/lib/ngx-spinner.enum';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent,
+    ForbiddenPageComponent
   ],
 
   imports: [
@@ -44,9 +50,9 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule, NgxSpinnerModule
   ],
-
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
 
