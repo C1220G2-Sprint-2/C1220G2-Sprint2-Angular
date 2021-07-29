@@ -15,7 +15,7 @@
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-bell fa-fw"></i>
                <!-- Counter - Alerts -->
-               <span class="badge badge-danger badge-counter">3+</span>
+               <span class="badge badge-danger badge-counter">5+</span>
            </a>
            <!-- Dropdown - Alerts -->
            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -133,7 +133,11 @@
             aria-labelledby="newRoomDropdown">
                 <h6 class="dropdown-header">Nhập tên phòng</h6>
                 <div class="dropdown-item d-flex flex-column align-items-center">
-                    <input type="text" class="form-control p-2" [formControl]="chatGroupName">
+                    <input type="text" class="form-control p-2"
+                    [formControl]="chatGroupName">
+                    <small class="text-danger p-2" *ngIf="chatGroupName.errors?.required">
+                        Tên phòng không được để trống.
+                    </small>
                     <small class="text-danger p-2" *ngIf="chatGroupName.errors?.duplicatedGroupName">
                         Tên phòng đã tồn tại. Vui lòng chọn tên khác.
                     </small>

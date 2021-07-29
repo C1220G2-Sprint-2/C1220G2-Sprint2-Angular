@@ -1,34 +1,32 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {SharedModule} from './shared/shared.module';
-import {NgxPaginationModule} from 'ngx-pagination';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {StudentGroupModule} from './student-group/student-group.module';
-import {ProjectModule} from './project/project.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { SharedModule } from './shared/shared.module';
+import {StudentModule} from "./student/student.module";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+// @ts-ignore
+import {environment} from "../environments/environment";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {AngularFireAuthModule} from "@angular/fire/auth";
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {StudentGroupModule} from "./student-group/student-group.module";
+import {ProjectModule} from "./project/project.module";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from './helpers/auth.interceptor';
-import {StudentModule} from './student/student.module';
-import {environment} from '../environments/environment';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireAuthModule} from '@angular/fire/auth';
+import {NgxPaginationModule} from "ngx-pagination";
+import {NgxLoadingModule} from "ngx-loading";
 import {TeacherModule} from './teacher/teacher.module';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {AngularFireDatabaseModule } from '@angular/fire/database';
 import {AngularFireModule} from "@angular/fire";
-import {AngularFireStorageModule} from "@angular/fire/storage";
-import {ToastrModule} from "ngx-toastr";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ForbiddenPageComponent } from './error-page/forbidden-page/forbidden-page.component';
-import {NgxSpinner} from 'ngx-spinner/lib/ngx-spinner.enum';
 import {NgxSpinnerModule} from 'ngx-spinner';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PageNotFoundComponent,
-    ForbiddenPageComponent
+    AppComponent
   ],
 
   imports: [
@@ -43,16 +41,16 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     HttpClientModule,
     StudentGroupModule,
     ProjectModule,
+    NgxLoadingModule.forRoot({}),
     StudentModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
+    AngularFireModule.initializeApp(environment.firebase),  // Thống nhất dùng firebase này nha mn - kha
     AngularFirestoreModule,
     AngularFireAuthModule, // auth
     AngularFireStorageModule, NgbModule, // storage
-    AngularFireDatabaseModule, NgxSpinnerModule
+    AngularFireDatabaseModule,
+    NgxSpinnerModule
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
 

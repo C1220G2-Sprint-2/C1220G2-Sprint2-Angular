@@ -8,6 +8,8 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {Teacher} from '../../models/teacher';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-create-teacher',
@@ -24,7 +26,8 @@ export class CreateTeacherComponent implements OnInit {
 
   constructor(private teacherService: TeacherService,
               private angularFireStorage: AngularFireStorage,
-              private router: Router) {
+              private router: Router,
+              private toastService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -84,9 +87,12 @@ export class CreateTeacherComponent implements OnInit {
     this.newTeacher = this.createTeacherForm.value;
     this.newTeacher.image = this.imageFirebase;
     this.subscription = this.teacherService.createTeacher(this.newTeacher).subscribe(
-      value => {},
+      value => {
+        this.showSuccess();
+      },
       error => {
         console.log(error);
+        this.showError();
       },
       ()=>{
         this.router.navigateByUrl('/danh-sach')
@@ -113,6 +119,19 @@ export class CreateTeacherComponent implements OnInit {
         })
       })
     ).subscribe();
+  }
+
+  showSuccess() {
+    this.toastService.success('Thành công !', 'Đã tạo mới giảng viên');
+  }
+
+  showError() {
+    Swal.fire({
+      title: 'Số điện thoại hoặc email đã tồn tại !',
+      text: 'Vui lòng nhập số điện thoại hoặc email khác.',
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    });
   }
 
   get name() {

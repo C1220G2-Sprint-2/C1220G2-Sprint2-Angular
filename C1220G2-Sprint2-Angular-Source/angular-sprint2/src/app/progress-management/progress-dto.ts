@@ -1,5 +1,5 @@
 export interface ProgressDto {
-  idProject: string;
+  idProject: number;
   team: string;
   projectName: string;
   member: number;

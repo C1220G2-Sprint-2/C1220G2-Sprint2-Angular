@@ -191,3 +191,6 @@ button.search-btn{
   width: 150px !important;
   height: 130px !important;
 }
+.margin_right{
+  margin-right: 8px;
+}
