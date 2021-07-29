@@ -21,4 +21,8 @@ export class CommentConcernService {
   saveComment(comment): Observable<CommentConcern> {
     return this.http.post<CommentConcern>(API_URL + '/comment-save', comment);
   }
+
+  sendEmail(concernId: number): Observable<void> {
+    return this.http.get<void>(API_URL + '/send-email/' + concernId)
+  }
 }

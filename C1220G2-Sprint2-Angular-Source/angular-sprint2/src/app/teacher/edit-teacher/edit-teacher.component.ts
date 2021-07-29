@@ -9,6 +9,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ToastrService} from 'ngx-toastr';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-edit-teacher',
@@ -111,6 +112,7 @@ export class EditTeacherComponent implements OnInit {
       },
       error => {
         console.log(error)
+        this.showError()
       },
       ()=>{
         this.router.navigateByUrl('/danh-sach')
@@ -141,6 +143,15 @@ export class EditTeacherComponent implements OnInit {
 
   showSuccess() {
     this.toastService.success('Thành công !', 'Đã cập nhật thông tin giảng viên');
+  }
+
+  showError() {
+    Swal.fire({
+      title: 'Số điện thoại hoặc email đã tồn tại !',
+      text: 'Vui lòng nhập số điện thoại hoặc email khác.',
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    });
   }
 
   get name() {

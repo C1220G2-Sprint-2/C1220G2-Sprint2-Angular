@@ -14,11 +14,19 @@ export class StudentConcernService {
   constructor(private http: HttpClient) {
   }
 
-  getAllStudentConcern(): Observable<StudentConcern[]> {
-    return this.http.get<StudentConcern[]>(API_URL + '/student-concern-list');
-  }
-
   saveStudentConcern(concern): Observable<StudentConcern> {
     return this.http.post<StudentConcern>(API_URL + '/student-concern-save', concern);
+  }
+
+  getAllStudentConcern(noOfRecord: number): Observable<StudentConcern[]> {
+    return this.http.get<StudentConcern[]>(API_URL + '/student-concern-list/' + noOfRecord)
+  }
+
+  getMaxSizeConcern(): Observable<number> {
+    return this.http.get<number>(API_URL + '/list-size')
+  }
+
+  sendEmail(studentCode: string): Observable<void> {
+    return this.http.get<void>(API_URL + '/send-email/' + studentCode)
   }
 }

@@ -9,6 +9,7 @@ import {finalize} from 'rxjs/operators';
 import {Teacher} from '../../models/teacher';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-create-teacher',
@@ -91,6 +92,7 @@ export class CreateTeacherComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.showError();
       },
       ()=>{
         this.router.navigateByUrl('/danh-sach')
@@ -121,6 +123,15 @@ export class CreateTeacherComponent implements OnInit {
 
   showSuccess() {
     this.toastService.success('Thành công !', 'Đã tạo mới giảng viên');
+  }
+
+  showError() {
+    Swal.fire({
+      title: 'Số điện thoại hoặc email đã tồn tại !',
+      text: 'Vui lòng nhập số điện thoại hoặc email khác.',
+      icon: 'error',
+      confirmButtonText: 'Đóng'
+    });
   }
 
   get name() {
