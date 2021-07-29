@@ -15,8 +15,32 @@ import Swal from "sweetalert2";
   styleUrls: ['./project-registration.component.css']
 })
 export class ProjectRegistrationComponent implements OnInit, DoCheck {
+  page: number = 1;
+  pageSize: number = 10;
+  nameCheck= "";
+  checkName=false;
+  ngDoCheck(): void {
+    let string = this.nameCheck.toLowerCase();
+    let arrSearch= string.split(" ");
+    console.log(this.listProject);
 
+    for (let i=0;i<this.listProject.length;i++ ) {
+      let count =0;
+      let arr2= this.listProject[i].name.split(" ");
+      for (let j=0; j< arrSearch.length;j++) {
+          for(let k=0; k<arr2.length;k++) {
+            if (arrSearch[j] == arr2[k]) {
+              count++;
+            }
 
+        }
+      }
+      if (count == arr2.length){
+        this.checkName
+      }
+    }
+  }
+  loading = false;
   listProject: any[];
   listTeacher: any[];
   listCategory: any[];
@@ -80,6 +104,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
 
 
   save() {
+    this.loading=true;
     let project = this.createForm.value;
     project.image = this.image;
     project.description = this.description;
@@ -99,10 +124,13 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
     console.log(check);
     if (check) {
-      this.delay(4000);
+      // this.delay(4000);
       this.teamService.postProject(project).subscribe(() => {
+        this.loading=false;
         this.showSuccess();
         this.route.navigateByUrl('nhom/quan-ly-nhom');
+      }, error =>  {
+        this.loading=false;
       })
     } else {
     this.showError();
@@ -130,6 +158,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   checkImg: boolean = false;
   checkFile: boolean = false;
   onImgSelected(event) {
+
     var n = Date.now();
     const file = event.target.files[0];
 
@@ -198,9 +227,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
   }
 
-  ngDoCheck(): void {
-    // console.log(this.createForm.value);
-  }
+
   errorMessage = '';
 
   showSuccess() {
@@ -230,7 +257,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     let timerInterval
     Swal.fire({
       title: 'Đang tải dữ liệu!',
-      html: 'I will close in <b></b> milliseconds.',
+      html: '',
       timer: number,
       timerProgressBar: true,
       didOpen: () => {
