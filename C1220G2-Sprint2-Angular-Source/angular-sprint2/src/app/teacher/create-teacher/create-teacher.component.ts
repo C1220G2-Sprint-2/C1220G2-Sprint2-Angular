@@ -95,7 +95,7 @@ export class CreateTeacherComponent implements OnInit {
         this.showError();
       },
       ()=>{
-        this.router.navigateByUrl('/danh-sach')
+        this.router.navigateByUrl('/giang-vien/danh-sach')
       }
     )
   }

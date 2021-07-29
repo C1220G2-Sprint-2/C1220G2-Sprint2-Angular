@@ -15,8 +15,14 @@ import Swal from "sweetalert2";
   styleUrls: ['./project-registration.component.css']
 })
 export class ProjectRegistrationComponent implements OnInit, DoCheck {
+  page: number = 1;
+  pageSize: number = 10;
+  nameCheck= "";
+  checkName=false;
+  ngDoCheck(): void {
 
-
+  }
+  loading = false;
   listProject: any[];
   listTeacher: any[];
   listCategory: any[];
@@ -80,6 +86,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
 
 
   save() {
+    this.loading=true;
     let project = this.createForm.value;
     project.image = this.image;
     project.description = this.description;
@@ -99,10 +106,13 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
     console.log(check);
     if (check) {
-      this.delay(4000);
+      // this.delay(4000);
       this.teamService.postProject(project).subscribe(() => {
+        this.loading=false;
         this.showSuccess();
         this.route.navigateByUrl('nhom/quan-ly-nhom');
+      }, error =>  {
+        this.loading=false;
       })
     } else {
     this.showError();
@@ -130,6 +140,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   checkImg: boolean = false;
   checkFile: boolean = false;
   onImgSelected(event) {
+
     var n = Date.now();
     const file = event.target.files[0];
 
@@ -198,9 +209,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     }
   }
 
-  ngDoCheck(): void {
-    // console.log(this.createForm.value);
-  }
+
   errorMessage = '';
 
   showSuccess() {
@@ -230,7 +239,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
     let timerInterval
     Swal.fire({
       title: 'Đang tải dữ liệu!',
-      html: 'I will close in <b></b> milliseconds.',
+      html: '',
       timer: number,
       timerProgressBar: true,
       didOpen: () => {
@@ -257,5 +266,36 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   }
 
 
+  check() {
 
+      let arr =  this.nameCheck.toLowerCase().trim().split(" ");
+      this.checkName=false;
+        arr = arr.filter(function (a) {
+          return a != "";
+        })
+    console.log(arr)
+    let check=false;
+      for (let i=0; i< this.listProject.length;i++) {
+
+        let count=0;
+        let arr2= this.listProject[i].name.toLowerCase().trim().split(" ");
+        for (let j= 0; j<arr2.length; j++) {
+          let check2=false;
+          for(let k=0; k<arr.length;k++) {
+            if (arr[k] == arr2[j]) {
+              check2=true;
+            }
+          }
+        if (check2) {
+          count++;
+        }
+        }
+        console.log(count)
+        console.log(arr.length)
+        if (count == arr.length) {
+           this.checkName= true;
+        }
+      }
+    console.log( this.checkName)
+  }
 }

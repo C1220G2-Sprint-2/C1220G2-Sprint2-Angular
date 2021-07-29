@@ -10,6 +10,7 @@ import {StudentGroupModule} from "../student-group/student-group.module";
 import {Validation} from "./project-registration/Validation";
 import {ProjectDetailComponent} from "./project-detail/project-detail.component";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgxLoadingModule} from "ngx-loading";
 
 
 
@@ -18,16 +19,17 @@ import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
         ProjectListComponent
     ],
   declarations: [ProjectCensorshipComponent, ProjectListComponent, ProjectRegistrationComponent, ProjectDetailComponent],
-  imports: [
-    CommonModule,
-    ProjectRoutingModule,
-    NgxPaginationModule,
-    ReactiveFormsModule,
-    FormsModule,
-    StudentGroupModule,
-    NgbPaginationModule,
+    imports: [
+        CommonModule,
+        ProjectRoutingModule,
+        NgxPaginationModule,
+        ReactiveFormsModule,
+        FormsModule,
+        StudentGroupModule,
+        NgbPaginationModule,
+        NgxLoadingModule,
 
-  ],
+    ],
 
 })
 export class ProjectModule { }

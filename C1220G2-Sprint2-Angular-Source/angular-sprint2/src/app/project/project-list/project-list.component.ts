@@ -51,19 +51,19 @@ export class ProjectListComponent implements OnInit {
         this.showError();
       });
     })
-    }
+  }
 
   searchProject() {
-   if (this.keyword != '') {
-     this.projectService.searchProject(this.keyword).subscribe(data => {
-       this.projectList = data;
-       if (this.projectList.length == 0) {
-         this.messageEmpty = 'Không tìm thấy kết quả phù hợp'
-       }
-     })
-   }else {
-     this.loadList();
-   }
+    if (this.keyword != '') {
+      this.projectService.searchProject(this.keyword).subscribe(data => {
+        this.projectList = data;
+        if (this.projectList.length == 0) {
+          this.messageEmpty = 'Không tìm thấy kết quả phù hợp'
+        }
+      })
+    }else {
+      this.loadList();
+    }
   }
 
   getKeyword($event: any) {
