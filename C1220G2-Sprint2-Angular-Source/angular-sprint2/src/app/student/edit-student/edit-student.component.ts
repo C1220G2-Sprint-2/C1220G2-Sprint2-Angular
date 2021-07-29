@@ -84,6 +84,7 @@ export class EditStudentComponent implements OnInit {
     return check ? null : {'invalid18' : true};
   }
   submitForm() {
+    console.log("");
     let temp = this.studentForm.value;
     temp.code = this.codeStudent;
     temp.image = this.image;
