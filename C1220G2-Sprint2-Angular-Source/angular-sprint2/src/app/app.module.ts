@@ -26,7 +26,7 @@ import {AngularFireModule} from "@angular/fire";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
 
   imports: [

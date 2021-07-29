@@ -20,6 +20,8 @@ import {ReviewDto} from "../review-dto";
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
 import {CommentReview} from '../../models/comment-review';
+import {ReportServiceService} from '../../report-progress/report-service.service';
+import {ReportProgress} from '../../models/report-progress';
 
 
 @Component({
@@ -74,6 +76,8 @@ export class DetailComponent implements OnInit {
   announcementRecord = 2;
   announcementMaxSize = 0;
   checkLoadMoreAnnouncement = true;
+  reportList: ReportProgress[];
+  @Input() backgroundColor: string = '#C2C2C2';
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -84,7 +88,8 @@ export class DetailComponent implements OnInit {
               private router: Router,
               private tokenStorageService: TokenStorageService,
               private storage: AngularFireStorage,
-              private toastService: ToastrService,) {
+              private toastService: ToastrService,
+              private reportServiceService: ReportServiceService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.projectId = +paramMap.get('id');
     });
@@ -126,6 +131,7 @@ export class DetailComponent implements OnInit {
       } else if (this.username.substring(0, 2) == "SV") {
         this.isStudentLoggedIn = true;
       }
+      this.getAllReport();
     }
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
@@ -390,12 +396,12 @@ export class DetailComponent implements OnInit {
 
   submitReviewComment() {
     const reviewComment = this.commentReviewForm;
-      this.commentOfReview = {
-        content: reviewComment.value.content,
-        studentCode: this.tokenStorageService.getUser().username,
-        avatar: this.avatar,
-        name: this.currentUsername,
-        reviewId: this.reviewId
+    this.commentOfReview = {
+      content: reviewComment.value.content,
+      studentCode: this.tokenStorageService.getUser().username,
+      avatar: this.avatar,
+      name: this.currentUsername,
+      reviewId: this.reviewId
     };
     console.log(this.commentOfReview);
     this.progressService.saveComment(this.commentOfReview).subscribe(() => {
@@ -525,20 +531,25 @@ export class DetailComponent implements OnInit {
     });
   }
 
-    showSuccessReview(){
-      this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
-    };
+  showSuccessReview(){
+    this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
+  };
 
-    get title() {
-      return this.reviewForm.get('title');
-    }
+  get title() {
+    return this.reviewForm.get('title');
+  }
 
-    get content() {
-      return this.reviewForm.get('content');
-    }
+  get content() {
+    return this.reviewForm.get('content');
+  }
 
-    get progressReview() {
-      return this.reviewForm.get('progressReview');
-    }
+  get progressReview() {
+    return this.reviewForm.get('progressReview');
+  }
+
+  getAllReport(){
+    this.reportServiceService.getAll().subscribe(report=>{
+      this.reportList=report;
+    })
+  }
 }
-
