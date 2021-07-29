@@ -15,8 +15,11 @@
           <div class="col-7" style="margin-bottom: 15px;">
             <input type="text" class="form-control" formControlName="name" id="tenDeTai" [(ngModel)]="nameCheck"  required placeholder="Tên đề tài ...">
             <span class="text-danger" *ngIf="createForm.controls.name.hasError('required') && createForm.controls.name.touched">Vui lòng điền đề tài.</span>
+            <span style="color: red" *ngIf="checkName">
+                           Cảnh báo: đã có đề tài này trước đây.
+                        </span>
           </div>
-          <div class="col-1"></div>
+          <div class="col-1" style="padding: 0;"><a class="btn font-weight-bold" style="padding: 0;margin-top: 5px" (click)="check()">check</a></div>
         </div>
         <div class="row">
           <div class="col-1"></div>
@@ -35,8 +38,9 @@
             <span style="color: red" *ngIf="createForm.controls.content.hasError('maxlength') && createForm.controls.content.touched">
                            Nội dung tối đa  255 ký tự.
                         </span>
+
           </div>
-          <div class="col-1"></div>
+          <div class="col-1"> </div>
         </div>
         <div class="row">
           <div class="col-1"></div>
