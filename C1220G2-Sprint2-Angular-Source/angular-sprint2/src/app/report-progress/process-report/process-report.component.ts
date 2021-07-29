@@ -6,6 +6,9 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {finalize} from 'rxjs/operators';
 import {ReportProgress} from '../../models/report-progress';
+import {ProjectDto} from '../../progress-management/project-dto';
+import {ProgressService} from '../../progress-management/progress.service';
+import {TokenStorageService} from '../../security/token-storage.service';
 
 @Component({
   selector: 'app-process-report',
@@ -14,60 +17,62 @@ import {ReportProgress} from '../../models/report-progress';
 })
 export class ProcessReportComponent implements OnInit {
   reportForm: FormGroup;
-  name: string;
-  stages: number;
+  projectId: number;
   fileReport: string;
   downloadURL: Observable<string>;
   @Input() backgroundColor: string = '#C2C2C2';
   reportList: ReportProgress[] = [];
+  projectDto: ProjectDto;
+  reportId: number;
+  reportDto: ReportProgress;
 
 
   constructor(private formBuilder: FormBuilder,
               private  reportService: ReportServiceService,
               private  router: Router,
               private activatedRoute: ActivatedRoute,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private progressService: ProgressService,
+              private tokenStorageService: TokenStorageService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      this.name = paramMap.get('name');
-      this.stages= +paramMap.get('stages')
+      this.projectId = +paramMap.get('id1');
+      this.reportId = +paramMap.get('id2');
+      this.getReport(this.reportId);
     });
-
   }
 
 
   ngOnInit(): void {
-    this.reportForm = this.formBuilder.group({
-      name: [''],
-      stage: [''],
-      fileReport: ['', Validators.required],
-      content: [''],
-      enable: true
-    });
+    this.getProjectDto();
     this.getAll();
   }
 
-  onSubmit() {
-    const report = this.reportForm.value;
-    report.name = this.name;
-    report.stage = this.stages;
-    report.fileReport = this.fileReport;
-    console.log();
-
-    this.reportService.saveReport(report).subscribe(() => {
-      this.router.navigate(['/quan-ly-tien-do/chi-tiet-tien-do',this.name,this.stages]);
+  getReport(id: number) {
+    return this.reportService.findById(id).subscribe(report => {
+      this.reportDto = report;
+      this.reportForm = this.formBuilder.group({
+        id:[report.id],
+        name: [report.name],
+        stage: [report.stage],
+        fileReport: [''],
+        content: [''],
+        enable: true,
+        projectId:[this.projectId],
+        userId: [this.tokenStorageService.getUser().id],
+      });
     });
   }
 
 
-  value(event: Event) {
-    this.stages = +(event.target as HTMLInputElement).value;
-    if (this.stages < 26) {
-      this.backgroundColor = 'red';
-    } else if (this.stages < 86) {
-      this.backgroundColor = 'blue';
-    } else {
-      this.backgroundColor = 'green';
-    }
+  onSubmit() {
+    const report = this.reportForm.value;
+    console.log(this.reportForm.value + 'Hello');
+    report.fileReport = this.fileReport;
+    report.projectId = this.projectDto.id;
+    report.userId = this.tokenStorageService.getUser().id;
+    this.reportService.updateReport(this.reportId, report).subscribe(() => {
+      this.router.navigate(['/quan-ly-tien-do/chi-tiet-tien-do', this.projectId]);
+    });
   }
 
   addFile(event: any) {
@@ -79,22 +84,31 @@ export class ProcessReportComponent implements OnInit {
     task
       .snapshotChanges()
       .pipe(
-        finalize( ()=>{
+        finalize(() => {
           this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe( url =>{
-            if (url){
-              this.fileReport =url;
+          this.downloadURL.subscribe(url => {
+            if (url) {
+              this.fileReport = url;
             }
-          })
+          });
         })
       ).subscribe();
   }
-  getAll(){
-    this.reportService.getAll().subscribe(report =>{
+
+  getAll() {
+    this.reportService.getAll().subscribe(report => {
       this.reportList = report;
-    })
+    });
   }
+
   onBack() {
-    this.router.navigateByUrl('/quan-ly-tien-do/chi-tiet-tien-do');
+    this.router.navigate(['/quan-ly-tien-do/chi-tiet-tien-do', this.projectId]);
   }
+
+  getProjectDto() {
+    this.progressService.getProjectById(this.projectId).subscribe(result => {
+      this.projectDto = result;
+    });
+  }
+
 }

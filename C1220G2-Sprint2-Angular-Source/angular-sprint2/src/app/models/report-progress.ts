@@ -4,6 +4,9 @@ export interface ReportProgress {
   stage: number;
   fileReport: string;
   content: string;
-  dateCreate: string;
+  dateCreate?: string;
+  projectId?:any,
   // enable?: boolean;
+  backgroundColor: string;
+  userId?: any
 }

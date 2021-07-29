@@ -18,7 +18,11 @@ export class ReportServiceService {
     return this.httpClient.get<ReportProgress[]>(API_URL + '/api/report/list');
   }
 
-  saveReport(report: ReportProgress): Observable<ReportProgress> {
-    return this.httpClient.post<ReportProgress>(API_URL + '/api/report', report);
+  updateReport(id:number,report: ReportProgress): Observable<ReportProgress> {
+    return this.httpClient.put<ReportProgress>(API_URL + '/api/report/'+id, report);
+  }
+
+  findById(id: number): Observable<ReportProgress> {
+    return this.httpClient.get<ReportProgress>(API_URL + '/api/report/' + id);
   }
 }
