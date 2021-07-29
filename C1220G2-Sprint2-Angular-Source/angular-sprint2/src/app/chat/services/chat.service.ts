@@ -10,7 +10,6 @@ import { GroupChat } from 'src/app/models/group-chat.model';
 import { GroupUser } from 'src/app/models/group-user.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseUser } from 'src/app/models/firebase-user.model';
-import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -114,19 +113,10 @@ export class ChatService {
     return this.db.list('/messages', ref => ref.orderByChild('timeSend')).valueChanges();
   }
 
-
-  // getTimeStamp(): string {
-  //   const now = new Date();
-  //   const date = now.getUTCFullYear() + '/' +
-  //     (now.getUTCMonth() + 1) + '/' +
-  //     now.getUTCDate();
-
-  //   const time = now.getUTCHours() + ':' +
-  //     now.getUTCMinutes() + ':' +
-  //     now.getUTCSeconds();
-
-  //   return date + ' ' + time;
+  // getLastMessage(groupName: string): ChatMessage {
+  //   return this.db.list('/messages', ref => ref.orderByChild('timeSend').limitToLast(1)).valueChanges();
   // }
+
   getTimeStamp(): string {
     const now = new Date();
     return now.toString();
@@ -142,15 +132,10 @@ export class ChatService {
   }
 
   createGroupUser(groupName: string, userEmail: string): any {
-    // const promise = this.groupUserRef.push(
-    //   {
-    //     groupName: groupName,
-    //     userEmail: userEmail
-    //   }
-    // );
     const value = {
       groupName: groupName,
-      userEmail: userEmail
+      userEmail: userEmail,
+      lastTimeLeave: this.getTimeStamp()
     }
     let convertedEmail = userEmail.replace(/\./g, '');
     const key = groupName + '+' + convertedEmail;
@@ -161,6 +146,12 @@ export class ChatService {
 
   getGroupsUsers(): Observable<GroupUser[]> {
     return this.db.list<GroupUser>('/groups-users').valueChanges();
+  }
+
+  getGroupUser(groupName: string, userEmail: string): Observable<GroupUser> {
+    let convertedEmail = userEmail.replace(/\./g, '');
+    const key = groupName + '+' + convertedEmail;
+    return this.db.object<GroupUser>(`/groups-users/${key}`).valueChanges();
   }
 
   removeGroupUser(key: string): any {
