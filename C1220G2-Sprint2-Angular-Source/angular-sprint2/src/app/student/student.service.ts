@@ -30,7 +30,6 @@ export class StudentService {
 
   edit(student: Student): Observable<void>{
     return this.http.put<void>(this.URL + '/' + student.code, student);
-
   }
   delete(code: string): Observable<void>{
     return this.http.delete<void>(this.URL +'/'+ code);
