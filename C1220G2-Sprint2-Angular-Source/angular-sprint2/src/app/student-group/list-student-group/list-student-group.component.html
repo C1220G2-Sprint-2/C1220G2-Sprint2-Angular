@@ -63,7 +63,9 @@
           <ng-template #other>
             <td *ngIf="st.status == null;  else tem2">
             Chưa có đề tài
+
             </td>
+
            <ng-template #tem2>
              <td>
              <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
@@ -71,14 +73,16 @@
              </button>
              </td>
            </ng-template>
+
           </ng-template>
           <td>
-            <button class="btn font-weight-bold" style=" color: white;
-                                 border-radius: 1.5rem" (click)="toDetail(st.id)"><i class="fa fa-eye text-success"></i>
+            <button class="btn font-weight-bold" style=" color: white;padding: 11px 12px;margin-right: 3px;
+                                 border-radius: 1.5rem" (click)="toDetail(st.id)" ><i class="fa fa-eye text-success"></i>
             </button>
-            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="vertical-align: middle;font-size: 1.5rem;"
-               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem">&#xE872;</i>
-            </a>
+            <span style="width: 5px"></span>
+            <button  class="delete btn font-weight-bold" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="border-radius: 40px;vertical-align: middle;font-size: 1.5rem;"
+               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem; color: red">&#xE872;</i>
+            </button>
           </td>
           <td>
             <button class="btn font-weight-bold " data-toggle="tooltip" data-bs-toggle="modal"
@@ -148,7 +152,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #4F9B65">
-        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót tạo dự án</h5>
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót nộp dự án</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -168,3 +172,4 @@
 </div>
 </body>
 </html>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }" ></ngx-loading>
