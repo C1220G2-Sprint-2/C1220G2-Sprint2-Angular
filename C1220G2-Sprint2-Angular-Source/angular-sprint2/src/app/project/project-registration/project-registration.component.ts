@@ -20,25 +20,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   nameCheck= "";
   checkName=false;
   ngDoCheck(): void {
-    let string = this.nameCheck.toLowerCase();
-    let arrSearch= string.split(" ");
-    console.log(this.listProject);
 
-    for (let i=0;i<this.listProject.length;i++ ) {
-      let count =0;
-      let arr2= this.listProject[i].name.split(" ");
-      for (let j=0; j< arrSearch.length;j++) {
-          for(let k=0; k<arr2.length;k++) {
-            if (arrSearch[j] == arr2[k]) {
-              count++;
-            }
-
-        }
-      }
-      if (count == arr2.length){
-        this.checkName
-      }
-    }
   }
   loading = false;
   listProject: any[];
@@ -284,5 +266,36 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   }
 
 
+  check() {
 
+      let arr =  this.nameCheck.toLowerCase().trim().split(" ");
+      this.checkName=false;
+        arr = arr.filter(function (a) {
+          return a != "";
+        })
+    console.log(arr)
+    let check=false;
+      for (let i=0; i< this.listProject.length;i++) {
+
+        let count=0;
+        let arr2= this.listProject[i].name.toLowerCase().trim().split(" ");
+        for (let j= 0; j<arr2.length; j++) {
+          let check2=false;
+          for(let k=0; k<arr.length;k++) {
+            if (arr[k] == arr2[j]) {
+              check2=true;
+            }
+          }
+        if (check2) {
+          count++;
+        }
+        }
+        console.log(count)
+        console.log(arr.length)
+        if (count == arr.length) {
+           this.checkName= true;
+        }
+      }
+    console.log( this.checkName)
+  }
 }
