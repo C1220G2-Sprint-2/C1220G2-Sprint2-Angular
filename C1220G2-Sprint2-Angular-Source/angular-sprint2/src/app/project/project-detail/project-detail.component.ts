@@ -10,7 +10,7 @@ import {Project} from "../../models/project";
 })
 export class ProjectDetailComponent implements OnInit {
   idProject: number;
-  project: Project;
+  project: any = {};
 
   constructor(private projectService: ProjectServiceService, private router: Router,private activatedRoute: ActivatedRoute,) { }
 
