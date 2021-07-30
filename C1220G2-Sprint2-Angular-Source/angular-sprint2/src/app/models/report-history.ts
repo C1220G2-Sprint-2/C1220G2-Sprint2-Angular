@@ -4,6 +4,7 @@ export interface ReportHistory {
   name: string;
   content: string;
   dateCreate: string;
-  reportProgress:any;
-  avatar: string ;
+  reportProgress: any;
+  avatar: string;
+  fileReport: string;
 }
