@@ -289,6 +289,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
         })
     console.log(arr)
     let check=false;
+    let arrProject = [];
       for (let i=0; i< this.listProject.length;i++) {
 
         let count=0;
@@ -308,7 +309,11 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
         console.log(arr.length)
         if (count == arr.length) {
            this.checkName= true;
+           arrProject.push(this.listProject[i])
         }
+      }
+    if (arrProject.length !=0){
+        this.listProject= arrProject;
       }
     console.log( this.checkName)
   }
