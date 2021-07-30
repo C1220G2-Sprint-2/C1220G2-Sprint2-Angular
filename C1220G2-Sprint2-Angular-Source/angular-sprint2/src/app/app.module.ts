@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import {StudentModule} from "./student/student.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import {AngularFireModule} from "@angular/fire";
 // @ts-ignore
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
@@ -26,7 +28,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
 
   imports: [

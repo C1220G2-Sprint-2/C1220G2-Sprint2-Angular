@@ -5,7 +5,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {Routes, RouterModule} from '@angular/router';
 import {environment} from 'src/environments/environment';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {ForbiddenPageComponent} from './error-page/forbidden-page/forbidden-page.component';
+
+
 
 
 const routes: Routes = [
@@ -59,6 +60,10 @@ const routes: Routes = [
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
   },
   {
+    path: 'excel',
+    loadChildren: () => import('./manager-add-excel/manager-add-excel.module').then(module => module.ManagerAddExcelModule)
+  },
+  {
     path: 'page',
     loadChildren: () => import('./error-page/error-page.module').then(module => module.ErrorPageModule)
   },
@@ -66,6 +71,8 @@ const routes: Routes = [
   {path: '**', redirectTo: '/404'}
 
 ];
+
+
 
 
 

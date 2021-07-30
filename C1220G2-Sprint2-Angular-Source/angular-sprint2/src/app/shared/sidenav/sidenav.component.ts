@@ -18,11 +18,8 @@ export class SidenavComponent implements OnInit {
   showStudentBoard = false;
   username: string;
   userId: number;
-
   user;
   name: string;
-
-
   studentTS: any = {};
 
 
@@ -38,27 +35,23 @@ export class SidenavComponent implements OnInit {
   }
 
 
-     loadData() {
+  loadData() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
+      this.user = this.tokenStorageService.getUser();
+      this.roles = user.roles;
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
+      this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
+      this.username = user.username;
+      this.name = user.name;
+      this.userId = user.id;
       if (user.username.startsWith('SV')) {
         this.teamService.getStudent(user.username).subscribe(data => {
           this.studentTS = data;
-          console.log(this.studentTS);
         });
-        this.roles = user.roles;
-        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-        this.showTeacherBoard = this.roles.includes('ROLE_TEACHER');
-        this.showStudentBoard = this.roles.includes('ROLE_STUDENT');
-        this.username = user.username;
-        console.log(this.username)
-        this.userId = user.id;
-        console.log(this.userId)
       }
-      this.user = this.tokenStorageService.getUser();
-      console.log(this.user)
     }
-
   }
 }

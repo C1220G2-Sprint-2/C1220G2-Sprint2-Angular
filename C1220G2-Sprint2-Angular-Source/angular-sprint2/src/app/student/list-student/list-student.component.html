@@ -9,7 +9,7 @@
       </div>
       <div class="row m-auto p-0">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-          <div class="dropdown">
+          <div class="dropdown" *ngIf="showAdminBoard">
             <button class="btn font-weight-bold dropdown-toggle" type="button"
                     style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -17,7 +17,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li><a class="dropdown-item" [routerLink]="['/hoc-sinh/them-moi']">Thêm 1 sinh viên</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/hoc-sinh/them-moi-excel']">Thêm nhiều sinh viên</a></li>
+              <li><a class="dropdown-item" routerLink="/excel/create-student-excel">Thêm nhiều sinh viên</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +52,7 @@
            </div>
 
 <!--            <ul class="social" *ngIf="student.status">-->
-            <ul class="social">
+            <ul class="social" *ngIf="showAdminBoard">
              <li><a [href]="student.facebook" aria-hidden="true"><i
                class="fab fa-facebook"></i></a></li>
              <li><a aria-hidden="true" [routerLink]="['/hoc-sinh/chinh-sua', student.code]"><i

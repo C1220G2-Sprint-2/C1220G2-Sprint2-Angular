@@ -1,0 +1,209 @@
+
+
+<div>
+  <div class="row">
+    <div class="col-1 "></div>
+    <div class="col-sm-12 col-lg-5 login-form" style="margin-top: 40px; ">
+      <div style="height: 100px;padding-top: 20px;  text-align: center;border-radius: 20px">
+        <h1 style="color: black"> Đăng ký đề tài</h1>
+      </div>
+      <form  class="form" [formGroup]="createForm" *ngIf="createForm" (ngSubmit)="save()" style="margin-top: 20px">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="tenDeTai" style="margin-top: 10px;">Tên đề tài <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="text" class="form-control" formControlName="name" id="tenDeTai"  required placeholder="Tên đề tài ...">
+            <span class="text-danger" *ngIf="createForm.controls.name.hasError('required') && createForm.controls.name.touched">Vui lòng điền đề tài.</span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="noiDung" style="margin-top: 10px;">Nội dung đề tài: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+                        <textarea class="form-control " formControlName="content"   rows="5" id="noiDung" placeholder="Nội dung đề tài ..."
+                                  required></textarea>
+            <span style="color: red" *ngIf="createForm.controls.content.hasError('required') && createForm.controls.content.touched">
+                            Vui lòng điền nội dung đề tài.
+                        </span>
+            <span style="color: red" *ngIf="createForm.controls.content.hasError('minlength') && createForm.controls.content.touched">
+                           Nội dung ít nhất 25 ký tự.
+                        </span>
+            <span style="color: red" *ngIf="createForm.controls.content.hasError('maxlength') && createForm.controls.content.touched">
+                           Nội dung tối đa  255 ký tự.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="danhMuc" style="margin-top: 10px;">Danh mục đề tài <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input class="form-control " list="datalist" id="danhMuc" required formControlName="category"
+                   placeholder="Loại danh mục...">
+            <datalist id="datalist">
+              <option *ngFor="let c of listCategory" >{{c.name}}</option>
+            </datalist>
+            <span style="color: red" *ngIf="createForm.controls.category.hasError('required') && createForm.controls.category.touched">
+                            Vui lòng chọn danh mục đề tài.
+                        </span>
+
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label style="margin-top: 10px;">Mô tả: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="file"
+                   id="file"
+                   #userPhoto
+                   (change)="onFileSelected($event)"
+                   name="file"
+                   placeholder="Chọn tệp mô tả ... "
+                   autocomplete="off"
+                   class="form-control" aria-label="file example" required  formControlName="description" >
+            <span style="color: red" *ngIf="createForm.controls.description.hasError('required') && createForm.controls.description.touched">
+                            Vui lòng chọn tệp mô tả.
+                        </span>
+            <span style="color: red" *ngIf="checkFile && createForm.controls.description.touched">
+                            Kích thức tệp lớn hơn 10Mb hoặc là tệp ảnh.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label style="margin-top: 10px;">Hình ảnh: <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input type="file"
+                   id="img"
+                   #userPhoto
+                   (change)="onImgSelected($event)"
+                   name="image"
+                   autocomplete="off"
+                   class="form-control" aria-label="file example" required  formControlName="image"
+            />
+            <span style="color: red" *ngIf="createForm.controls.image.hasError('required') && createForm.controls.image.touched">
+                            Vui lòng chọn tệp ảnh.
+                        </span>
+            <span style="color: red" *ngIf="checkImg && createForm.controls.image.touched">
+                            Kích thức ảnh lớn hơn 5Mb hoặc không phải file ảnh.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label for="giaoVien" style="margin-top: 10px;">Giáo viên hướng dẫn <span class="text-danger">*</span></label>
+          </div>
+          <div class="col-7" style="margin-bottom: 15px;">
+            <input class="form-control" list="datalistGiaoVien" id="giaoVien" required formControlName="teacher"
+                   placeholder="Chọn giáo viên hướng dẫn">
+            <datalist id="datalistGiaoVien">
+              <option *ngFor="let t of listTeacher" >{{t.name}}</option>
+            </datalist>
+            <span style="color: red" *ngIf="createForm.controls.teacher.hasError('required') && createForm.controls.teacher.touched">
+                            Vui lòng chọn giáo viên hướng dẫn.
+                        </span>
+            <span style="color: red" *ngIf="createForm.controls.teacher.hasError('checkTeacher') && createForm.controls.teacher.touched">
+                            Bạn chưa chọn đúng tên giáo viên hướng dẫn.
+                        </span>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-lg-5"col-sm-12></div>
+          <div class="col-lg-3 col-sm-12"><button type="button" class="btn font-weight-bold" data-toggle="tooltip" data-bs-toggle="modal"
+                                                  data-bs-target="#abc" style="width: 150px;background-color: #616C8C; color: white; border-radius: 1.5rem">Hủy bỏ</button></div>
+          <div class="col-lg-3 col-sm-12">
+            <input type="submit" class="btn font-weight-bold" [disabled]="(!createForm.valid) || project != null || checkFile==true || checkImg == true" value="Đăng ký " style="width: 150px;background-color: #4F9B65; color: white; border-radius: 1.5rem">
+          </div>
+        </div>
+      </form>
+      <div style="height: 40px"></div>
+    </div>
+    <div style="width: 40px"></div>
+    <div class="col-sm-12 col-lg-5 login-form" style=" margin-top: 40px;padding-top: 20px;">
+      <div class="">
+        <div >
+          <div>
+            <div class="table-title">
+              <div class="row" style="text-align: center">
+                <div><h1 style="color: black">Danh sách đề tài mới</h1></div>
+              </div>
+            </div>
+          </div>
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Stt</th>
+              <th style="text-align: left">Tên Đề Tài</th>
+              <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td colspan="3" *ngIf="listProject.length == 0">Không có đề tài nào tồn tại </td>
+            </tr>
+            <tr *ngFor="let project of listProject | paginate: { id: 'projectPage',  itemsPerPage: 10, currentPage: pageProject }; index as i">
+              <td class="font-weight-bold">{{i+1}}</td>
+              <td style="text-align: left">{{project.name}}</td>
+              <td><a  [routerLink]="['/de-tai/chi-tiet/',project.id]"><i class="fa fa-eye text-success"></i></a></td>
+            </tr>
+
+            </tbody>
+          </table>
+          <div class="clearfix">
+            <!--            <div class="hint-text">Hiển thị <b>10</b> trên <b>25</b> dòng</div>-->
+            <ul class="pagination">
+              <li><input class="form-control" type="text" placeholder="Tìm" style="height: 30px;width: 55px; border-radius: 20px" [(ngModel)]="pageProject"></li>
+<!--              <li style="margin-left: 13px;margin-right: -9px;"><i class="fa fa-search"></i></li>-->
+<!--              <li style="width: 20px"></li>-->
+              <pagination-controls (pageChange)="pageProject = $event"
+                                   id = "projectPage"
+                                   previousLabel=" < "
+                                   nextLabel=" > "
+                                   screenReaderPaginationLabel="Pagination"
+                                   screenReaderPageLabel="page"
+                                   screenReaderCurrentLabel="You're on page"></pagination-controls>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style="height: 30px"></div>
+    </div>
+  </div>
+  <div style="height: 30px"></div>
+</div>
+
+
+<div class="modal fade" id="abc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style=" background: #4F9B65; color: white">
+        <h5 class="modal-title" id="">Hủy đăng ký</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn hủy đăng ký không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn font-weight-bold" style="background-color: #616C8C; color: white; border-radius: 1.5rem" data-bs-dismiss="modal">Ở lại</button>
+        <input type="button" class="btn font-weight-bold" style="background-color: red; color: white; border-radius: 1.5rem" data-bs-dismiss="modal" value="Hủy đăng ký" (click)="chuyenHuong()">
+      </div>
+    </div>
+  </div>
+</div>

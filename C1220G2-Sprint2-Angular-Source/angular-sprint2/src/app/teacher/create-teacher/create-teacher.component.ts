@@ -10,6 +10,7 @@ import {Teacher} from '../../models/teacher';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import Swal from "sweetalert2";
+import {CheckLoggedInService} from '../../manager-add-excel/check-logged-in.service';
 
 @Component({
   selector: 'app-create-teacher',
@@ -27,7 +28,8 @@ export class CreateTeacherComponent implements OnInit {
   constructor(private teacherService: TeacherService,
               private angularFireStorage: AngularFireStorage,
               private router: Router,
-              private toastService: ToastrService) {
+              private toastService: ToastrService, private checkLoggedInService: CheckLoggedInService) {
+    checkLoggedInService.check()
   }
 
   ngOnInit(): void {
