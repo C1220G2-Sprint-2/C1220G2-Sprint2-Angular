@@ -43,7 +43,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let st of teamList  | paginate: { id: 'groupPage',itemsPerPage: 4, currentPage: pageList }; index as i ">
+        <tr *ngFor="let st of teamList  | slice: (page-1) * pageSize : page * pageSize; index as i ">
           <td>{{i + 1}}</td>
           <td>{{st.name}}</td>
           <td>{{st.teamLeader}}</td>
@@ -61,19 +61,28 @@
             </button>
           </td>
           <ng-template #other>
-            <td>
-              <button class="btn font-weight-bold btn-primary" style=" min-width: 55%;
-                                 border-radius: 1.5rem" (click)="toProject()" > Duyệt
-              </button>
+            <td *ngIf="st.status == null;  else tem2">
+              Chưa có đề tài
+
             </td>
+
+            <ng-template #tem2>
+              <td>
+                <button class="btn font-weight-bold btn-primary"  style=" min-width: 55%;
+                                 border-radius: 1.5rem"  (click)="toProject()" > Duyệt
+                </button>
+              </td>
+            </ng-template>
+
           </ng-template>
           <td>
-            <button class="btn font-weight-bold" style=" color: white;
-                                 border-radius: 1.5rem" (click)="toDetail(st.id)"><i class="fa fa-eye text-success"></i>
+            <button class="btn font-weight-bold" style=" color: white;padding: 11px 12px;margin-right: 3px;
+                                 border-radius: 1.5rem" (click)="toDetail(st.id)" ><i class="fa fa-eye text-success"></i>
             </button>
-            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="vertical-align: middle;font-size: 1.5rem;"
-               data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem">&#xE872;</i>
-            </a>
+            <span style="width: 5px"></span>
+            <button  class="delete btn font-weight-bold" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" style="border-radius: 40px;vertical-align: middle;font-size: 1.5rem;"
+                     data-bs-target="#exampleModal" (click)="getIdStudentGroup(st.id)"><i class="material-icons fa-5x" style="width: 1.5rem; color: red">&#xE872;</i>
+            </button>
           </td>
           <td>
             <button class="btn font-weight-bold " data-toggle="tooltip" data-bs-toggle="modal"
@@ -90,14 +99,22 @@
       <div class="clearfix">
         <!--        <div class="hint-text">Hiển thị <b>8</b> trên <b>25</b> học sinh</div>-->
         <ul class="pagination">
-          <li><input class="form-control" type="number" placeholder="Tìm" [(ngModel)]="pageList" style="height: 30px;width: 55px; border-radius: 20px"></li>
-          <pagination-controls (pageChange)="pageList = $event"
-                               id="groupPage"
-                               previousLabel="<"
-                               nextLabel=">"
-                               screenReaderPaginationLabel="Pagination"
-                               screenReaderPageLabel="page"
-                               screenReaderCurrentLabel="You're on page"></pagination-controls>
+          <li><input class="form-control" type="number" placeholder="Tìm" [(ngModel)]="page" style="height: 30px;width: 55px; border-radius: 20px"></li>
+          <ngb-pagination class="d-flex justify-content-end"
+                          [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="teamList.length"
+                          [maxSize]="5"
+                          [rotate]="true"
+                          [ellipses]="true"
+                          [boundaryLinks]="true">
+            <ng-template ngbPaginationFirst> << </ng-template>
+            <ng-template ngbPaginationLast> >> </ng-template>
+            <ng-template ngbPaginationPrevious> < </ng-template>
+            <ng-template ngbPaginationNext> > </ng-template>
+            <ng-template ngbPaginationEllipsis>...</ng-template>
+            <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+          </ngb-pagination>
         </ul>
       </div>
     </div>
@@ -135,11 +152,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #4F9B65">
-        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót tạo dự án</h5>
+        <h5 class="modal-title w-100 text-center text-white" id="exampleModalLabel1">Hạn chót nộp dự án</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Nhập ngày hạn chót: <input type="text" [(ngModel)]="date">
+        Nhập ngày hạn chót: <input type="date" [(ngModel)]="date">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn font-weight-bold"
@@ -155,3 +172,4 @@
 </div>
 </body>
 </html>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }" ></ngx-loading>

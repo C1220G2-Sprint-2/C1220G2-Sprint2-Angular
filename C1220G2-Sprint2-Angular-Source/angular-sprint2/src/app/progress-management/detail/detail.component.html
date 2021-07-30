@@ -123,101 +123,106 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="card" style="min-height: 1000px">
-          <div class="card-body">
-            <div class="card-header text-center">
-              <h1 class="h1" style="color: #042440">Đánh giá của giáo viên</h1>
-            </div>
-            <button class="btn font-weight-bold m-3"
-                    style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    data-bs-whatever="@getbootstrap"> Tạo đánh giá
-            </button>
-            <div class="container">
-              <div class="card p-3 my-3" *ngFor="let review of reviewList">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="user d-flex flex-row align-items-center">
-                    <img src="{{review.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
-                    <h5 style="color: #4F9B65">
-                      {{review.teacherName}}
-                      <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b
-                        style="color: black">{{review.title}}</b></span>
+
+      <div class="container">
+          <div class="card" style="min-height: 1000px">
+            <div class="card-body">
+              <div class="card-header text-center">
+                <h1 class="h1" style="color: #042440">Đánh giá của giáo viên</h1>
+              </div>
+              <button class="btn font-weight-bold m-3 create-button"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal"
+                      data-bs-whatever="@getbootstrap" *ngIf="isTeacherLogging"> Tạo đánh giá
+              </button>
+              <div class="container">
+                <div class="card p-3 my-3" *ngFor="let review of reviewList">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                      <img src="{{review.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
+                      <h5 style="color: #4F9B65">
+                        {{review.teacherName}}
+                        <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                      </h5>
+                    </div>
+                  </div>
+                  <h3 class="font-weight-bold" style="color: black">{{review.title}}</h3>
+                  <div class="action d-flex justify-content-start mt-1 p-3"
+                       style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
+                    <h5 class="text-left">
+                      <span style="color: grey">Tiến độ: {{review.progressReview}} %</span>
+                    <br>
+                      <span style="color: grey">Nhận xét: {{review.content}}</span>
                     </h5>
                   </div>
-                </div>
-                <div class="action d-flex justify-content-start mt-1 p-3"
-                     style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
-                  <div>
-                    <h3>
-                      <span class="font-weight-bold">Tiến độ: <b>{{review.progressReview}}
-                        %</b>, nhận xét:</span> {{review.content}}
-                    </h3>
-                  </div>
-                </div>
-                <!--                                         BÌNH LUẬN TRONG ĐÁNH GIÁ                                               -->
-                <form [formGroup]="commentReviewForm" (ngSubmit)="submitReviewComment()"
-                      *ngIf="commentReviewForm">
-                  <div class="row">
-                    <div class="col-6 text-left">
-                      <a data-bs-toggle="collapse" href="#collapseReviewComment{{review.id}}"
-                         role="button" aria-expanded="false" aria-controls="collapseReviewComment"
-                         (click)="sendReviewId(review.id)">
-                        <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
-                      </a>
+                  <!--                                         BÌNH LUẬN TRONG ĐÁNH GIÁ                                               -->
+                  <form [formGroup]="commentReviewForm" (ngSubmit)="submitReviewComment()"
+                        *ngIf="commentReviewForm">
+                    <div class="row">
+                      <div class="col-6 text-left my-2">
+                        <a data-bs-toggle="collapse" href="#collapseReviewComment{{review.id}}"
+                           role="button" aria-expanded="false" aria-controls="collapseReviewComment"
+                           (click)="sendReviewId(review.id)">
+                          <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
+                        </a>
+                      </div>
                     </div>
-                    <div class="col-6" style="text-align: right">
-                      <span style="font-size: 0.8rem">-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
-                    </div>
-                  </div>
 
-                  <div class="collapse" id="collapseReviewComment{{review.id}}">
-                    <div class="form-group">
+                    <div class="collapse" id="collapseReviewComment{{review.id}}">
+                      <div class="form-group">
                                          <textarea style="border-radius: 1.5rem" id="commentReview" cols="200"
                                                    rows="5" name="comment" class="form-control"
                                                    formControlName="content">
                                          </textarea>
-                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('required')
+                        <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('required')
               && commentReviewForm.controls.content.touched">
-                        Vui lòng nhập nội dung trước khi gửi.
-                      </h6>
-                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('maxlength')
+                          Vui lòng nhập nội dung trước khi gửi.
+                        </h6>
+                        <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('maxlength')
               && commentReviewForm.controls.content.touched">
-                        Vui lòng nhập không quá 100 ký tự.
-                      </h6>
-                      <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('minlength')
+                          Vui lòng nhập không quá 100 ký tự.
+                        </h6>
+                        <h6 class="text-danger" *ngIf="commentReviewForm.controls.content.hasError('minlength')
               && commentReviewForm.controls.content.touched">
-                        Vui lòng nhập nhiều hơn 5 ký tự.
-                      </h6>
+                          Vui lòng nhập nhiều hơn 5 ký tự.
+                        </h6>
+                      </div>
+                      <div class="form-group mt-1 text-center"
+                           style=" vertical-align: middle !important;">
+                        <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
+                                [disabled]="!commentReviewForm.valid"
+                                style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
+                          Gửi
+                        </button>
+                      </div>
                     </div>
-                    <div class="form-group mt-1 text-center"
-                         style=" vertical-align: middle !important;">
-                      <button type="submit" class="btn font-weight-bold ml-2 comment-concern-button"
-                              [disabled]="!commentReviewForm.valid"
-                              style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 10%">
-                        Gửi
-                      </button>
-                    </div>
-                  </div>
-                </form>
-                <ng-container *ngFor="let commentReview of reviewCommentList">
-                  <div class="user d-flex flex-row align-items-center my-1 mx-1"
-                       *ngIf="review.id == commentReview.reviewId">
-                    <div class="container mb-2 mt-3">
-                      <div class="card">
-                        <div class="row">
-                          <div class="col-md-12 mt-0">
-                            <div class="media my-5">
-                              <div class="media-body text-left">
-                                <div class="media"><a class="pr-3" href="#">
-                                  <img class="rounded-circle" alt="Bootstrap Media Another Preview"
-                                       src="{{commentReview.avatar}}"/></a>
-                                  <div class="media-body">
-                                    <div class="row">
-                                      <div class="col-12 d-flex">
-                                        <h5 style="color: #4F9B65">{{commentReview.name}}</h5>
+                  </form>
+                  <ng-container *ngFor="let commentReview of reviewCommentList">
+                    <div class="user d-flex flex-row align-items-center my-1 mx-1"
+                         *ngIf="review.id == commentReview.reviewId">
+                      <div class="container mb-2 mt-3">
+                        <div class="card">
+                          <div class="row">
+                            <div class="col-md-12 mt-0">
+                              <div class="media my-5">
+                                <div class="media-body text-left">
+                                  <div class="media"><a class="pr-3" href="#">
+                                    <img class="rounded-circle" alt="Bootstrap Media Another Preview"
+                                         src="{{commentReview.avatar}}"/></a>
+                                    <div class="media-body">
+                                      <div class="row">
+                                        <div class="col-12 d-flex">
+                                          <h5 style="color: #4F9B65">{{commentReview.name}}
+                                            <span
+                                              style="font-size: 0.8rem">-  {{commentReview.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                                          </h5>
+                                        </div>
                                       </div>
+                                      <h6 class="text-secondary text-left p-2"
+                                         style="border-radius: 1.5rem; border: 1px solid lightgrey">
+                                        {{commentReview.content}}
+                                      </h6>
                                     </div>
-                                    {{commentReview.content}}
                                   </div>
                                 </div>
                               </div>
@@ -226,11 +231,11 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </ng-container>
+                  </ng-container>
+                </div>
               </div>
+              <button class="btn btn-success" *ngIf="checkLoadMore" (click)="loadMore()">Xem thêm</button>
             </div>
-            <button class="btn btn-success" *ngIf="checkLoadMore" (click)="loadMore()">Xem thêm</button>
           </div>
         </div>
       </div>
@@ -239,6 +244,7 @@
       <!--    --------------------------------------------------------------------------------------------------------------->
       <!--                                           CODE FROM HAUND                                                     -->
       <!--                                          BÁO CÁO TIẾN ĐỘ CỦA SINH VIÊN                                                  -->
+
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="container">
           <div class="card" style="min-height: 1000px">
@@ -280,6 +286,8 @@
           </div>
         </div>
       </div>
+
+    
       <!--    --------------------------------------------------------------------------------------------------------------->
       <!--                                      ENDCODE FROM HAUND                                              -->
 
@@ -294,7 +302,7 @@
               <h1 class="h1" style="color: #042440">Thắc mắc từ sinh viên</h1>
             </div>
             <div class="card-body">
-              <button class="btn font-weight-bold m-3"
+              <button class="btn font-weight-bold m-3 create-button"
                       style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
                       data-bs-toggle="modal" data-bs-target="#concernModal"
                       data-bs-whatever="@getbootstrap" *ngIf="isStudentLoggedIn == true"> Đăng bài viết
@@ -317,11 +325,11 @@
                   </div>
                   <div class="action d-flex justify-content-start mt-1 p-3"
                        style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
-                    <p class="text-secondary">
+                    <h5 class="text-secondary text-left p-2">
                       {{concern.content}}
-                    </p>
+                    </h5>
                   </div>
-                  <div class="ml-2" style="text-align: left !important; font-size: 1.1rem;">
+                  <div class="ml-2" style="text-align: left !important; font-size: 1.1rem;" *ngIf="concern.attachFile">
                     <a href="{{concern.attachFile}}" target="_blank">
                       <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
                     </a>
@@ -332,7 +340,7 @@
                     <div class="action d-flex justify-content-between mt-1 align-items-center">
                       <div class="text-muted small">
                         <div class="row">
-                          <div class="col-6 text-left">
+                          <div class="col-6 text-left my-2">
                             <a data-bs-toggle="collapse" href="#collapseComment{{concern.id}}"
                                role="button" aria-expanded="false" aria-controls="collapseComment"
                                (click)="sendConcernId(concern.id)">
@@ -402,17 +410,23 @@
                                     <div class="media-body">
                                       <div class="row">
                                         <div class="col-12 d-flex">
-                                          <h5 style="color: #4F9B65">{{concernComment.name}}</h5>
+                                          <h5 style="color: #4F9B65">{{concernComment.name}}
+                                            <span
+                                              style="font-size: 0.8rem">-  {{concernComment.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                                          </h5>
                                         </div>
                                       </div>
-                                      {{concernComment.content}}
+                                      <h5 class="text-secondary text-left p-2"
+                                         style="border-radius: 1.5rem; border: 1px solid lightgrey">
+                                        {{concernComment.content}}
+                                      </h5>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
-                                 *ngIf="!concernComment.attachFile == null">
+                                 *ngIf="concernComment.attachFile != null">
                               <a href="{{concernComment.attachFile}}" target="_blank">
                                 <i class="fas fa-file-alt"> Bấm để xem đính kèm</i>
                               </a>
@@ -423,23 +437,27 @@
                     </div>
                   </ng-container>
                 </div>
+
                 <button class="btn btn-success" *ngIf="checkLoadMoreConcern" (click)="loadMoreConcern()">Xem thêm
                 </button>
+
               </div>
+              <button class="btn btn-success" *ngIf="checkLoadMoreConcern" (click)="loadMoreConcern()">Xem thêm
+              </button>
             </div>
           </div>
         </div>
       </div>
       <!--                                              THÔNG BÁO CỦA GIÁO VIÊN                                      -->
       <div class="tab-pane fade" id="teacher-notification" role="tabpanel" aria-labelledby="teacher-notification-tab">
-        <div class="container">
+        <div class="container w-100">
           <div class="card" style="min-height: 1000px">
             <div class="card-header text-center">
               <h1 class="h1" style="color: #042440">Thông báo của giáo viên</h1>
             </div>
             <div class="card-body">
-              <button class="btn font-weight-bold m-3"
-                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem"
+              <button class="btn font-weight-bold m-3 create-button"
+                      style="background-color: #4F9B65; color: white; border-radius: 1.5rem;"
                       data-bs-toggle="modal" data-bs-target="#announceModal"
                       data-bs-whatever="@getbootstrap" *ngIf="isTeacherLogging"> Tạo thông báo
               </button>
@@ -450,8 +468,7 @@
                       <img src="{{announcement.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
                       <h5 style="color: #4F9B65">
                         {{announcement.name}}
-                        <span
-                          style="font-size: 0.8rem">-  {{announcement.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                        <span style="font-size: 0.8rem">-  {{announcement.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
                       </h5>
                     </div>
                   </div>
@@ -462,11 +479,11 @@
                   </div>
                   <div class="action d-flex justify-content-start mt-1 p-3"
                        style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
-                    <p class="text-secondary">
+                    <h5 class="text-secondary text-left">
                       {{announcement.content}}
-                    </p>
+                    </h5>
                   </div>
-                  <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
+                  <div class="ml-2 mt-2" style="text-align: left !important; font-size: 1.1rem"
                        *ngIf="announcement.attachFile != null">
                     <a href="{{announcement.attachFile}}" target="_blank">
                       <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i>
@@ -476,17 +493,12 @@
                   <div class="action d-flex justify-content-between mt-1 align-items-center">
                     <div class="text-muted small">
                       <div class="row">
-                        <div class="col-6 text-left">
+                        <div class="text-left my-2">
                           <a data-bs-toggle="collapse" href="#collapseAnnouncement{{announcement.id}}"
                              role="button" aria-expanded="false" aria-controls="collapseAnnouncement"
                              (click)="sendAnnouncementId(announcement.id)">
                             <i class="far fa-comment mx-2" style="width: 200px; font-size: 1.2rem"> Bình luận</i>
                           </a>
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                          <!--                          <p>-->
-                          <!--                            12/07/2021-->
-                          <!--                          </p>-->
                         </div>
                       </div>
                       <form [formGroup]="commentAnnouncementForm" (ngSubmit)="submitAnnouncementComment()"
@@ -548,18 +560,22 @@
                                     <div class="media-body">
                                       <div class="row">
                                         <div class="col-12 d-flex">
-                                          <h5 style="color: #4F9B65">{{announceComment.name}}</h5>
-                                          <span>- 5 hours ago</span>
+                                          <h5 style="color: #4F9B65">{{announceComment.name}}
+                                            <span
+                                              style="font-size: 0.8rem">-  {{announceComment.dateCreate|date: 'dd/MM/yyyy h:mm a'}}</span>
+                                          </h5>
                                         </div>
                                       </div>
-                                      {{announceComment.content}}
+                                      <p class="text-secondary text-left">
+                                        {{announceComment.content}}
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                            <div class="ml-2" style="text-align: left !important; font-size: 1.1rem"
-                                 *ngIf="announceComment.attachFile != null">
+                            <div class="ml-2 mt-2" style="text-align: left !important; font-size: 1.1rem"
+                                 *ngIf="announceComment.attachFile">
                               <a href="{{announceComment.attachFile}}" target="_blank">
                                 <i class="fas fa-file-alt"> Bấm để xem file đính kèm</i></a>
                             </div>
@@ -569,10 +585,14 @@
                     </div>
                   </ng-container>
                 </div>
+
                 <button class="btn btn-success" *ngIf="checkLoadMoreAnnouncement" (click)="loadMoreAnnouncement()">Xem
                   thêm
                 </button>
               </div>
+              <button class="btn btn-success" *ngIf="checkLoadMoreAnnouncement" (click)="loadMoreAnnouncement()">Xem
+                thêm
+              </button>
             </div>
           </div>
         </div>
@@ -608,7 +628,7 @@
           </div>
           <div class="mb-3">
             <label for="message-text" class="col-form-label">Nội dung đánh giá:</label>
-            <textarea class="form-control" id="message-text" formControlName="content"></textarea>
+            <textarea class="form-control" id="message-text" formControlName="content" rows="10"></textarea>
             <div
               *ngIf="!content?.valid && (content?.dirty ||content?.touched)">
               <div [hidden]="!content.errors.required">
@@ -682,7 +702,7 @@
           <div class="mb-3">
             <label for="concern-content" class="col-form-label">Nội dung thắc mắc <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="concern-content" formControlName="content" rows="7"></textarea>
+            <textarea class="form-control" id="concern-content" formControlName="content" rows="10"></textarea>
             <h6 class="text-danger" *ngIf="concernForm.controls.content.hasError('required')
               && concernForm.controls.content.touched">
               Vui lòng nhập nội dung.
@@ -752,7 +772,7 @@
           <div class="mb-3">
             <label for="announcement-content" class="col-form-label">Nội dung thông báo <span
               style="color: red">*</span> :</label>
-            <textarea class="form-control" id="announcement-content" formControlName="content" rows="7"></textarea>
+            <textarea class="form-control" id="announcement-content" formControlName="content" rows="10"></textarea>
             <h6 class="text-danger" *ngIf="announcementForm.controls.content.hasError('required')
               && announcementForm.controls.content.touched">
               Vui lòng nhập nội dung.
@@ -794,6 +814,12 @@
     </div>
   </div>
 </div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+</ngx-spinner>
 <!--------------------------------------------------------------------------------------------------------------------->
 <!--                                         CODE FROM DONGTHG                                                       -->
-

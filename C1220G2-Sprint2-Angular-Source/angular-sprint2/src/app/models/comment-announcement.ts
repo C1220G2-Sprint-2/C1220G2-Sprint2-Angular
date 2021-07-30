@@ -7,4 +7,5 @@ export interface CommentAnnouncement {
   avatar: string;
   name: string;
   announcementId: number;
+  dateCreate?: string;
 }

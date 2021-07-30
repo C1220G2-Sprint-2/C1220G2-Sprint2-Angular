@@ -16,6 +16,7 @@ import {CommentConcern} from '../../models/comment-concern';
 import {CommentAnnouncement} from '../../models/comment-announcement';
 import {CommentConcernService} from '../comment-concern.service';
 import {CommentAnnouncementService} from '../comment-announcement.service';
+
 import {ReviewDto} from '../review-dto';
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
@@ -23,6 +24,8 @@ import {CommentReview} from '../../models/comment-review';
 import {ReportServiceService} from '../../report-progress/report-service.service';
 import {ReportProgress} from '../../models/report-progress';
 import {ReportHistory} from '../../models/report-history';
+import {NgxSpinnerService} from 'ngx-spinner';
+
 
 
 @Component({
@@ -91,7 +94,8 @@ export class DetailComponent implements OnInit {
               private tokenStorageService: TokenStorageService,
               private storage: AngularFireStorage,
               private toastService: ToastrService,
-              private reportServiceService: ReportServiceService) {
+              private reportServiceService: ReportServiceService,
+              private spinner: NgxSpinnerService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.projectId = +paramMap.get('id');
     });
@@ -176,7 +180,8 @@ export class DetailComponent implements OnInit {
       attachFile: this.attachFile,
       studentCode: this.tokenStorageService.getUser().username,
       avatar: this.avatar,
-      name: this.currentUsername
+      name: this.currentUsername,
+      projectId: this.projectDto.id
     };
     console.log(this.studentConcern);
     this.studentConcernService.saveStudentConcern(this.studentConcern).subscribe(() => {
@@ -186,7 +191,9 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern failed !');
     }, () => {
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -201,7 +208,11 @@ export class DetailComponent implements OnInit {
   getConcernList() {
     this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(concern => {
       this.concernList = concern;
+      if (this.concernList === null) {
+        this.checkLoadMoreConcern = false;
+      }
       console.log('Get list concern success !');
+      console.log(this.concernList.length + ", load more =" + this.checkLoadMoreConcern);
     }, e => {
       console.log('Get list concern failed !');
     });
@@ -209,7 +220,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreConcern() {
     this.concernRecord += 1;
-    if (this.concernRecord > this.concernMaxSize) {
+    if (this.concernRecord >= this.concernMaxSize + 1) {
       this.checkLoadMoreConcern = false;
     } else {
       this.studentConcernService.getAllStudentConcern(this.concernRecord).subscribe(result => {
@@ -231,6 +242,9 @@ export class DetailComponent implements OnInit {
   getAnnouncementList() {
     this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(announcement => {
       this.announcementList = announcement;
+      if (this.announcementList === null) {
+        this.checkLoadMoreAnnouncement = false;
+      }
       console.log('Get list announcement success !');
     }, e => {
       console.log('Get list announcement failed !');
@@ -239,7 +253,7 @@ export class DetailComponent implements OnInit {
 
   loadMoreAnnouncement() {
     this.announcementRecord += 1;
-    if (this.announcementRecord > this.announcementMaxSize) {
+    if (this.announcementRecord >= this.announcementMaxSize + 1) {
       this.checkLoadMoreAnnouncement = false;
     } else {
       this.announcementService.getAllAnnouncement(this.announcementRecord).subscribe(result => {
@@ -265,7 +279,9 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement failed !');
     }, () => {
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -314,7 +330,9 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -346,7 +364,8 @@ export class DetailComponent implements OnInit {
         studentCode: this.tokenStorageService.getUser().username,
         avatar: this.avatar,
         name: this.currentUsername,
-        concernId: this.concernId
+        concernId: this.concernId,
+        projectId: this.projectDto.id
       };
     } else if (this.tokenStorageService.getUser().username.charAt(0) == 'G') {
       this.commentOfConcern = {
@@ -355,7 +374,8 @@ export class DetailComponent implements OnInit {
         teacherCode: this.tokenStorageService.getUser().username,
         avatar: this.avatar,
         name: this.currentUsername,
-        concernId: this.concernId
+        concernId: this.concernId,
+        projectId: this.projectDto.id
       };
     }
     console.log(this.commentOfConcern);
@@ -366,7 +386,9 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern comment failed !');
     }, () => {
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -413,7 +435,9 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create review comment failed !');
     }, () => {
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -430,7 +454,9 @@ export class DetailComponent implements OnInit {
   }
 
   addFile(event: any) {
-    this.uploading();
+    this.spinner.show(undefined,{
+      type: 'timer'
+    });
     const now = Date.now();
     const file = event.target.files[0];
     const filePath = `StudentConcern/${now}`;
@@ -445,6 +471,10 @@ export class DetailComponent implements OnInit {
             if (url) {
               this.attachFile = url;
             }
+          }, error => {
+
+          }, () => {
+            this.spinner.hide();
           });
         })
       )
@@ -468,7 +498,9 @@ export class DetailComponent implements OnInit {
     this.progressService.addNewReview(this.review).subscribe(() => {
       this.showSuccessReview();
       // @ts-ignore
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
     });
   }
 
@@ -484,6 +516,9 @@ export class DetailComponent implements OnInit {
   getAllReview() {
     this.progressService.getAllReview(this.record).subscribe(result => {
       this.reviewList = result;
+      if (this.reviewList.length === 0) {
+        this.checkLoadMore = false;
+      }
     });
   }
 
@@ -494,7 +529,7 @@ export class DetailComponent implements OnInit {
   loadMore() {
     console.log('load more ok' + this.maxSize + ', ' + this.record);
     this.record += 1;
-    if (this.record >= this.maxSize) {
+    if (this.record >= this.maxSize + 1) {
       this.checkLoadMore = false;
     } else {
       this.progressService.getAllReview(this.record).subscribe(result => {
@@ -504,37 +539,7 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  uploading() {
-    let timerInterval;
-    Swal.fire({
-      title: 'Đang tải lên ...',
-      html: 'Thời gian chờ <b></b> giây.',
-      timer: 1000,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-        timerInterval = setInterval(() => {
-          const content = Swal.getHtmlContainer();
-          if (content) {
-            const b = content.querySelector('b');
-            if (b) {
-              // @ts-ignore
-              b.textContent = Swal.getTimerLeft();
-            }
-          }
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      }
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log('I was closed by the timer');
-      }
-    });
-  }
-
-  showSuccessReview() {
+  showSuccessReview(){
     this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
   };
 
