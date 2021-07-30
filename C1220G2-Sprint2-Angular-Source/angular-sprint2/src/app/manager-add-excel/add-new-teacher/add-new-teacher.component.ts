@@ -6,6 +6,8 @@ import {Teacher} from '../../models/teacher';
 import {Education} from '../../models/education';
 import {Subscription} from 'rxjs';
 import {TeacherService} from '../../teacher/teacher.service';
+import {TokenStorageService} from '../../security/token-storage.service';
+import {CheckLoggedInService} from '../check-logged-in.service';
 
 @Component({
   selector: 'app-add-new-teacher',
@@ -19,10 +21,15 @@ export class AddNewTeacherComponent implements OnInit {
   public quantityRecord = 0;
   public studentIndex: number;
   flagLoading: boolean = false;
+  isLoggedIn: boolean;
+  roles =[];
 
   constructor(public addNewService: AddNewService,private teacherService: TeacherService,
               public router: Router,
-              public excelService: ExcelService) {
+              public excelService: ExcelService,
+              private checkLoggedInService: CheckLoggedInService) {
+    this.roles = checkLoggedInService.check();
+
   }
 
   ngOnInit(): void {

@@ -10,6 +10,7 @@ import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ToastrService} from 'ngx-toastr';
 import Swal from "sweetalert2";
+import {CheckLoggedInService} from '../../manager-add-excel/check-logged-in.service';
 
 @Component({
   selector: 'app-edit-teacher',
@@ -41,9 +42,12 @@ export class EditTeacherComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private angularFireStorage: AngularFireStorage,
-              private toastService: ToastrService) { }
+              private toastService: ToastrService, private checkLoggedInService: CheckLoggedInService) {
+
+  }
 
   ngOnInit(): void {
+    this.checkLoggedInService.check();
     this.loadListFaculty();
     this.loadListEducation();
     this.activatedRoute.paramMap.subscribe((value: ParamMap)=>{

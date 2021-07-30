@@ -4,6 +4,9 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {Routes, RouterModule} from '@angular/router';
 import {environment} from 'src/environments/environment';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+
+
 
 
 const routes: Routes = [
@@ -55,13 +58,22 @@ const routes: Routes = [
   {
     path: 'giang-vien',
     loadChildren: () => import('./teacher/teacher.module').then(module => module.TeacherModule)
-
   },
   {
     path: 'excel',
     loadChildren: () => import('./manager-add-excel/manager-add-excel.module').then(module => module.ManagerAddExcelModule)
-  }
+  },
+  {
+    path: 'page',
+    loadChildren: () => import('./error-page/error-page.module').then(module => module.ErrorPageModule)
+  },
+  {path: '404', component: PageNotFoundComponent},
+  {path: '**', redirectTo: '/404'}
+
 ];
+
+
+
 
 
 @NgModule({
