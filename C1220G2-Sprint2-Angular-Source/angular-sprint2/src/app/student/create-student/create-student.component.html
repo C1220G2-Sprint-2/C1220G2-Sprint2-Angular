@@ -1,4 +1,3 @@
-
 <div class="container mt-3">
   <div class="row">
     <div class="col-1"></div>
@@ -67,7 +66,7 @@
                     giới tính không được để trống.</span>
               </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="dateOfBirth" class="form-label"><b>Ngày sinh</b><span
@@ -81,7 +80,6 @@
                         *ngIf="studentForm.controls.dateOfBirth.hasError('invalid18')
          && studentForm.controls.dateOfBirth.dirty">
                     ngày sinh không hợp lệ.</span>
-
                 </div>
               </div>
               <div class="col-6">
@@ -99,14 +97,15 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="class" class="form-label"><b>Lớp</b><span style="color: red">*</span></label>
-                  <select  id="class" class="form-select" aria-label="Default select example" formControlName="classStudent">
-                    <option selected value="">...</option>
-                    <option *ngFor="let classStudent of listClass" value="{{classStudent.id}}">{{classStudent.name}}</option>
-                  </select>
+                  <input class="form-control" list="datalistClass" id="class" required formControlName="classStudent"
+                         placeholder="Chọn lớp">
+                  <datalist id="datalistClass">
+                    <option *ngFor="let t of listClass">{{t.name}}</option>
+                  </datalist>
                   <span style="color: red"
                         *ngIf="studentForm.controls.classStudent.hasError('required')
          && studentForm.controls.classStudent.touched">
@@ -116,10 +115,11 @@
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="faculty" class="form-label"><b>Khoa: </b> <span style="color: red">*</span></label>
-                  <select id="faculty" class="form-select" aria-label="Default select example" formControlName="faculty">
-                    <option selected value="">...</option>
-                    <option *ngFor="let faculty of listFaculty" value="{{faculty.id}}">{{faculty.name}}</option>
-                  </select>
+                  <input class="form-control" list="datalistfaculty" id="faculty" required formControlName="faculty"
+                         placeholder="Chọn khoa">
+                  <datalist id="datalistfaculty">
+                    <option *ngFor="let t of listFaculty">{{t.name}}</option>
+                  </datalist>
                   <span style="color: red"
                         *ngIf="studentForm.controls.faculty.hasError('required')
          && studentForm.controls.faculty.touched">
@@ -127,7 +127,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <div class="col-6">
                 <div class="md-form form-sm">
                   <label for="email" class="form-label"><b>Email</b><span style="color: red">*</span></label>
@@ -144,9 +144,9 @@
                         *ngIf="studentForm.controls.email.hasError('maxlength')
          && studentForm.controls.email.dirty">
                     Email không được quá 50 kí tự.</span>
-                    <span style="color: red"
-                      *ngIf="messageEmail !=''">
-                      {{messageEmail}}</span>
+                  <span style="color: red"
+                        *ngIf="messageEmail !=''">
+                    {{messageEmail}}</span>
                 </div>
               </div>
               <div class="col-6">
@@ -164,7 +164,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <div class="col">
                 <div class="md-form form-sm">
                   <label for="fb" class="form-label"><b>Facebook</b></label>
@@ -178,7 +178,7 @@
               <div class="col-6" style="text-align: right">
                 <button type="button"
                         class="btn font-weight-bold"
-                        style="background-color: #616C8C; color: white; border-radius: 1.5rem" [routerLink]="['/hoc-sinh/danh-sach']">HỦY BỎ
+                        style="background-color: #616C8C; color: white; border-radius: 1.5rem;margin-right: 10px" [routerLink]="['/hoc-sinh/danh-sach']">HỦY BỎ
                 </button>
                 <button class="btn font-weight-bold" type="submit"
                         style="background-color: #4F9B65; color: white; border-radius: 1.5rem" [disabled]="!(studentForm.valid && checkUpload)">THÊM MỚI
@@ -190,10 +190,5 @@
       </div>
     </div>
     <div class="col-1"></div>
-
-
   </div>
 </div>
-
-
-

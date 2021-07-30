@@ -5,34 +5,28 @@ import {Router} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
 import {Observable} from "rxjs";
-import { FirebaseAuthService } from 'src/app/chat/services/firebaseAuth.service';
 import {Class} from "../../model/class";
 import {Faculty} from "../../model/faculty";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
-import { Student } from 'src/app/model/student';
-
+import {Student} from "../../model/student";
 @Component({
   selector: 'app-create-student',
   templateUrl: './create-student.component.html',
   styleUrls: ['./create-student.component.css']
 })
 export class CreateStudentComponent implements OnInit {
-
   constructor(private studentService: StudentService,
               private router: Router,
               private toastService: ToastrService,
               private angularFireStorage: AngularFireStorage) { }
-
   studentForm: FormGroup;
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
-
   ngOnInit(): void {
     this.studentService.findAll().subscribe(value => {
       this.listStudent = value;
     });
-
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
     });
@@ -51,7 +45,6 @@ export class CreateStudentComponent implements OnInit {
       facebook: new FormControl(),
     });
   }
-
   validateAge18(dateOfBirthControl: AbstractControl): any {
     let dateOfBirthValue = dateOfBirthControl.value;
     let year = Number(dateOfBirthValue.substr(0,4));
@@ -59,38 +52,42 @@ export class CreateStudentComponent implements OnInit {
     let check = currentYear - year >=18 && currentYear - year <60;
     return check ? null : {'invalid18' : true};
   }
-
-
-  listStudent: Student[] = [];
+  listStudent: Student[];
   messageEmail = "";
-  checkEmail(email: string): boolean {
+  checkEmail(email: string): boolean{
     this.messageEmail = "";
-    for (let i = 0; i < this.listStudent.length; i++) {
-      if (email == this.listStudent[i].email) {
-        this.messageEmail = "Email đã có người sử dụng";
-        return true;
+      for (let i=0; i<this.listStudent.length; i++){
+        if (email == this.listStudent[i].email){
+          this.messageEmail = "Email đã có người sử dụng";
+          return true;
+        }
       }
-    }
     return false;
   }
-
-
   submitForm() {
-    console.log("student list: " + this.listStudent);
     let student = this.studentForm.value;
+    for(let i =0; i<this.listClass.length; i++){
+      if (student.classStudent == this.listClass[i].name){
+        student.classStudent = Number(this.listClass[i].id);
+      }
+        }
+    for(let i =0; i<this.listFaculty.length; i++){
+      if (student.faculty == this.listFaculty[i].name){
+        student.faculty = Number(this.listFaculty[i].id);
+      }
+    }
     student.image = this.image;
-    if (this.checkEmail(student.email)) {
-    } else {
+    if (this.checkEmail(student.email)){
+    }else{
       this.delay();
       this.studentService.create(student).subscribe(() => {
         this.callToastr();
       }, e => {
-      }, () => {
+      }, () =>{
         this.router.navigateByUrl('/hoc-sinh/danh-sach');
       });
     }
   }
-
   selectedImage: any;
   downloadURL: Observable<string>;
   image: string = "https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200526/68824651-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6";
@@ -98,7 +95,6 @@ export class CreateStudentComponent implements OnInit {
   this.selectedImage = event.target.files[0];
   this.chooseImage(this.selectedImage);
   }
-
   checkUpload = true;
   chooseImage(selectedImage: any) {
     this.checkUpload = false;
@@ -114,7 +110,6 @@ export class CreateStudentComponent implements OnInit {
       })
     ).subscribe();
   }
-
   callToastr() {
     this.toastService.success("Thêm mới sinh viên thành công...", "Chỉnh sửa", {
       timeOut: 1500,
@@ -122,12 +117,11 @@ export class CreateStudentComponent implements OnInit {
       progressAnimation: 'increasing'
     })
   }
-
   delay() {
     let timerInterval;
     Swal.fire({
       title: '',
-      html: 'Vui lòng chờ trong <b></b> giây.',
+      html: 'Vui lòng chờ...',
       timer: 5000,
       timerProgressBar: true,
       didOpen: () => {

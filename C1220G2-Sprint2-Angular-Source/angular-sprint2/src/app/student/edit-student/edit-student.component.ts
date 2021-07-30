@@ -10,41 +10,46 @@ import {Class} from "../../model/class";
 import {Faculty} from "../../model/faculty";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
-
-
-
 @Component({
   selector: 'app-edit-student',
   templateUrl: './edit-student.component.html',
   styleUrls: ['./edit-student.component.css']
 })
 export class EditStudentComponent implements OnInit {
-
   codeStudent: string;
   student: Student;
   studentForm: FormGroup;
   listClass: Class[] = [];
   listFaculty: Faculty[] = [];
-  emailOld: string;
-
+  emailOld: string = "";
   constructor(private activatedRoute: ActivatedRoute,
               private studentService: StudentService,
               private toastService: ToastrService,
               private router: Router,
               private angularFireStorage: AngularFireStorage) { }
-
   ngOnInit(): void {
+    this.studentService.findAll().subscribe(value => {
+      this.listStudent = value;
+    });
   this.codeStudent = this.activatedRoute.snapshot.params.code;
-  this.studentService.findAll().subscribe(value => {
-    this.listStudent = value;
-  });
     this.studentService.findAllClass().subscribe(value => {
       this.listClass =value;
       this.studentService.findAllFaculty().subscribe(value => {
         this.listFaculty = value;
         this.studentService.findById(this.codeStudent).subscribe(value => {
           this.student = value;
+          for(let i =0; i<this.listClass.length; i++){
+            if (this.student.classStudent == String(this.listClass[i].id)){
+              this.student.classStudent = this.listClass[i].name;
+            }
+          }
+          for(let i =0; i<this.listFaculty.length; i++){
+            if (this.student.faculty == String(this.listFaculty[i].id)){
+              this.student.faculty = this.listFaculty[i].name;
+            }
+          }
           this.emailOld = this.student.email;
+          console.log(this.student);
           this.studentForm = new FormGroup({
             name: new FormControl(this.student.name, [Validators.maxLength(50),Validators.required,Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]*$')]),
             gender: new FormControl(this.student.gender, Validators.required),
@@ -63,7 +68,6 @@ export class EditStudentComponent implements OnInit {
         })
       });
     });
-
   }
   validateAge18(dateOfBirthControl: AbstractControl): any {
     let dateOfBirthValue = dateOfBirthControl.value;
@@ -73,32 +77,41 @@ export class EditStudentComponent implements OnInit {
     return check ? null : {'invalid18' : true};
   }
   submitForm() {
+    console.log("");
     let temp = this.studentForm.value;
     temp.code = this.codeStudent;
     temp.image = this.image;
-       if (this.checkEmail(temp.email)){
-       }else{
-         this.delay();
-         this.studentService.edit(temp).subscribe(value => {
-           this.router.navigateByUrl("/hoc-sinh/danh-sach");
-           this.callToastr();
-         })
-       }
-     }
-     listStudent: Student[];
-     messageEmail = "";
-     checkEmail(email: string): boolean{
-       this.messageEmail = "";
-       for (let i=0; i<this.listStudent.length; i++){
-         if (email == this.listStudent[i].email && email != this.emailOld){
-           this.messageEmail = "Email đã có người sử dụng";
-           return true;
-         }
-       }
-       return false;
-     }
-
-
+    for(let i =0; i<this.listClass.length; i++){
+      if (temp.classStudent == this.listClass[i].name){
+        temp.classStudent = Number(this.listClass[i].id);
+      }
+    }
+    for(let i =0; i<this.listFaculty.length; i++){
+      if (temp.faculty == this.listFaculty[i].name){
+        temp.faculty = Number(this.listFaculty[i].id);
+      }
+    }
+    if (this.checkEmail(temp.email)){
+    }else{
+      this.delay();
+      this.studentService.edit(temp).subscribe(value => {
+        this.router.navigateByUrl("/hoc-sinh/danh-sach");
+        this.callToastr();
+      })
+    }
+  }
+  listStudent: Student[];
+  messageEmail = "";
+  checkEmail(email: string): boolean{
+    this.messageEmail = "";
+    for (let i=0; i<this.listStudent.length; i++){
+      if (email == this.listStudent[i].email && email != this.emailOld){
+        this.messageEmail = "Email đã có người sử dụng";
+        return true;
+      }
+    }
+    return false;
+  }
   selectedImage: any;
   downloadURL: Observable<string>;
   image: string;
@@ -121,7 +134,6 @@ checkUpload = true;
       })
     ).subscribe();
   }
-
   callToastr() {
     this.toastService.success("Chỉnh sửa thông tin sinh viên thành công...", "Chỉnh sửa", {
       timeOut: 1500,
@@ -133,7 +145,7 @@ checkUpload = true;
     let timerInterval;
     Swal.fire({
       title: '',
-      html: 'Vui lòng chờ trong <b></b> giây.',
+      html: 'Vui lòng chờ...',
       timer: 500,
       timerProgressBar: true,
       didOpen: () => {
@@ -158,6 +170,4 @@ checkUpload = true;
       }
     })
   }
-
 }
-
