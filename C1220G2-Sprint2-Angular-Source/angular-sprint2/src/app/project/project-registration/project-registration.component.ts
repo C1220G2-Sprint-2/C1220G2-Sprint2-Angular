@@ -19,8 +19,22 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   pageSize: number = 10;
   nameCheck= "";
   checkName=false;
+ color: any;
   ngDoCheck(): void {
-
+    if (this.checkName) {
+      this.color= 'red';
+    }else {
+      this.color= 'green';
+    }
+      }
+  load() {
+    this.teamService.listProject().subscribe(data => {
+      console.log("this.listProject")
+      console.log(data);
+      this.listProject = data.filter(function (project) {
+        return project.enable == true && project.status == 1;
+      })
+    });
   }
   loading = false;
   listProject: any[];
