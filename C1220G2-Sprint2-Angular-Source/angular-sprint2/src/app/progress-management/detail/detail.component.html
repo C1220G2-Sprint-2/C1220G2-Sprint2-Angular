@@ -74,7 +74,8 @@
         <td>
           <p style="font-weight: bold">
             <span
-              class="bg-success text-white" *ngIf=" report.stage == 100 ; else elseBlock">Hoàn thành <span class="bg-white text-black">&nbsp;{{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</span>
+              class="bg-success text-white" *ngIf=" report.stage == 100 ; else elseBlock">Hoàn thành <span
+              class="bg-white text-black">&nbsp;{{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</span>
             </span>
           </p>
           <p style="font-weight: bold">
@@ -139,7 +140,8 @@
                     <img src="{{review.avatar}}" width="60" height="60" class="user-img rounded-circle mx-2"/>
                     <h5 style="color: #4F9B65">
                       {{review.teacherName}}
-                      <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b style="color: black">{{review.title}}</b></span>
+                      <span>-  {{review.dateCreate|date: 'dd/MM/yyyy h:mm a'}} &nbsp;<b
+                        style="color: black">{{review.title}}</b></span>
                     </h5>
                   </div>
                 </div>
@@ -147,7 +149,8 @@
                      style="border: 1px solid lightgrey !important;border-radius: 1.5rem;">
                   <div>
                     <h3>
-                      <span class="font-weight-bold">Tiến độ: <b>{{review.progressReview}}%</b>, nhận xét:</span> {{review.content}}
+                      <span class="font-weight-bold">Tiến độ: <b>{{review.progressReview}}
+                        %</b>, nhận xét:</span> {{review.content}}
                     </h3>
                   </div>
                 </div>
@@ -236,154 +239,47 @@
       <!--    --------------------------------------------------------------------------------------------------------------->
       <!--                                           CODE FROM HAUND                                                     -->
       <!--                                          BÁO CÁO TIẾN ĐỘ CỦA SINH VIÊN                                                  -->
-<!--      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">-->
-<!--        <div class="container">-->
-<!--          <div class="card" style="min-height: 1000px">-->
-<!--            <div class="card-header text-center">-->
-<!--              <h1 class="h1" style="color:#042440">Báo cáo tiến độ của sinh viên</h1>-->
-<!--            </div>-->
-<!--            <div class="card-body">-->
-<!--              <div class="container" style="background-color: #FFFEE0">-->
-<!--                <div class="row">-->
-<!--                  <ng-container *ngFor="let report of reportList">-->
-<!--                    <div class="col-3 text-right">-->
-<!--                      <img src="{{avatarStudent}}" width="70" class="user-img rounded-circle mx-2"/>-->
-<!--                    </div>-->
-<!--                    <div class="col-9 text-left">-->
-<!--                      <div class="row">-->
-<!--                        <small class="font-weight-bold text-primary">{{studentName}}</small>-->
-<!--                      </div>-->
-<!--                      <div class="row">-->
-<!--                        <small style="color: #0f6848"> Tiến độ 1</small>-->
-<!--                      </div>-->
-<!--                      <div class="row">-->
-<!--                        <small class="font-weight-bold "> {{report.content}} </small>-->
-<!--                      </div>-->
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="container">
+          <div class="card" style="min-height: 1000px">
+            <div class="card-header text-center">
+              <h1 class="h1" style="color:#042440">Báo cáo tiến độ của sinh viên</h1>
+            </div>
+            <div class="card-body">
+              <div class="container" style="background-color: #FFFEE0">
+                <div class="row">
+                  <ng-container *ngFor="let report of reportHistoryList">
+                    <div class="col-3 text-right">
+                      <img src="{{report.avatar}}" width="70" class="user-img rounded-circle mx-2"/>
+                    </div>
+                    <div class="col-9 text-left">
+                      <div class="row">
+                        <small class="font-weight-bold text-primary">{{report.name}}</small>
+                      </div>
+                      <div class="row">
+                        <small style="color: #0f6848"> {{report.reportProgress}}</small>
+                      </div>
+                      <div class="row">
+                        <small class="font-weight-bold "> {{report.content}} </small>
+                      </div>
 <!--                      <div class="row">-->
 <!--                        <small class="font-weight-bold "><a href="{{report.fileReport}}" target="_blank">File đính-->
 <!--                          kèm</a> <i class="far fa-file-pdf"></i></small>-->
 <!--                      </div>-->
-<!--                      <div class="row" style="text-align: right">-->
-<!--                        <p>-->
-<!--                          {{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}-->
-<!--                        </p>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </ng-container>-->
-<!--                </div>-->
-<!--                <hr>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-3 text-right">-->
-<!--                    <img-->
-<!--                      src="https://i.imgur.com/ZSkeqnd.jpg"-->
-<!--                      width="70"-->
-<!--                      class="user-img rounded-circle mx-2">-->
-<!--                  </div>-->
-<!--                  <div class="col-9 text-left">-->
-<!--                    <div class="row">-->
-<!--                      <small class="font-weight-bold text-primary">Văn Dũng</small>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                      <small style="color: #0f6848"> Tiến độ 1</small>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                      <small class="font-weight-bold "> Test nội dung </small>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>-->
-<!--                    </div>-->
-<!--                    <div class="row" style="text-align: right">-->
-<!--                      <p>-->
-<!--                        16/07/2021-->
-<!--                      </p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <hr>-->
-<!--                &lt;!&ndash;                <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-3 text-right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <img src="https://i.imgur.com/C4egmYM.jpg"&ndash;&gt;-->
-<!--                &lt;!&ndash;                         width="70"&ndash;&gt;-->
-<!--                &lt;!&ndash;                         class="user-img rounded-circle mx-2">&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-9 text-left">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold text-primary">Sinh viên A</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small style="color: #0f6848"> Tiến độ 1</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold "> Test nội dung </small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row" style="text-align: right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                        15/07/2021&ndash;&gt;-->
-<!--                &lt;!&ndash;                      </p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <hr>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-3 text-right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <img src="https://i.imgur.com/hczKIze.jpg" width="70" class="user-img rounded-circle mx-2"/>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-9 text-left">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold text-primary">Sinh viên B</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small style="color: #0f6848"> Tiến độ 1</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold "> Test nội dung </small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row" style="text-align: right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                        13/07/2021&ndash;&gt;-->
-<!--                &lt;!&ndash;                      </p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <hr>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-3 text-right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <img src="https://i.imgur.com/ZSkeqnd.jpg"&ndash;&gt;-->
-<!--                &lt;!&ndash;                         width="70"&ndash;&gt;-->
-<!--                &lt;!&ndash;                         class="user-img rounded-circle mx-2">&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  <div class="col-9 text-left">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold text-primary">Sinh viên C</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small style="color: #0f6848"> Tiến độ 1</small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold "> Báo cáo tuần </small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <small class="font-weight-bold ">Báo cáo tiến độ <i class="far fa-file-pdf"></i></small>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <div class="row" style="text-align: right">&ndash;&gt;-->
-<!--                &lt;!&ndash;                      <p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                        12/07/2021&ndash;&gt;-->
-<!--                &lt;!&ndash;                      </p>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <hr>&ndash;&gt;-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+                      <div class="row" style="text-align: right">
+                        <p>
+                          {{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}
+                        </p>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!--    --------------------------------------------------------------------------------------------------------------->
       <!--                                      ENDCODE FROM HAUND                                              -->
 
@@ -527,7 +423,8 @@
                     </div>
                   </ng-container>
                 </div>
-                <button class="btn btn-success" *ngIf="checkLoadMoreConcern" (click)="loadMoreConcern()">Xem thêm</button>
+                <button class="btn btn-success" *ngIf="checkLoadMoreConcern" (click)="loadMoreConcern()">Xem thêm
+                </button>
               </div>
             </div>
           </div>
@@ -672,7 +569,9 @@
                     </div>
                   </ng-container>
                 </div>
-                <button class="btn btn-success" *ngIf="checkLoadMoreAnnouncement" (click)="loadMoreAnnouncement()">Xem thêm</button>
+                <button class="btn btn-success" *ngIf="checkLoadMoreAnnouncement" (click)="loadMoreAnnouncement()">Xem
+                  thêm
+                </button>
               </div>
             </div>
           </div>

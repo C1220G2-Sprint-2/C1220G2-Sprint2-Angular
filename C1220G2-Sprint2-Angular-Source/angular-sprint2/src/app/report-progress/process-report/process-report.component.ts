@@ -9,6 +9,7 @@ import {ReportProgress} from '../../models/report-progress';
 import {ProjectDto} from '../../progress-management/project-dto';
 import {ProgressService} from '../../progress-management/progress.service';
 import {TokenStorageService} from '../../security/token-storage.service';
+import {ReportHistory} from '../../models/report-history';
 
 @Component({
   selector: 'app-process-report',
@@ -21,10 +22,10 @@ export class ProcessReportComponent implements OnInit {
   fileReport: string;
   downloadURL: Observable<string>;
   @Input() backgroundColor: string = '#C2C2C2';
-  reportList: ReportProgress[] = [];
   projectDto: ProjectDto;
   reportId: number;
   reportDto: ReportProgress;
+  reportHistoryList: ReportHistory[] = [];
 
 
   constructor(private formBuilder: FormBuilder,
@@ -44,20 +45,20 @@ export class ProcessReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProjectDto();
-    this.getAll();
+    this.getAllHistoryByReportId(this.reportId);
   }
 
   getReport(id: number) {
     return this.reportService.findById(id).subscribe(report => {
       this.reportDto = report;
       this.reportForm = this.formBuilder.group({
-        id:[report.id],
+        id: [report.id],
         name: [report.name],
         stage: [report.stage],
         fileReport: [''],
         content: [''],
         enable: true,
-        projectId:[this.projectId],
+        projectId: [this.projectId],
         userId: [this.tokenStorageService.getUser().id],
       });
     });
@@ -95,12 +96,6 @@ export class ProcessReportComponent implements OnInit {
       ).subscribe();
   }
 
-  getAll() {
-    this.reportService.getAll().subscribe(report => {
-      this.reportList = report;
-    });
-  }
-
   onBack() {
     this.router.navigate(['/quan-ly-tien-do/chi-tiet-tien-do', this.projectId]);
   }
@@ -108,6 +103,12 @@ export class ProcessReportComponent implements OnInit {
   getProjectDto() {
     this.progressService.getProjectById(this.projectId).subscribe(result => {
       this.projectDto = result;
+    });
+  }
+
+  getAllHistoryByReportId(id: number) {
+    this.reportService.getAllHistoryByReportId(id).subscribe(history=>{
+      this.reportHistoryList = history;
     });
   }
 

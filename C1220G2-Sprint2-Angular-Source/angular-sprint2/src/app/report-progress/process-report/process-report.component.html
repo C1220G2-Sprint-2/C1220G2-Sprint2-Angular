@@ -5,7 +5,7 @@
         <div class="text-center mb-3">
           <h1>Báo cáo tiến độ</h1>
         </div>
-        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="reportForm" *ngIf="reportForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="col-sm-3">
               <label> Tên đề tài</label>
@@ -28,31 +28,40 @@
               <label> File báo cáo <span class="text-danger">*</span></label>
             </div>
             <div class="col-sm-9">
-              <label class="btn btn-success" style="border-radius: 1rem" for="report">Thêm file </label>
+<!--              <label class="btn btn-success" style="border-radius: 1rem" for="report">Thêm file </label>-->
               <input type="file" formControlName="fileReport" accept=".xlsx,.png ,.pdf" id="report"
-                     (change)="addFile($event)" hidden>
+                     (change)="addFile($event)">
+              <a class="text-primary text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Xem lịch sử file báo cáo <i class="fas fa-caret-down"></i>
+
+              </a>
             </div>
           </div>
           <div class="row mt-2">
             <div class="col-sm-3">
             </div>
             <div class="col-sm-9">
-              <table class="table table-hover table-striped border-2">
-                <thead>
-                <tr>
-                  <th scope="col">STT</th>
-                  <th scope="col">Tên file</th>
-                  <th scope="col"> Thời gian</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let report of reportList">
-                  <th>{{report.id}}</th>
-                  <td>{{report.content}}</td>
-                  <td>{{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</td>
-                </tr>
-                </tbody>
-              </table>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <table class="table table-hover table-striped border-2">
+                    <thead>
+                    <tr>
+                      <th scope="col">STT</th>
+                      <th scope="col">Tên sinh viên</th>
+                      <th scope="col"> Thời gian</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let history of reportHistoryList, index as i">
+                      <th>{{i+1}}</th>
+                      <td>{{history.name}}</td>
+                      <td>{{history.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="row mt-2">

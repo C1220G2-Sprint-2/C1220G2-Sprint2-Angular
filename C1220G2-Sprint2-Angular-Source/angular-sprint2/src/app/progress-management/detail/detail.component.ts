@@ -16,12 +16,13 @@ import {CommentConcern} from '../../models/comment-concern';
 import {CommentAnnouncement} from '../../models/comment-announcement';
 import {CommentConcernService} from '../comment-concern.service';
 import {CommentAnnouncementService} from '../comment-announcement.service';
-import {ReviewDto} from "../review-dto";
+import {ReviewDto} from '../review-dto';
 import Swal from 'sweetalert2';
 import {ProjectDto} from '../project-dto';
 import {CommentReview} from '../../models/comment-review';
 import {ReportServiceService} from '../../report-progress/report-service.service';
 import {ReportProgress} from '../../models/report-progress';
+import {ReportHistory} from '../../models/report-history';
 
 
 @Component({
@@ -78,6 +79,7 @@ export class DetailComponent implements OnInit {
   checkLoadMoreAnnouncement = true;
   reportList: ReportProgress[];
   @Input() backgroundColor: string = '#C2C2C2';
+  reportHistoryList: ReportHistory[];
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -113,7 +115,7 @@ export class DetailComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-      if (this.username.substring(0, 2) == "GV") {
+      if (this.username.substring(0, 2) == 'GV') {
         this.isTeacherLogging = true;
       }
     }
@@ -128,7 +130,7 @@ export class DetailComponent implements OnInit {
       console.log(this.username);
       if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogin = true;
-      } else if (this.username.substring(0, 2) == "SV") {
+      } else if (this.username.substring(0, 2) == 'SV') {
         this.isStudentLoggedIn = true;
       }
       this.getAllReport();
@@ -145,6 +147,7 @@ export class DetailComponent implements OnInit {
     this.announcementService.getMaxSizeAnnouncement().subscribe(result => {
       this.announcementMaxSize = result;
     });
+    this.getAllReportHistory();
   }
 
   getAllStudentDto() {
@@ -285,7 +288,7 @@ export class DetailComponent implements OnInit {
 
   submitAnnouncementComment() {
     const announcementComment = this.commentAnnouncementForm;
-    if (this.tokenStorageService.getUser().username.charAt(0) == "S") {
+    if (this.tokenStorageService.getUser().username.charAt(0) == 'S') {
       this.commentOfAnnouncement = {
         content: announcementComment.value.content,
         attachFile: this.attachFile,
@@ -294,7 +297,7 @@ export class DetailComponent implements OnInit {
         name: this.currentUsername,
         announcementId: this.announcementId
       };
-    } else if (this.tokenStorageService.getUser().username.charAt(0) == "G") {
+    } else if (this.tokenStorageService.getUser().username.charAt(0) == 'G') {
       this.commentOfAnnouncement = {
         content: announcementComment.value.content,
         attachFile: this.attachFile,
@@ -336,7 +339,7 @@ export class DetailComponent implements OnInit {
 
   submitConcernComment() {
     const concernComment = this.commentConcernForm;
-    if (this.tokenStorageService.getUser().username.charAt(0) == "S") {
+    if (this.tokenStorageService.getUser().username.charAt(0) == 'S') {
       this.commentOfConcern = {
         content: concernComment.value.content,
         attachFile: this.attachFile,
@@ -345,7 +348,7 @@ export class DetailComponent implements OnInit {
         name: this.currentUsername,
         concernId: this.concernId
       };
-    } else if (this.tokenStorageService.getUser().username.charAt(0) == "G") {
+    } else if (this.tokenStorageService.getUser().username.charAt(0) == 'G') {
       this.commentOfConcern = {
         content: concernComment.value.content,
         attachFile: this.attachFile,
@@ -471,7 +474,7 @@ export class DetailComponent implements OnInit {
 
   addNewReviewForm() {
     this.reviewForm = new FormGroup({
-      title: new FormControl('', [Validators.required, Validators.minLength(5),Validators.maxLength(100)]),
+      title: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
       content: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]),
       progressReview: new FormControl(0, [Validators.required]),
       teacherCode: new FormControl('')
@@ -489,14 +492,14 @@ export class DetailComponent implements OnInit {
   }
 
   loadMore() {
-    console.log("load more ok" + this.maxSize + ", " + this.record);
+    console.log('load more ok' + this.maxSize + ', ' + this.record);
     this.record += 1;
     if (this.record >= this.maxSize) {
       this.checkLoadMore = false;
     } else {
       this.progressService.getAllReview(this.record).subscribe(result => {
         this.reviewList = result;
-        console.log("load more ok 2");
+        console.log('load more ok 2');
       });
     }
   }
@@ -531,7 +534,7 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  showSuccessReview(){
+  showSuccessReview() {
     this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
   };
 
@@ -547,9 +550,16 @@ export class DetailComponent implements OnInit {
     return this.reviewForm.get('progressReview');
   }
 
-  getAllReport(){
-    this.reportServiceService.getAll().subscribe(report=>{
-      this.reportList=report;
-    })
+  getAllReport() {
+    this.reportServiceService.getAll().subscribe(report => {
+      this.reportList = report;
+    });
+  }
+
+  getAllReportHistory() {
+    this.reportServiceService.getAllReportHistory().subscribe(historyReport => {
+      this.reportHistoryList = historyReport;
+    });
+    console.log(this.reportHistoryList + " hello");
   }
 }
