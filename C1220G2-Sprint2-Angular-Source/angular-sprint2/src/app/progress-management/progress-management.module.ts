@@ -8,14 +8,16 @@ import { ReviewComponent } from './review/review.component';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import { DetailComponent } from './detail/detail.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [ProgressTeamComponent, ProgressDetailComponent, ReviewComponent, DetailComponent],
-  imports: [
-    CommonModule,
-    ProgressManagementRoutingModule,
-    NgbPaginationModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        ProgressManagementRoutingModule,
+        NgbPaginationModule,
+        ReactiveFormsModule,
+        NgxSpinnerModule,
+    ]
 })
 export class ProgressManagementModule { }

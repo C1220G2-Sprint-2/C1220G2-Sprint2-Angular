@@ -1,11 +1,9 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ChatMessage } from 'src/app/models/chat-message.model';
 import { FirebaseUser } from 'src/app/models/firebase-user.model';
 import { GroupUser } from 'src/app/models/group-user.model';
 import { User } from 'src/app/models/user.model';
-import { EventEmitter } from 'stream';
 import { FirebaseAuthService } from '../services/firebaseAuth.service';
 import { ChatService } from '../services/chat.service';
 

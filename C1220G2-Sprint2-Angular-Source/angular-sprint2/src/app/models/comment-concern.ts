@@ -7,4 +7,6 @@ export interface CommentConcern {
   avatar: string;
   name: string;
   concernId: number;
+  projectId: number;
+  dateCreate?: string;
 }

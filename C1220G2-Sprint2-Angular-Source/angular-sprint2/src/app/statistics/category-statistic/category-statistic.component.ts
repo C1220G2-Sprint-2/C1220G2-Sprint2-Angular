@@ -107,7 +107,7 @@ export class CategoryStatisticComponent implements OnInit {
             labels: {
               style: {
                 colors: randomColors,
-                fontSize: "10px"
+                fontSize: "12px"
               }
             }     
           },
@@ -125,7 +125,6 @@ export class CategoryStatisticComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
   }
 
   getColors(): string[] {

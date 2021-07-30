@@ -8,6 +8,8 @@ import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../../security/token-storage.service';
 import { User } from 'src/app/models/user.model';
 import { GroupChat } from 'src/app/models/group-chat.model';
+import { ChatMessage } from 'src/app/models/chat-message.model';
+import { GroupChatDTO } from 'src/app/models/group-chat-dto.model';
 
 @Component({
   selector: 'app-header',
@@ -20,8 +22,10 @@ export class HeaderComponent implements OnInit {
   // groupsOfUser: GroupUser[] = [];
   groupNames: string[] = [];
   currentUser: User;
-  groups: GroupChat[] = [];
+  // groups: GroupChat[] = [];
+  groups: GroupChatDTO[] = [];
   allGroupChats: GroupChat[] = [];
+  hasNewMessages: boolean[] = [];
   // -----------------------------------------------
   /* --------------------- Cong code ---------------------------- */
   isLoggedIn: boolean = false;
@@ -76,6 +80,7 @@ export class HeaderComponent implements OnInit {
     }
 
   }
+
   getGroupNames() {
     // Get name of groups that the current user belongs to.
     this.chatService.getGroupsUsers().subscribe(groupUserList => {
@@ -87,6 +92,7 @@ export class HeaderComponent implements OnInit {
       });
     })
   }
+
   getGroupChats() {
     // Get groups that the current user belongs to.
     this.chatService.getGroups().subscribe(groupChats => {
@@ -94,7 +100,42 @@ export class HeaderComponent implements OnInit {
       if (this.groups.length > 0) this.groups = [];
       groupChats.forEach(e => {
         if (this.groupNames.includes(e.groupName)) {
-          this.groups.push(e);
+          // console.log("-----------------------------")
+          // console.log("room name: " + e.groupName);
+          this.chatService.getMessages().subscribe((messageList: ChatMessage[]) => {
+            let lastMsgInGroup: ChatMessage;
+            if (messageList) {
+              const numberOfMessages = messageList.length;
+              for (let i = numberOfMessages - 1; i >= 0; i--) {
+                if (messageList[i].groupName === e.groupName) {
+                  lastMsgInGroup = messageList[i];
+                  break;
+                }
+              }
+              
+              let lastTimeSend = new Date();
+              lastTimeSend.setDate(lastTimeSend.getDate() - 1);
+              if (lastMsgInGroup) {
+                lastTimeSend = new Date(lastMsgInGroup.timeSend);
+              }
+              // console.log("last time send: " + lastTimeSend);
+              
+              this.chatService.getGroupUser(e.groupName, this.currentUser.email).subscribe(groupUser => {
+                const lastTimeLeave = new Date(groupUser.lastTimeLeave);
+                // console.log("last time leave: " + lastTimeLeave);
+                const hasNewMessage = (lastTimeLeave < lastTimeSend);
+                // console.log("has new msg: " + hasNewMessage);
+                // console.log("-----------------------------")
+                const groupChatDto: GroupChatDTO = {
+                  owner: e.owner,
+                  groupName: e.groupName,
+                  hasNewMsg: hasNewMessage
+                };
+                this.groups.push(groupChatDto);
+              })
+            }
+          })
+          // this.groups.push(e);
         }
       });
     })

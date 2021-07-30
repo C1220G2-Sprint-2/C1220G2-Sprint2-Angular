@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./list-student-group.component.css']
 })
 export class ListStudentGroupComponent implements OnInit {
+  loading= false;
   studentGroupList: StudentGroup[] = [];
   project: Project[] = [];
   teamList: Team[] = [];
@@ -38,6 +39,7 @@ export class ListStudentGroupComponent implements OnInit {
       this.teamList = data.filter(function (team) {
         return  team.name != "không có nhóm"  ;
       })
+
       console.log("data team")
       console.log(this.teamList)
     });
@@ -49,6 +51,7 @@ export class ListStudentGroupComponent implements OnInit {
       this.name = this.studentGroup.name
     })
   }
+
   getStudentGroup() {
     this.message = "";
     let array = this.date.split('-')
@@ -82,10 +85,15 @@ export class ListStudentGroupComponent implements OnInit {
       this.showError()
     }
   }
+
   deleteStudentGroup() {
+    this.loading= true;
     this.studentGroupService.update(this.idStudent, this.studentGroup).subscribe(() => {
         this.findAll();
+        this.loading= false;
         this.showSuccessDelete()
+      }, error => {
+        this.loading= false;
       }
     )
   }
@@ -111,6 +119,7 @@ export class ListStudentGroupComponent implements OnInit {
   toDetail(id: number) {
     this.router.navigateByUrl('/quan-ly-tien-do/chi-tiet-tien-do/'+id)
   }
+
   showError() {
     this.toastrService.error( ' Ngày bạn chọn nhỏ hơn ngày hiện tại ','Thất bại!');
   }

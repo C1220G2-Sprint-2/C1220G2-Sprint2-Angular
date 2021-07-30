@@ -53,8 +53,8 @@
       </div>
     </div>
     <div class="clearfix">
-      <div class="hint-text" style="display: inline-block">Hiển thị <b *ngIf="collectionSize >= pageSize">{{pageSize}}</b> <b *ngIf="collectionSize < pageSize">{{collectionSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
-      <ngb-pagination style="display: inline-block" class="d-flex justify-content-end"
+      <div class="hint-text">Hiển thị <b *ngIf="collectionSize >= pageSize">{{pageSize}}</b> <b *ngIf="collectionSize < pageSize">{{collectionSize}}</b> trên <b>{{collectionSize}}</b> đối tượng</div>
+      <ngb-pagination class="d-flex justify-content-end"
                       [(page)]="page"
                       [pageSize]="pageSize"
                       [collectionSize]="collectionSize"
