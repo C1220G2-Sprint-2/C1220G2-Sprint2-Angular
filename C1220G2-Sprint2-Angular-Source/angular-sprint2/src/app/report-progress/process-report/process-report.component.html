@@ -23,15 +23,16 @@
               <p>Phần trăm: <span class="font-weight-bold">{{ time.value }}%</span></p>
             </div>
           </div>
-                   <div class="row mt-2">
+          <div class="row mt-2">
             <div class="col-sm-3">
               <label> File báo cáo <span class="text-danger">*</span></label>
             </div>
             <div class="col-sm-9">
-<!--              <label class="btn btn-success" style="border-radius: 1rem" for="report">Thêm file </label>-->
+              <!--              <label class="btn btn-success" style="border-radius: 1rem" for="report">Thêm file </label>-->
               <input type="file" formControlName="fileReport" accept=".xlsx,.png ,.pdf" id="report"
                      (change)="addFile($event)">
-              <a class="text-primary text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <a class="text-primary text-decoration-none" data-bs-toggle="collapse" href="#collapseExample"
+                 role="button" aria-expanded="false" aria-controls="collapseExample">
                 Xem lịch sử file báo cáo <i class="fas fa-caret-down"></i>
 
               </a>
@@ -48,20 +49,22 @@
                     <tr>
                       <th scope="col">STT</th>
                       <th scope="col">Tên sinh viên</th>
+                      <th scope="col">File báo cáo</th>
                       <th scope="col"> Thời gian</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let history of reportHistoryList, index as i">
-                      <th>{{i+1}}</th>
+                      <th>{{i + 1}}</th>
                       <td>{{history.name}}</td>
+                      <td><a href="{{history.fileReport}}" target="_blank">File đính
+                        kèm</a></td>
                       <td>{{history.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="row mt-2">
