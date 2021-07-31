@@ -19,8 +19,22 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
   pageSize: number = 10;
   nameCheck= "";
   checkName=false;
+ color: any;
   ngDoCheck(): void {
-
+    if (this.checkName) {
+      this.color= 'red';
+    }else {
+      this.color= 'green';
+    }
+      }
+  load() {
+    this.teamService.listProject().subscribe(data => {
+      console.log("this.listProject")
+      console.log(data);
+      this.listProject = data.filter(function (project) {
+        return project.enable == true && project.status == 1;
+      })
+    });
   }
   loading = false;
   listProject: any[];
@@ -275,6 +289,7 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
         })
     console.log(arr)
     let check=false;
+    let arrProject = [];
       for (let i=0; i< this.listProject.length;i++) {
 
         let count=0;
@@ -294,7 +309,11 @@ export class ProjectRegistrationComponent implements OnInit, DoCheck {
         console.log(arr.length)
         if (count == arr.length) {
            this.checkName= true;
+           arrProject.push(this.listProject[i])
         }
+      }
+    if (arrProject.length !=0){
+        this.listProject= arrProject;
       }
     console.log( this.checkName)
   }

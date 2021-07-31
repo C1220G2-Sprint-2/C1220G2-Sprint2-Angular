@@ -8,7 +8,20 @@
 
   <div class="container" style="margin-top: 15px">
     <div class="row">
-      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <div class="mt-4">
+          <button class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+             aria-controls="collapseExample">
+            Hướng dẫn file excel mẫu <i class="fas fa-question"></i>
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="card mt-3 ">
+              <img src="../../../assets/img/excel-student.PNG" height="244" width="1296"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
       <div class="col-sm-6">
         <div class="mb-3" *ngIf="enable == false; else hidden">
           <label for="formFile" class="form-label">Chọn file Excel có trong danh sách. Sẽ thêm Sheet đầu tiên của
@@ -16,8 +29,10 @@
           <input class="form-control" type="file" id="formFile" (change)="onFileChange($event)" #inputFile>
         </div>
         <ng-template #hidden>
-          <div class="mb-3" >
-            <button class="btn btn-warning" (click)="load()" style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Xóa toàn bộ</button>
+          <div class="mb-3">
+            <button class="btn btn-warning" (click)="load()"
+                    style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Xóa toàn bộ
+            </button>
           </div>
         </ng-template>
       </div>
@@ -47,7 +62,7 @@
           <td>{{student.address}}</td>
           <td>{{student.dateOfBirth}}</td>
           <td>{{student.email}}</td>
-           <td>{{student.gender}}</td>
+          <td>{{student.gender}}</td>
           <td>{{student.phone}}</td>
           <td *ngIf="student!=null">
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"
@@ -60,7 +75,8 @@
 
     </div>
     <p>Có {{quantityRecord}} sinh viên được nhập vào</p>
-    <button class="btn btn-secondary" (click)="reset()" style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Quay
+    <button class="btn btn-secondary" (click)="reset()"
+            style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Quay
       lại
     </button>
     <button class="btn btn-success" (click)="acceptCreate()" style="border-radius: 100px;margin-top: 15px;float: right">
