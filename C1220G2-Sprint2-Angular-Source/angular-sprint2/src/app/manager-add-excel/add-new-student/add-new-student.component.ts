@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {AddNewService} from "../add-new.service";
-import {Router} from "@angular/router";
-import {ExcelService} from "../excel.service";
+import {Component, OnInit} from '@angular/core';
+import {AddNewService} from '../add-new.service';
+import {Router} from '@angular/router';
+import {ExcelService} from '../excel.service';
 import {Student} from '../../model/student';
+import {TokenStorageService} from '../../security/token-storage.service';
 
 @Component({
   selector: 'app-add-new-student',
@@ -10,13 +11,27 @@ import {Student} from '../../model/student';
   styleUrls: ['./add-new-student.component.scss']
 })
 export class AddNewStudentComponent implements OnInit {
-  public iStudent: Student[]=[];
+  public iStudent: Student[] = [];
   public quantityRecord = 0;
   public studentIndex: number;
   public enable = false;
+  isLoggedIn: boolean;
+  roles = [];
+
   constructor(public addNewService: AddNewService,
               public router: Router,
-              public excelService: ExcelService) { }
+              public excelService: ExcelService, private tokenStorageService: TokenStorageService) {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.roles = user.roles;
+      if (!this.roles.includes('ROLE_ADMIN')) {
+        this.router.navigateByUrl('/page/403');
+      }
+    } else {
+      this.router.navigateByUrl('');
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -29,11 +44,11 @@ export class AddNewStudentComponent implements OnInit {
     }
     const reader: FileReader = new FileReader();
     reader.readAsBinaryString(target.files[0]);
-    console.log("filename", target.files[0]);
+    console.log('filename', target.files[0]);
     reader.onload = (e: any) => {
       const resultFile: string = e.target.result;
       this.iStudent = this.excelService.importFromFile(resultFile) as any[];
-      this.iStudent.forEach( () => {
+      this.iStudent.forEach(() => {
         this.quantityRecord = this.quantityRecord + 1;
       });
     };
@@ -49,7 +64,7 @@ export class AddNewStudentComponent implements OnInit {
   deleteEmployeeUpload(index: number) {
     delete this.iStudent[index];
     this.quantityRecord = this.quantityRecord - 1;
-    this.iStudent = this.iStudent.filter((value =>  Student));
+    this.iStudent = this.iStudent.filter((value => Student));
   }
 
   getEmployeeIndex(index: number) {
@@ -60,7 +75,7 @@ export class AddNewStudentComponent implements OnInit {
     this.router.navigateByUrl('/hoc-sinh/danh-sach');
   }
 
-  load(){
+  load() {
     window.location.reload();
   }
 }

@@ -9,6 +9,7 @@ import { UserInformationComponent } from './user-information/user-information.co
 import { ChangeAdminInformationComponent } from './change-admin-information/change-admin-information.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         CommonModule,
         SecurityRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxSpinnerModule
     ]
 })
 export class SecurityModule { }

@@ -26,40 +26,40 @@
       <span>Quản Lý Sinh Viên</span>
     </a>
   </li>
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    <!-- Nav Item - Charts -->
-  <li class="nav-item" routerLink="/giang-vien">
-    <a class="nav-link">
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+  <!-- Nav Item - Charts -->
+  <li class="nav-item"  >
+    <a class="nav-link"  href="index.html" routerLink="/giang-vien" >
       <!-- <i class="fas fa-users-cog"></i> -->
       <i class="fas fa-chalkboard-teacher"></i>
       <span>Quản Lý Giảng Viên</span></a>
   </li>
 
   <!-- Divider -->
-    <hr class="sidebar-divider">
+  <hr class="sidebar-divider">
 
-    <li class="nav-item">
-      <div *ngIf="user.username.startsWith('SV')  then student; else teacher"></div>
-      <ng-template #student>
-        <div *ngIf="studentTS.team?.id ==1 then studentNew; else studentOld"></div>
-        <ng-template #studentNew>
-          <a class="nav-link" routerLink="/nhom/dang-ky" >
-            <i class="fas fa-users"></i>
-            <span>Quản Lý Nhóm</span></a>
-        </ng-template >
-        <ng-template #studentOld>
-          <a class="nav-link" routerLink="/nhom/quan-ly-nhom" >
-            <i class="fas fa-users"></i>
-            <span>Quản Lý Nhóm</span></a>
-        </ng-template>
-      </ng-template>
-      <ng-template #teacher>
-        <a class="nav-link" routerLink="nhom/danh-sach">
+  <li class="nav-item">
+    <div *ngIf="user.username.startsWith('SV')  then student; else teacher"></div>
+    <ng-template #student>
+      <div *ngIf="studentTS.team?.id ==1 then studentNew; else studentOld"></div>
+      <ng-template #studentNew>
+        <a class="nav-link" routerLink="/nhom/dang-ky" >
+          <i class="fas fa-users"></i>
+          <span>Quản Lý Nhóm</span></a>
+      </ng-template >
+      <ng-template #studentOld>
+        <a class="nav-link" routerLink="/nhom/quan-ly-nhom" >
           <i class="fas fa-users"></i>
           <span>Quản Lý Nhóm</span></a>
       </ng-template>
-    </li>
+    </ng-template>
+    <ng-template #teacher>
+      <a class="nav-link" routerLink="nhom/danh-sach">
+        <i class="fas fa-users"></i>
+        <span>Quản Lý Nhóm</span></a>
+    </ng-template>
+  </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../token-storage.service';
@@ -22,9 +22,10 @@ export class LoginComponent implements OnInit {
               private firebaseAuthService: FirebaseAuthService
   ) { }
 
+
   ngOnInit(): void {
     if (this.tokenStorage.getToken() != null) {
-      this.router.navigateByUrl("/de-tai/danh-sach-de-tai")
+      this.router.navigateByUrl('/de-tai/danh-sach-de-tai');
     }
   }
 
@@ -39,6 +40,10 @@ export class LoginComponent implements OnInit {
           this.tokenStorage.saveTokenInLocalStorage(data.accessToken);
           this.tokenStorage.saveUserInLocalStorage(data);
         }
+
+        this.showSuccess();
+        window.location.assign('/de-tai/danh-sach-de-tai');
+
 
         // -------------------kha code---------------
         const authenUser = this.tokenStorage.getUser();
@@ -61,6 +66,7 @@ export class LoginComponent implements OnInit {
 
         // this.showSuccess();
         // window.location.assign('/de-tai/danh-sach-de-tai');
+
       },
       err => {
         this.readonly = false;
@@ -76,7 +82,7 @@ export class LoginComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastService.success('Thành công !', 'Đăng nhập',{
+    this.toastService.success('Thành công !', 'Đăng nhập', {
       timeOut: 10000
     });
   }
@@ -85,6 +91,9 @@ export class LoginComponent implements OnInit {
     this.toastService.error('Sai tên đăng nhập hoặc mật khẩu.', 'Đăng nhập thất bại.');
   }
 
+  test(event) {
+    this.checkedRememberMe = event.target.checked;
+  }
   // login() {
   //   this.authService.login(this.email, this.password)
   //   .catch(error => this.errorMsg = error.message);
@@ -95,8 +104,4 @@ export class LoginComponent implements OnInit {
   //   console.log( this.test)
   // }
 
-  test(event) {
-    this.checkedRememberMe = event.target.checked;
-    console.log(this.checkedRememberMe);
-  }
 }

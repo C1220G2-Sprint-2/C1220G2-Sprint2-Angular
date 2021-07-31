@@ -17,6 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   public changePasswordForm: FormGroup;
   passworDto: PasswordDto;
   code: string;
+  isLoggedIn : boolean;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -28,6 +29,7 @@ export class ChangePasswordComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.code = paramMap.get('code');
     });
+
   }
 
   ngOnInit(): void {

@@ -5,6 +5,9 @@ import {Faculty} from '../../models/faculty';
 import {Subscription} from 'rxjs';
 import {TeacherService} from '../teacher.service';
 import {ProjectDto} from '../../models/project-dto';
+import {CheckLoggedInService} from '../../manager-add-excel/check-logged-in.service';
+import {TokenStorageService} from '../../security/token-storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-teacher',
@@ -23,7 +26,18 @@ export class ListTeacherComponent implements OnInit {
   deleteTeacher: Teacher;
   deleteTeacherName: string;
   projectDto: ProjectDto[] = [];
-  constructor(private teacherService: TeacherService) {
+  isLoggedIn: boolean;
+  showAdminBoard = false;
+  roles = [];
+  constructor(private teacherService: TeacherService,private tokenStorageService: TokenStorageService, private router: Router) {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.roles = user.roles;
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+    } else {
+      this.router.navigateByUrl('');
+    }
   }
 
   ngOnInit(): void {
