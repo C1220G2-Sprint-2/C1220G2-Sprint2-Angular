@@ -7,4 +7,5 @@ export interface ReportHistory {
   reportProgress: any;
   avatar: string;
   fileReport: string;
+  stage: number;
 }
