@@ -7,4 +7,5 @@ export interface ReviewDto {
   dateCreate?: string;
   teacherName?: string;
   avatar?: string;
+  backgroundColor?: string;
 }

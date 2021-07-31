@@ -7,9 +7,10 @@ import {catchError} from 'rxjs/operators';
 import {StudentDto} from './student-dto';
 import {ReviewDto} from './review-dto';
 import {Project} from '../models/project';
-import {ProjectDto} from "./project-dto";
+import {ProjectDto} from './project-dto';
 import {CommentConcern} from '../models/comment-concern';
 import {CommentReview} from '../models/comment-review';
+import {ProgressPhase} from './progress-phase';
 
 const API_URL = `${environment.apiUrl}` + '/api';
 
@@ -29,8 +30,8 @@ export class ProgressService {
     return this.http.get<StudentDto[]>(API_URL + '/progress/student-list').pipe(catchError(this.handleError));
   }
 
-  addNewReview(reviewDto: ReviewDto): Observable<void> {
-    return this.http.post<void>(API_URL + '/review/review-save', reviewDto).pipe(catchError(this.handleError));
+  addNewReview(reviewDto: ReviewDto, projectId: number): Observable<void> {
+    return this.http.post<void>(API_URL + '/review/review-save/' + projectId, reviewDto).pipe(catchError(this.handleError));
   }
 
   searchByName(nameProject: string): Observable<ProgressDto[]> {
@@ -63,6 +64,14 @@ export class ProgressService {
 
   saveComment(comment): Observable<CommentReview> {
     return this.http.post<CommentReview>(API_URL + '/comment/review/comment-save', comment);
+  }
+
+  getProgressPhase(projectId: number): Observable<ProgressPhase[]> {
+    return this.http.get<ProgressPhase[]>(API_URL + '/progress/list-progress/' + projectId);
+  }
+
+  getProgressDoing(projectId: number): Observable<ProgressPhase> {
+    return this.http.get<ProgressPhase>(API_URL + '/review/get-progress/' + projectId);
   }
 
   // ---------------------------------------------------------------------------------

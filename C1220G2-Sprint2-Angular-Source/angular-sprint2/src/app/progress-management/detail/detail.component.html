@@ -1,59 +1,37 @@
 <div class="row">
   <div class="row note">
-    <p style="font-size: 28px">
+    <h1 style="font-size: 28px">
       Chi tiết tiến độ {{projectDto.teamName}} - Đề tài: <span class="text-info">{{projectDto.name}}</span>
-    </p>
+    </h1>
   </div>
 </div>
-<div class="container">
+<div class="grey-bg container-fluid">
   <div class="note1">
-    <p style="font-size: 28px">Thành viên nhóm</p>
+    <p style="font-size: 28px">Thành viên nhóm - Giáo viên phụ trách: <span
+      class="text-info">{{projectDto.teacherName}}</span></p>
   </div>
-  <div class="row">
-    <div id="carouselExampleControls" class="carousel slide" data-mdb-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let student of studentList">
-              <div class="our-team">
-                <div class="picture">
-                  <img class="img-fluid" src="{{student.avatar}}">
+  <section id="minimal-statistics">
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12 mb-3" *ngFor="let student of studentList">
+        <div class="card" style="background-color: #f7f5ec">
+          <div class="card-content">
+            <div class="card-body" style="background-color: #f7f5ec">
+              <div class="media d-flex">
+                <div class="align-self-center">
+                  <img src="{{student.avatar}}" alt="image" class="img-fluid avatar-xs"
+                       style="height: 60px!important;width: 60px!important;border-radius: 50%">
                 </div>
-                <div class="team-content">
-                  <h5 class="name">{{student.name}}</h5>
-                  <h4 class="title">{{student.email| lowercase}}</h4>
-                  <h4 class="title text-info">{{student.phone}}</h4>
+                <div class="media-body text-right">
+                  <h6 class="text-info">{{student.name}}</h6>
+                  <span class="text-dark">{{student.phone}}</span>
                 </div>
-                <ul class="social">
-                  <li><a href="#" aria-hidden="true">Chi tiết</a>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-mdb-target="#carouselExampleControls"
-        data-mdb-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-mdb-target="#carouselExampleControls"
-        data-mdb-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
-
-  </div>
+  </section>
 </div>
 <div class="row mt-5">
   <div class="container">
@@ -62,34 +40,40 @@
     </div>
     <table class="table table-borderless">
       <tbody>
-      <tr *ngFor="let report of reportList">
+      <tr *ngFor="let phase of progressPhase">
         <td width="40%" class="text-center">
           <!-- code cua hau-->
-          <button class="btn font-weight-bold"
-                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
-                  [routerLink]="['/bao-cao-tien-do/bao-cao',projectId,report.id]">{{report.name}}
-          </button>
+          <!--          <button class="btn font-weight-bold"-->
+          <!--                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"-->
+          <!--                  [routerLink]="['/bao-cao-tien-do/bao-cao',projectId,report.id]">{{report.name}}-->
+          <!--          </button>-->
           <!-- code cua hau-->
+          <button class="btn font-weight-bold" [disabled]="!phase.enable"
+                  style="background-color: #4F9B65;color: white; border-radius: 1.5rem; min-width: 20%"
+                  [routerLink]="['/bao-cao-tien-do/bao-cao',projectId,phase.id]">{{phase.name}}
+          </button>
         </td>
         <td>
           <p style="font-weight: bold">
             <span
-              class="bg-success text-white" *ngIf=" report.stage == 100 ; else elseBlock">Hoàn thành <span
-              class="bg-white text-black">&nbsp;{{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}</span>
+              [ngStyle]="{color: 'white',backgroundColor: phase.colorStatus}">{{phase.status}} <span
+              class="bg-white text-black">&nbsp;{{phase.dateStart |date: 'dd/MM/yyyy'}}</span>
+              <span
+                class="bg-white text-black">&nbsp;{{phase.dateEnd |date: 'dd/MM/yyyy'}}</span>
             </span>
           </p>
           <p style="font-weight: bold">
             <ng-template
-              class="bg-success text-white" #elseBlock>Chưa hoàn thành {{report.dateCreate |date: 'dd/MM/yyyy h:mm a'}}
+              class="bg-success text-white" #elseBlock>Chưa hoàn thành {{review.dateCreate |date: 'dd/MM/yyyy h:mm a'}}
             </ng-template>
           </p>
           <div class="progress" style="height: 15px;">
             <div class="progress-bar progress-bar-striped" id="stage" role="progressbar"
                  [ngStyle]="{
-            width: report.stage +'%',
-            background: report.backgroundColor
+            width: phase.stage +'%',
+            background: phase.backgroundColor
             }"
-                 aria-valuemin="0" aria-valuemax="100">{{report.stage}}%
+                 aria-valuemin="0" aria-valuemax="100">{{phase.stage}}%
             </div>
           </div>
         </td>
@@ -99,7 +83,6 @@
     </table>
   </div>
 </div>
-
 <div class="row mt-5">
   <div class="container text-center">
     <ul class="nav nav-tabs" id="myTab" role="tablist">

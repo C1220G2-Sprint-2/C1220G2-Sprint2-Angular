@@ -25,7 +25,7 @@ import {ReportServiceService} from '../../report-progress/report-service.service
 import {ReportProgress} from '../../models/report-progress';
 import {ReportHistory} from '../../models/report-history';
 import {NgxSpinnerService} from 'ngx-spinner';
-
+import {ProgressPhase} from '../progress-phase';
 
 
 @Component({
@@ -83,6 +83,7 @@ export class DetailComponent implements OnInit {
   reportList: ReportProgress[];
   @Input() backgroundColor: string = '#C2C2C2';
   reportHistoryList: ReportHistory[];
+  progressPhase: ProgressPhase[];
 
   constructor(private progressService: ProgressService,
               private activatedRoute: ActivatedRoute,
@@ -119,7 +120,7 @@ export class DetailComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.username = user.username;
-      if (this.username.substring(0, 2) == 'GV') {
+      if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogging = true;
       }
     }
@@ -134,7 +135,7 @@ export class DetailComponent implements OnInit {
       console.log(this.username);
       if (this.username.substring(0, 2) === 'GV') {
         this.isTeacherLogin = true;
-      } else if (this.username.substring(0, 2) == 'SV') {
+      } else if (this.username.substring(0, 2) === 'SV') {
         this.isStudentLoggedIn = true;
       }
       this.getAllReport();
@@ -152,6 +153,7 @@ export class DetailComponent implements OnInit {
       this.announcementMaxSize = result;
     });
     this.getAllReportHistory();
+    this.getAllProgressPhase();
   }
 
   getAllStudentDto() {
@@ -191,7 +193,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern failed !');
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -212,7 +214,7 @@ export class DetailComponent implements OnInit {
         this.checkLoadMoreConcern = false;
       }
       console.log('Get list concern success !');
-      console.log(this.concernList.length + ", load more =" + this.checkLoadMoreConcern);
+      console.log(this.concernList.length + ', load more =' + this.checkLoadMoreConcern);
     }, e => {
       console.log('Get list concern failed !');
     });
@@ -279,7 +281,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement failed !');
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -330,7 +332,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create announcement comment failed !');
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -386,7 +388,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create concern comment failed !');
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -400,7 +402,6 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  //------------------------------COMMENT REVIEW SANGLD----------------------------------------------------
   addNewReviewCommentForm() {
     this.commentReviewForm = new FormGroup({
       content: new FormControl('', [Validators.required, Validators.minLength(6),
@@ -435,7 +436,7 @@ export class DetailComponent implements OnInit {
     }, e => {
       console.log('Create review comment failed !');
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -454,7 +455,7 @@ export class DetailComponent implements OnInit {
   }
 
   addFile(event: any) {
-    this.spinner.show(undefined,{
+    this.spinner.show(undefined, {
       type: 'timer'
     });
     const now = Date.now();
@@ -495,10 +496,10 @@ export class DetailComponent implements OnInit {
     };
     console.log('dasdasdasd' + this.review.teacherCode);
     console.log('this.gif do' + reviewDto);
-    this.progressService.addNewReview(this.review).subscribe(() => {
+    this.progressService.addNewReview(this.review, this.projectId).subscribe(() => {
       this.showSuccessReview();
       // @ts-ignore
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
@@ -522,6 +523,12 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  getAllProgressPhase() {
+    this.progressService.getProgressPhase(this.projectId).subscribe(result => {
+      this.progressPhase = result;
+    });
+  }
+
   showSuccess() {
     this.toastService.success('', 'Thành công !');
   }
@@ -539,7 +546,7 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  showSuccessReview(){
+  showSuccessReview() {
     this.toastService.success('Thành công !', 'Tạo đánh giá thành công');
   };
 
@@ -565,6 +572,6 @@ export class DetailComponent implements OnInit {
     this.reportServiceService.getAllReportHistory().subscribe(historyReport => {
       this.reportHistoryList = historyReport;
     });
-    console.log(this.reportHistoryList + " hello");
+    console.log(this.reportHistoryList + ' hello');
   }
 }
